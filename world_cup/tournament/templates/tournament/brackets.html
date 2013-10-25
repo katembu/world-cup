@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Bracket{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-2"></div>
+        {% for group in groups %}
+            <div class="col-md-1">
+                <table class="table">
+                    {% for country in group %}
+                        <tr>
+                            <td>{{ country.position }}</td>
+                            <td>{{ country.name }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        {% endfor %}
+        <div class="col-md-2"></div>
+    </div>
+{% endblock %}
