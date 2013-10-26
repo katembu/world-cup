@@ -17,3 +17,18 @@ def brackets(request):
         label = label['group']
         groups.append(Countries.objects.filter(group=label))
     return render_to_response('tournament/brackets.html', {'groups': groups}, context_instance=RequestContext(request))
+
+
+def save(request):
+    if request.method == 'POST':
+        if request.POST['type'] == 'add-group':
+            country = Countries.objects.get(id=request.POST['country'])
+            position = int(request.POST['position'])
+            winner = GroupWinners(user=request.user, country=country, position=position)
+            winner.save()
+            return HttpResponse('saved')
+        elif request.POST['type'] == 'remove-group':
+            country = Countries.objects.get(id=request.POST['country'])
+            winner = GroupWinners.objects.get(country=country)
+            winner.delete()
+            return HttpResponse('removed')
