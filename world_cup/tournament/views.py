@@ -3,7 +3,9 @@ from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+from django.utils import simplejson
 from tournament.models import *
+from tournament.helpers import place_team
 
 
 def index(request):
@@ -16,7 +18,7 @@ def brackets(request):
     for label in group_labels:
         label = label['group']
         groups.append(Countries.objects.filter(group=label))
-    matches = MatchWinners.objects.filter(user=request.user)
+    matches = MatchPredictions.objects.filter(user=request.user)
     return render_to_response('tournament/brackets.html', {'groups': groups, 'matches': matches},
                               context_instance=RequestContext(request))
 
@@ -26,11 +28,20 @@ def save(request):
         if request.POST['type'] == 'add-group':
             country = Countries.objects.get(id=request.POST['country'])
             position = int(request.POST['position'])
-            winner = GroupWinners(user=request.user, country=country, position=position)
+            winner = GroupPredictions(user=request.user, country=country, position=position)
             winner.save()
-            return HttpResponse('saved')
+            bracket_placement = place_team(request.user, winner)
+            return HttpResponse(simplejson.dumps([bracket_placement, country.id]), mimetype='application/json')
         elif request.POST['type'] == 'remove-group':
             country = Countries.objects.get(id=request.POST['country'])
-            winner = GroupWinners.objects.get(country=country)
+            try:
+                match = MatchPredictions.objects.get(user=request.user, home_team=country)
+                match.home_team = None
+                match.save()
+            except:
+                match = MatchPredictions.objects.get(user=request.user, away_team=country)
+                match.away_team = None
+                match.save()
+            winner = GroupPredictions.objects.get(country=country)
             winner.delete()
-            return HttpResponse('removed')
+            return HttpResponse(simplejson.dumps([country.id]), mimetype='application/json')

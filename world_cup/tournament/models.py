@@ -8,12 +8,15 @@ class Countries(models.Model):
     position = models.IntegerField()
     final_position = models.IntegerField(null=True)
 
+    def __unicode__(self):
+        return '%s' % self.name
+
     class Meta:
         verbose_name = 'Countries'
         verbose_name_plural = 'Countries'
 
 
-class GroupWinners(models.Model):
+class GroupPredictions(models.Model):
     user = models.ForeignKey(User)
     country = models.ForeignKey(Countries)
     position = models.IntegerField()
@@ -29,7 +32,7 @@ class Matches(models.Model):
     match_number = models.IntegerField()
 
 
-class MatchWinners(models.Model):
+class MatchPredictions(models.Model):
     user = models.ForeignKey(User)
     home_team = models.ForeignKey(Countries, related_name='home_team_coice', null=True)
     home_score = models.IntegerField(null=True)

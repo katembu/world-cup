@@ -10,7 +10,8 @@ $(document).ready(function(){
                 error: function(){
                     alert("There was an error and your choice was not saved.");
                 },
-                success: function(){
+                success: function(data){
+                    console.log(data);
                     row.removeClass("success");
                     unlockTable(table);
                 }
@@ -24,7 +25,8 @@ $(document).ready(function(){
                 error: function(){
                     alert("There was an error and your choice was not saved.");
                 },
-                success: function(){
+                success: function(data){
+                    console.log(data);
                     row.removeClass("warning");
                     unlockTable(table);
                 }
@@ -41,7 +43,8 @@ $(document).ready(function(){
                         error: function(){
                             alert("There was an error and your choice was not saved.");
                         },
-                        success: function(){
+                        success: function(data){
+                            console.log(data);
                             row.addClass("warning");
                             lockTable(table);
                         }
@@ -56,7 +59,8 @@ $(document).ready(function(){
                         error: function(){
                             alert("There was an error and your choice was not saved.");
                         },
-                        success: function(){
+                        success: function(data){
+                            console.log(data);
                             row.addClass("success");
                             lockTable(table);
                         }
