@@ -16,7 +16,9 @@ def brackets(request):
     for label in group_labels:
         label = label['group']
         groups.append(Countries.objects.filter(group=label))
-    return render_to_response('tournament/brackets.html', {'groups': groups}, context_instance=RequestContext(request))
+    matches = MatchWinners.objects.filter(user=request.user)
+    return render_to_response('tournament/brackets.html', {'groups': groups, 'matches': matches},
+                              context_instance=RequestContext(request))
 
 
 def save(request):

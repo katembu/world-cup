@@ -21,3 +21,8 @@ def selected_class(country):
         winners = GroupWinners.objects.filter(country__in=Countries.objects.filter(group=country.group))
         if len(winners) == 2:
             return 'active'
+
+
+@register.filter
+def get_match(matches, match_number):
+    return matches.get(match_number=match_number)

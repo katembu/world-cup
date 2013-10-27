@@ -6,6 +6,7 @@ class Countries(models.Model):
     name = models.CharField(max_length=255)
     group = models.CharField(max_length=1)
     position = models.IntegerField()
+    final_position = models.IntegerField(null=True)
 
     class Meta:
         verbose_name = 'Countries'
@@ -27,3 +28,13 @@ class Matches(models.Model):
     round = models.IntegerField()
     match_number = models.IntegerField()
 
+
+class MatchWinners(models.Model):
+    user = models.ForeignKey(User)
+    home_team = models.ForeignKey(Countries, related_name='home_team_coice', null=True)
+    home_score = models.IntegerField(null=True)
+    away_team = models.ForeignKey(Countries, related_name='away_team_choice', null=True)
+    away_score = models.IntegerField(null=True)
+    winner = models.ForeignKey(Countries, related_name='winner_choice', null=True)
+    round = models.IntegerField()
+    match_number = models.IntegerField()

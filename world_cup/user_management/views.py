@@ -4,6 +4,7 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from user_management.forms import *
+from tournament.helpers import create_matches
 
 
 def login_user(request):
@@ -26,6 +27,8 @@ def create_user(request):
     if request.method == 'POST':
         if form.is_valid():
             user = form.save()
+            #Create bracket objects
+            create_matches(user)
             login(request, user)
             return HttpResponseRedirect('/')
     return render_to_response('create_user.html', {'form': form},
