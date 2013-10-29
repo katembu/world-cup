@@ -26,99 +26,99 @@
     <!--Bracket-->
     <div class="row">
         <div class="col-md-4"></div>
-        <div class="col-md-1">{% with matches|get_match:49 as match %}{{ match.home_team|default_if_none:"Winner Group A" }}{% endwith %}</div>
+        <div class="col-md-1" id="49-home">{% with matches|get_match:49 as match %}{{ match.home_team|default_if_none:"Winner Group A" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-4"></div>
-        <div class="col-md-1">{% with matches|get_match:49 as match %}{{ match.away_team|default_if_none:"Runner Up Group B" }}{% endwith %}</div>
-        <div class="col-md-1">{% with matches|get_match:57 as match %}{{ match.home_team|default_if_none:"Winner Match 49" }}{% endwith %}</div>
+        <div class="col-md-1" id="49-away">{% with matches|get_match:49 as match %}{{ match.away_team|default_if_none:"Runner Up Group B" }}{% endwith %}</div>
+        <div class="col-md-1" id="57-home">{% with matches|get_match:57 as match %}{{ match.home_team|default_if_none:"Winner Match 49" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-4"></div>
-        <div class="col-md-offset-2 col-md-1">{% with matches|get_match:61 as match %}{{ match.home_team|default_if_none:"Winner Match 57" }}{% endwith %}</div>
+        <div class="col-md-offset-2 col-md-1" id="61-home">{% with matches|get_match:61 as match %}{{ match.home_team|default_if_none:"Winner Match 57" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-4"></div>
-        <div class="col-md-1">{% with matches|get_match:50 as match %}{{ match.home_team|default_if_none:"Winner Group C" }}{% endwith %}</div>
-        <div class="col-md-1">{% with matches|get_match:57 as match %}{{ match.away_team|default_if_none:"Winner Match 50" }}{% endwith %}</div>
+        <div class="col-md-1" id="50-home">{% with matches|get_match:50 as match %}{{ match.home_team|default_if_none:"Winner Group C" }}{% endwith %}</div>
+        <div class="col-md-1" id="57-away">{% with matches|get_match:57 as match %}{{ match.away_team|default_if_none:"Winner Match 50" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-4"></div>
-        <div class="col-md-1">{% with matches|get_match:50 as match %}{{ match.away_team|default_if_none:"Runner Up Group D" }}{% endwith %}</div>
+        <div class="col-md-1" id="50-away">{% with matches|get_match:50 as match %}{{ match.away_team|default_if_none:"Runner Up Group D" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-4"></div>
-        <div class="col-md-offset-3 col-md-1">{% with matches|get_match:64 as match %}{{ match.home_team|default_if_none:"Winner Match 61" }}{% endwith %}</div>
+        <div class="col-md-offset-3 col-md-1" id="64-home">{% with matches|get_match:64 as match %}{{ match.home_team|default_if_none:"Winner Match 61" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-4"></div>
-        <div class="col-md-1">{% with matches|get_match:53 as match %}{{ match.home_team|default_if_none:"Winner Group E" }}{% endwith %}</div>
+        <div class="col-md-1" id="53-home">{% with matches|get_match:53 as match %}{{ match.home_team|default_if_none:"Winner Group E" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-4"></div>
-        <div class="col-md-1">{% with matches|get_match:53 as match %}{{ match.away_team|default_if_none:"Runner Up Group F" }}{% endwith %}</div>
-        <div class="col-md-1">{% with matches|get_match:58 as match %}{{ match.home_team|default_if_none:"Winner Match 51" }}{% endwith %}</div>
+        <div class="col-md-1" id="53-away">{% with matches|get_match:53 as match %}{{ match.away_team|default_if_none:"Runner Up Group F" }}{% endwith %}</div>
+        <div class="col-md-1" id="58-home">{% with matches|get_match:58 as match %}{{ match.home_team|default_if_none:"Winner Match 51" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-4"></div>
-        <div class="col-md-offset-2 col-md-1">{% with matches|get_match:61 as match %}{{ match.away_team|default_if_none:"Winner Match 58" }}{% endwith %}</div>
+        <div class="col-md-offset-2 col-md-1" id="61-away">{% with matches|get_match:61 as match %}{{ match.away_team|default_if_none:"Winner Match 58" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-4"></div>
-        <div class="col-md-1">{% with matches|get_match:54 as match %}{{ match.home_team|default_if_none:"Winner Group G" }}{% endwith %}</div>
-        <div class="col-md-1">{% with matches|get_match:58 as match %}{{ match.away_team|default_if_none:"Winner Match 52" }}{% endwith %}</div>
+        <div class="col-md-1" id="54-home">{% with matches|get_match:54 as match %}{{ match.home_team|default_if_none:"Winner Group G" }}{% endwith %}</div>
+        <div class="col-md-1" id="58-away">{% with matches|get_match:58 as match %}{{ match.away_team|default_if_none:"Winner Match 52" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-4"></div>
-        <div class="col-md-1">{% with matches|get_match:54 as match %}{{ match.away_team|default_if_none:"Runner Up Group H" }}{% endwith %}</div>
+        <div class="col-md-1" id="54-away">{% with matches|get_match:54 as match %}{{ match.away_team|default_if_none:"Runner Up Group H" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-4"></div>
-        <div class="col-md-1">{% with matches|get_match:51 as match %}{{ match.home_team|default_if_none:"Winner Group B" }}{% endwith %}</div>
+        <div class="col-md-1" id="51-home">{% with matches|get_match:51 as match %}{{ match.home_team|default_if_none:"Winner Group B" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-4"></div>
-        <div class="col-md-1">{% with matches|get_match:51 as match %}{{ match.away_team|default_if_none:"Runner Up Group A" }}{% endwith %}</div>
-        <div class="col-md-1">{% with matches|get_match:59 as match %}{{ match.home_team|default_if_none:"Winner Match 53" }}{% endwith %}</div>
+        <div class="col-md-1" id="51-away">{% with matches|get_match:51 as match %}{{ match.away_team|default_if_none:"Runner Up Group A" }}{% endwith %}</div>
+        <div class="col-md-1" id="59-home">{% with matches|get_match:59 as match %}{{ match.home_team|default_if_none:"Winner Match 53" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-4"></div>
-        <div class="col-md-offset-2 col-md-1">{% with matches|get_match:62 as match %}{{ match.home_team|default_if_none:"Winner Match 59" }}{% endwith %}</div>
+        <div class="col-md-offset-2 col-md-1" id="62-home">{% with matches|get_match:62 as match %}{{ match.home_team|default_if_none:"Winner Match 59" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-4"></div>
-        <div class="col-md-1">{% with matches|get_match:52 as match %}{{ match.home_team|default_if_none:"Winner Group D" }}{% endwith %}</div>
-        <div class="col-md-1">{% with matches|get_match:59 as match %}{{ match.away_team|default_if_none:"Winner Match 54" }}{% endwith %}</div>
+        <div class="col-md-1" id="52-home">{% with matches|get_match:52 as match %}{{ match.home_team|default_if_none:"Winner Group D" }}{% endwith %}</div>
+        <div class="col-md-1" id="59-away">{% with matches|get_match:59 as match %}{{ match.away_team|default_if_none:"Winner Match 54" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-4"></div>
-        <div class="col-md-1">{% with matches|get_match:52 as match %}{{ match.away_team|default_if_none:"Runner Up Group C" }}{% endwith %}</div>
+        <div class="col-md-1" id="52-away">{% with matches|get_match:52 as match %}{{ match.away_team|default_if_none:"Runner Up Group C" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-4"></div>
-        <div class="col-md-offset-3 col-md-1">{% with matches|get_match:64 as match %}{{ match.away_team|default_if_none:"Winner Match 62" }}{% endwith %}</div>
+        <div class="col-md-offset-3 col-md-1" id="64-away">{% with matches|get_match:64 as match %}{{ match.away_team|default_if_none:"Winner Match 62" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-4"></div>
-        <div class="col-md-1">{% with matches|get_match:55 as match %}{{ match.home_team|default_if_none:"Winner Group F" }}{% endwith %}</div>
+        <div class="col-md-1" id="55-home">{% with matches|get_match:55 as match %}{{ match.home_team|default_if_none:"Winner Group F" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-4"></div>
-        <div class="col-md-1">{% with matches|get_match:55 as match %}{{ match.away_team|default_if_none:"Runner Up Group E" }}{% endwith %}</div>
-        <div class="col-md-1">{% with matches|get_match:60 as match %}{{ match.home_team|default_if_none:"Winner Match 55" }}{% endwith %}</div>
+        <div class="col-md-1" id="55-away">{% with matches|get_match:55 as match %}{{ match.away_team|default_if_none:"Runner Up Group E" }}{% endwith %}</div>
+        <div class="col-md-1" id="60-home">{% with matches|get_match:60 as match %}{{ match.home_team|default_if_none:"Winner Match 55" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-4"></div>
-        <div class="col-md-offset-2 col-md-1">{% with matches|get_match:62 as match %}{{ match.home_team|default_if_none:"Winner Match 60" }}{% endwith %}</div>
+        <div class="col-md-offset-2 col-md-1" id="62-home">{% with matches|get_match:62 as match %}{{ match.home_team|default_if_none:"Winner Match 60" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-4"></div>
-        <div class="col-md-1">{% with matches|get_match:56 as match %}{{ match.home_team|default_if_none:"Winner Group H" }}{% endwith %}</div>
-        <div class="col-md-1">{% with matches|get_match:60 as match %}{{ match.away_team|default_if_none:"Winner Match 56" }}{% endwith %}</div>
+        <div class="col-md-1" id="56-home">{% with matches|get_match:56 as match %}{{ match.home_team|default_if_none:"Winner Group H" }}{% endwith %}</div>
+        <div class="col-md-1" id="60-away">{% with matches|get_match:60 as match %}{{ match.away_team|default_if_none:"Winner Match 56" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-4"></div>
-        <div class="col-md-1">{% with matches|get_match:56 as match %}{{ match.away_team|default_if_none:"Runner Up Group G" }}{% endwith %}</div>
+        <div class="col-md-1" id="56-away">{% with matches|get_match:56 as match %}{{ match.away_team|default_if_none:"Runner Up Group G" }}{% endwith %}</div>
     </div>
 {% endblock %}
 

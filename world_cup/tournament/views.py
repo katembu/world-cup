@@ -31,17 +31,19 @@ def save(request):
             winner = GroupPredictions(user=request.user, country=country, position=position)
             winner.save()
             bracket_placement = place_team(request.user, winner)
-            return HttpResponse(simplejson.dumps([bracket_placement, country.id]), mimetype='application/json')
+            return HttpResponse(simplejson.dumps([bracket_placement, country.id, country.name]), mimetype='application/json')
         elif request.POST['type'] == 'remove-group':
             country = Countries.objects.get(id=request.POST['country'])
             try:
                 match = MatchPredictions.objects.get(user=request.user, home_team=country)
+                output = '%s-%s' % (match.match_number, 'home')
                 match.home_team = None
                 match.save()
             except:
                 match = MatchPredictions.objects.get(user=request.user, away_team=country)
+                output = '%s-%s' % (match.match_number, 'away')
                 match.away_team = None
                 match.save()
             winner = GroupPredictions.objects.get(country=country)
             winner.delete()
-            return HttpResponse(simplejson.dumps([country.id]), mimetype='application/json')
+            return HttpResponse(simplejson.dumps([output, country.id, country.name]), mimetype='application/json')

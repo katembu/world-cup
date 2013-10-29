@@ -12,6 +12,7 @@ $(document).ready(function(){
                 },
                 success: function(data){
                     console.log(data);
+                    $("#" + data[0]).html('');
                     row.removeClass("success");
                     unlockTable(table);
                 }
@@ -27,6 +28,7 @@ $(document).ready(function(){
                 },
                 success: function(data){
                     console.log(data);
+                    $("#" + data[0]).html('');
                     row.removeClass("warning");
                     unlockTable(table);
                 }
@@ -45,6 +47,7 @@ $(document).ready(function(){
                         },
                         success: function(data){
                             console.log(data);
+                            $("#" + data[0]).html(data[2]);
                             row.addClass("warning");
                             lockTable(table);
                         }
@@ -61,6 +64,7 @@ $(document).ready(function(){
                         },
                         success: function(data){
                             console.log(data);
+                            $("#" + data[0]).html(data[2]);
                             row.addClass("success");
                             lockTable(table);
                         }
