@@ -2,6 +2,7 @@ $(document).ready(function(){
     $(".country").on("click", function(){
         var row = $(this);
         var table = row.parents("table");
+        //Remove First Place
         if (row.hasClass("success")) {
             $.ajax({
                 type: "POST",
@@ -18,6 +19,7 @@ $(document).ready(function(){
                 }
             });
         }
+        //Remove Second Place
         else if (row.hasClass("warning")) {
             $.ajax({
                 type: "POST",
@@ -34,6 +36,7 @@ $(document).ready(function(){
                 }
             });
         }
+        //Add First or Second Place
         else{
             if (!tableLocked(table)) {
                 if (table.find("tr").hasClass("success")) {

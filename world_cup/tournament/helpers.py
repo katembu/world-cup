@@ -61,9 +61,9 @@ def place_team(user, group_prediction):
             match_number = 56
     elif group_prediction.country.group == 'H':
         if group_prediction.position == 1:
-            match_number = 52
+            match_number = 56
         elif group_prediction.position == 2:
-            match_number = 50
+            match_number = 54
     match = MatchPredictions.objects.get(user=user, match_number=match_number)
     if group_prediction.position == 1:
         match.home_team = group_prediction.country
