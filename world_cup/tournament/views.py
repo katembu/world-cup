@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.utils import simplejson
 from tournament.models import *
-from tournament.helpers import place_team
+from tournament.helpers import place_team, update_matches
 
 
 def index(request):
@@ -47,3 +47,13 @@ def save(request):
             winner = GroupPredictions.objects.get(country=country)
             winner.delete()
             return HttpResponse(simplejson.dumps([output, country.id, country.name]), mimetype='application/json')
+        elif request.POST['type'] == 'save-match':
+            match = MatchPredictions.objects.get(user=request.user, match_number=request.POST['match_number'])
+            if request.POST['home_away'] == 'home':
+                winner = match.home_team
+            elif request.POST['home_away'] == 'away':
+                winner = match.away_team
+            match.winner = winner
+            match.save()
+            output = update_matches(request.user, match)
+            return HttpResponse(simplejson.dumps([output, winner.id, winner.name]), mimetype='application/json')

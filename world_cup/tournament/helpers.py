@@ -73,3 +73,90 @@ def place_team(user, group_prediction):
         match.away_team = group_prediction.country
         match.save()
         return '%s-%s' % (match_number, 'away')
+
+
+def update_matches(user, match):
+    if match.match_number == 49:
+        next_match = MatchPredictions.objects.get(user=user, match_number=57)
+        next_match.home_team = match.winner
+        next_match.save()
+        return '%s-%s' % (next_match.match_number, 'home')
+    elif match.match_number == 50:
+        next_match = MatchPredictions.objects.get(user=user, match_number=57)
+        next_match.away_team = match.winner
+        next_match.save()
+        return '%s-%s' % (next_match.match_number, 'away')
+    elif match.match_number == 51:
+        next_match = MatchPredictions.objects.get(user=user, match_number=59)
+        next_match.home_team = match.winner
+        next_match.save()
+        return '%s-%s' % (next_match.match_number, 'home')
+    elif match.match_number == 52:
+        next_match = MatchPredictions.objects.get(user=user, match_number=59)
+        next_match.away_team = match.winner
+        next_match.save()
+        return '%s-%s' % (next_match.match_number, 'away')
+    elif match.match_number == 53:
+        next_match = MatchPredictions.objects.get(user=user, match_number=58)
+        next_match.home_team = match.winner
+        next_match.save()
+        return '%s-%s' % (next_match.match_number, 'home')
+    elif match.match_number == 54:
+        next_match = MatchPredictions.objects.get(user=user, match_number=58)
+        next_match.away_team = match.winner
+        next_match.save()
+        return '%s-%s' % (next_match.match_number, 'away')
+    elif match.match_number == 55:
+        next_match = MatchPredictions.objects.get(user=user, match_number=60)
+        next_match.home_team = match.winner
+        next_match.save()
+        return '%s-%s' % (next_match.match_number, 'home')
+    elif match.match_number == 56:
+        next_match = MatchPredictions.objects.get(user=user, match_number=60)
+        next_match.away_team = match.winner
+        next_match.save()
+        return '%s-%s' % (next_match.match_number, 'away')
+    elif match.match_number == 57:
+        next_match = MatchPredictions.objects.get(user=user, match_number=61)
+        next_match.home_team = match.winner
+        next_match.save()
+        return '%s-%s' % (next_match.match_number, 'home')
+    elif match.match_number == 58:
+        next_match = MatchPredictions.objects.get(user=user, match_number=61)
+        next_match.away_team = match.winner
+        next_match.save()
+        return '%s-%s' % (next_match.match_number, 'away')
+    elif match.match_number == 59:
+        next_match = MatchPredictions.objects.get(user=user, match_number=62)
+        next_match.home_team = match.winner
+        next_match.save()
+        return '%s-%s' % (next_match.match_number, 'home')
+    elif match.match_number == 60:
+        next_match = MatchPredictions.objects.get(user=user, match_number=62)
+        next_match.away_team = match.winner
+        next_match.save()
+        return '%s-%s' % (next_match.match_number, 'away')
+    elif match.match_number == 61:
+        #Final
+        next_match = MatchPredictions.objects.get(user=user, match_number=64)
+        next_match.home_team = match.winner
+        #Third Place
+        third_place = MatchPredictions.objects.get(user=user, match_number=63)
+        if match.home_team == match.winner:
+            third_place.home_team = match.away_team
+        else:
+            third_place.home_team = match.home_team
+        next_match.save()
+        return '%s-%s' % (next_match.match_number, 'home')
+    elif match.match_number == 62:
+        #Final
+        next_match = MatchPredictions.objects.get(user=user, match_number=64)
+        next_match.away_team = match.winner
+        #Third Place
+        third_place = MatchPredictions.objects.get(user=user, match_number=63)
+        if match.home_team == match.winner:
+            third_place.away_team = match.away_team
+        else:
+            third_place.away_team = match.home_team
+        next_match.save()
+        return '%s-%s' % (next_match.match_number, 'away')

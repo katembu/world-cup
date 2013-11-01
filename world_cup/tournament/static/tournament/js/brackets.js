@@ -12,7 +12,6 @@ $(document).ready(function(){
                     alert("There was an error and your choice was not saved.");
                 },
                 success: function(data){
-                    console.log(data);
                     $("#" + data[0]).html('');
                     row.removeClass("success");
                     unlockTable(table);
@@ -29,7 +28,6 @@ $(document).ready(function(){
                     alert("There was an error and your choice was not saved.");
                 },
                 success: function(data){
-                    console.log(data);
                     $("#" + data[0]).html('');
                     row.removeClass("warning");
                     unlockTable(table);
@@ -49,8 +47,8 @@ $(document).ready(function(){
                             alert("There was an error and your choice was not saved.");
                         },
                         success: function(data){
-                            console.log(data);
                             $("#" + data[0]).html(data[2]);
+                            $("#" + data[0]).data("country", data[1]);
                             row.addClass("warning");
                             lockTable(table);
                         }
@@ -66,8 +64,8 @@ $(document).ready(function(){
                             alert("There was an error and your choice was not saved.");
                         },
                         success: function(data){
-                            console.log(data);
                             $("#" + data[0]).html(data[2]);
+                            $("#" + data[0]).data("country", data[1]);
                             row.addClass("success");
                             lockTable(table);
                         }
@@ -75,6 +73,25 @@ $(document).ready(function(){
                 }
             }
         }
+    });
+    
+    $(".match").on("click", function(){
+        var match_number = $(this).attr("id").split("-")[0]
+        var home_away = $(this).attr("id").split("-")[1]
+        var row = $(this);
+        $.ajax({
+            type: "POST",
+            url: "save/",
+            data:{'type': 'save-match', 'match_number': match_number, 'home_away': home_away},
+            error: function(){
+                alert("There was an error and your choice was not saved.");
+            },
+            success: function(data){
+                $("#" + data[0]).html(data[2]);
+                $("#" + data[0]).data("country", data[1]);
+                row.addClass("success");
+            }
+        }); 
     });
 });
 
