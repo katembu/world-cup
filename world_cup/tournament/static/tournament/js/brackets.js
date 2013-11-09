@@ -12,7 +12,11 @@ $(document).ready(function(){
                     alert("There was an error and your choice was not saved.");
                 },
                 success: function(data){
-                    $("#" + data[0]).html('');
+                    var ids = data[0];
+                    for(var i=0; i<ids.length; i++){
+                        $("#" + ids[i]).removeClass("text-success");
+                        $("#" + ids[i]).html("Winner Match " + ids[i].split("-")[0]);
+                    }
                     row.removeClass("success");
                     unlockTable(table);
                 }
@@ -28,7 +32,11 @@ $(document).ready(function(){
                     alert("There was an error and your choice was not saved.");
                 },
                 success: function(data){
-                    $("#" + data[0]).html('');
+                    var ids = data[0];
+                    for(var i=0; i<ids.length; i++){
+                        $("#" + ids[i]).removeClass("text-success");
+                        $("#" + ids[i]).html("Winner Match " + ids[i].split("-")[0]);
+                    }
                     row.removeClass("warning");
                     unlockTable(table);
                 }

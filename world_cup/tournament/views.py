@@ -4,6 +4,7 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.utils import simplejson
+from django.db.models import Q
 from tournament.models import *
 from tournament.helpers import place_team, update_matches
 
@@ -12,6 +13,7 @@ def index(request):
     return render_to_response('tournament/index.html', context_instance=RequestContext(request))
 
 
+@login_required
 def brackets(request):
     group_labels = Countries.objects.values('group').distinct()
     groups = []
@@ -31,18 +33,19 @@ def save(request):
             winner = GroupPredictions(user=request.user, country=country, position=position)
             winner.save()
             bracket_placement = place_team(request.user, winner)
-            return HttpResponse(simplejson.dumps([bracket_placement, country.id, country.name]), mimetype='application/json')
+            return HttpResponse(simplejson.dumps([bracket_placement, country.id, country.name]),
+                                mimetype='application/json')
         elif request.POST['type'] == 'remove-group':
             country = Countries.objects.get(id=request.POST['country'])
-            try:
-                match = MatchPredictions.objects.get(user=request.user, home_team=country)
-                output = '%s-%s' % (match.match_number, 'home')
-                match.home_team = None
-                match.save()
-            except:
-                match = MatchPredictions.objects.get(user=request.user, away_team=country)
-                output = '%s-%s' % (match.match_number, 'away')
-                match.away_team = None
+            matches = MatchPredictions.objects.filter(Q(home_team=country) | Q(away_team=country), user=request.user)
+            output = []
+            for match in matches:
+                if match.home_team == country:
+                    match.home_team = None
+                    output.append('%s-%s' % (match.match_number, 'home'))
+                elif match.away_team == countr:
+                    match.away_team = None
+                    output.append('%s-%s' % (match.match_number, 'away'))
                 match.save()
             winner = GroupPredictions.objects.get(country=country)
             winner.delete()
