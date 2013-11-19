@@ -8,6 +8,6 @@ Installation
 1. Clone repository
 2. Create MySQL schema named ``world_cup``
 3. Change directory into the ``world-cup/world_cup/`` folder.
-4. Run the command ``sudo pip install -r requirements.txt``
+4. Run the command ``pip install -r requirements.txt``
 5. Run the command ``python manage.py syncdb``
 6. Run the command ``mysql -u root world_cup < tournament_countries.sql``
