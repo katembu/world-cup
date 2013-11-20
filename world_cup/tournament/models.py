@@ -6,7 +6,7 @@ class Countries(models.Model):
     name = models.CharField(max_length=255)
     group = models.CharField(max_length=1)
     position = models.IntegerField()
-    final_position = models.IntegerField(null=True)
+    final_position = models.IntegerField(blank=True, null=True)
 
     def __unicode__(self):
         return '%s' % self.name
