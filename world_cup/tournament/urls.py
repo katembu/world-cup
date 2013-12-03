@@ -4,4 +4,5 @@ urlpatterns = patterns('tournament.views',
                        url(r'^$', 'index'),
                        url(r'^brackets/$', 'brackets'),
                        url(r'^brackets/save/$', 'save'),
+                       url(r'^about/$', 'about'),
                        )

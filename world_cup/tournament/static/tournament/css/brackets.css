@@ -1,0 +1,7 @@
+.country, .match {
+    cursor: pointer;
+}
+
+.country.active {
+    cursor: auto;
+}

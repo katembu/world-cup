@@ -3,6 +3,12 @@
 {% load brackets_tags %}
 {% block title %}Bracket{% endblock %}
 
+{% block bracket-nav %}class="active"{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'tournament/css/brackets.css' %}"/>
+{% endblock %}
+
 {% block content %}
     <!--Groups-->
     <div class="row">
@@ -26,99 +32,99 @@
     <!--Bracket-->
     <div class="row">
         <div class="col-md-3"></div>
-        {% with matches|get_match:49 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="49-home" data-country="{{ match.home_team.id }}">{{ match.home_team|default_if_none:"Winner Group A" }}{% endwith %}</div>
+        {% with matches|get_match:49 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="49-home" data-country="{{ match.home_team.id }}" data-default="Winner Group A">{{ match.home_team|default_if_none:"Winner Group A" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-3"></div>
-        {% with matches|get_match:49 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="49-away" data-country="{{ match.away_team.id }}">{{ match.away_team|default_if_none:"Runner Up Group B" }}{% endwith %}</div>
-        {% with matches|get_match:57 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="57-home" data-country="{{ match.home_team.id }}">{{ match.home_team|default_if_none:"Winner Match 49" }}{% endwith %}</div>
+        {% with matches|get_match:49 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="49-away" data-country="{{ match.away_team.id }}" data-default="Runner Up Group B">{{ match.away_team|default_if_none:"Runner Up Group B" }}{% endwith %}</div>
+        {% with matches|get_match:57 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="57-home" data-country="{{ match.home_team.id }}" data-default="Winner Match 49">{{ match.home_team|default_if_none:"Winner Match 49" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-3"></div>
-        {% with matches|get_match:61 as match %}<div class="col-md-offset-3 col-md-2 match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="61-home" data-country="{{ match.home_team.id }}">{{ match.home_team|default_if_none:"Winner Match 57" }}{% endwith %}</div>
+        {% with matches|get_match:61 as match %}<div class="col-md-offset-3 col-md-2 match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="61-home" data-country="{{ match.home_team.id }}" data-default="Winner Match 57">{{ match.home_team|default_if_none:"Winner Match 57" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-3"></div>
-        {% with matches|get_match:50 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="50-home" data-country="{{ match.home_team.id }}">{{ match.home_team|default_if_none:"Winner Group C" }}{% endwith %}</div>
-        {% with matches|get_match:57 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="57-away" data-country="{{ match.away_team.id }}">{{ match.away_team|default_if_none:"Winner Match 50" }}{% endwith %}</div>
+        {% with matches|get_match:50 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="50-home" data-country="{{ match.home_team.id }}" data-default="Winner Group C">{{ match.home_team|default_if_none:"Winner Group C" }}{% endwith %}</div>
+        {% with matches|get_match:57 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="57-away" data-country="{{ match.away_team.id }}" data-default="Winner Match 50">{{ match.away_team|default_if_none:"Winner Match 50" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-3"></div>
-        {% with matches|get_match:50 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="50-away" data-country="{{ match.away_team.id }}">{{ match.away_team|default_if_none:"Runner Up Group D" }}{% endwith %}</div>
+        {% with matches|get_match:50 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="50-away" data-country="{{ match.away_team.id }}" data-default="Runner Up Group D">{{ match.away_team|default_if_none:"Runner Up Group D" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-3"></div>
-        {% with matches|get_match:64 as match %}<div class="col-md-offset-4 col-md-2 match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="64-home" data-country="{{ match.home_team.id }}">{{ match.home_team|default_if_none:"Winner Match 61" }}{% endwith %}</div>
+        {% with matches|get_match:64 as match %}<div class="col-md-offset-4 col-md-2 match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="64-home" data-country="{{ match.home_team.id }}" data-default="Winner Match 61">{{ match.home_team|default_if_none:"Winner Match 61" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-3"></div>
-        {% with matches|get_match:53 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="53-home" data-country="{{ match.home_team.id }}">{{ match.home_team|default_if_none:"Winner Group E" }}{% endwith %}</div>
+        {% with matches|get_match:53 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="53-home" data-country="{{ match.home_team.id }}" data-default="Winner Group E">{{ match.home_team|default_if_none:"Winner Group E" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-3"></div>
-        {% with matches|get_match:53 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="53-away" data-country="{{ match.away_team.id }}">{{ match.away_team|default_if_none:"Runner Up Group F" }}{% endwith %}</div>
-        {% with matches|get_match:58 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="58-home" data-country="{{ match.home_team.id }}">{{ match.home_team|default_if_none:"Winner Match 51" }}{% endwith %}</div>
+        {% with matches|get_match:53 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="53-away" data-country="{{ match.away_team.id }}" data-default="Runner Up Group F">{{ match.away_team|default_if_none:"Runner Up Group F" }}{% endwith %}</div>
+        {% with matches|get_match:58 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="58-home" data-country="{{ match.home_team.id }}" data-default="Winner Match 51">{{ match.home_team|default_if_none:"Winner Match 51" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-3"></div>
-        {% with matches|get_match:61 as match %}<div class="col-md-offset-3 col-md-2 match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="61-away" data-country="{{ match.away_team.id }}">{{ match.away_team|default_if_none:"Winner Match 58" }}{% endwith %}</div>
+        {% with matches|get_match:61 as match %}<div class="col-md-offset-3 col-md-2 match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="61-away" data-country="{{ match.away_team.id }}" data-default="Winner Match 58">{{ match.away_team|default_if_none:"Winner Match 58" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-3"></div>
-        {% with matches|get_match:54 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="54-home" data-country="{{ match.home_team.id }}">{{ match.home_team|default_if_none:"Winner Group G" }}{% endwith %}</div>
-        {% with matches|get_match:58 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="58-away" data-country="{{ match.away_team.id }}">{{ match.away_team|default_if_none:"Winner Match 52" }}{% endwith %}</div>
+        {% with matches|get_match:54 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="54-home" data-country="{{ match.home_team.id }}" data-default="Winner Group G">{{ match.home_team|default_if_none:"Winner Group G" }}{% endwith %}</div>
+        {% with matches|get_match:58 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="58-away" data-country="{{ match.away_team.id }}" data-default="Winner Match 52">{{ match.away_team|default_if_none:"Winner Match 52" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-3"></div>
-        {% with matches|get_match:54 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="54-away" data-country="{{ match.away_team.id }}">{{ match.away_team|default_if_none:"Runner Up Group H" }}{% endwith %}</div>
+        {% with matches|get_match:54 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="54-away" data-country="{{ match.away_team.id }}" data-default="Runner Up Group H">{{ match.away_team|default_if_none:"Runner Up Group H" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-3"></div>
-        {% with matches|get_match:51 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="51-home" data-country="{{ match.home_team.id }}">{{ match.home_team|default_if_none:"Winner Group B" }}{% endwith %}</div>
+        {% with matches|get_match:51 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="51-home" data-country="{{ match.home_team.id }}" data-default="Winner Group B">{{ match.home_team|default_if_none:"Winner Group B" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-3"></div>
-        {% with matches|get_match:51 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="51-away" data-country="{{ match.away_team.id }}">{{ match.away_team|default_if_none:"Runner Up Group A" }}{% endwith %}</div>
-        {% with matches|get_match:59 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="59-home" data-country="{{ match.home_team.id }}">{{ match.home_team|default_if_none:"Winner Match 53" }}{% endwith %}</div>
+        {% with matches|get_match:51 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="51-away" data-country="{{ match.away_team.id }}" data-default="Runner Up Group A">{{ match.away_team|default_if_none:"Runner Up Group A" }}{% endwith %}</div>
+        {% with matches|get_match:59 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="59-home" data-country="{{ match.home_team.id }}" data-default="Winner Match 53">{{ match.home_team|default_if_none:"Winner Match 53" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-3"></div>
-        {% with matches|get_match:62 as match %}<div class="col-md-offset-3 col-md-2 match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="62-home" data-country="{{ match.home_team.id }}">{{ match.home_team|default_if_none:"Winner Match 59" }}{% endwith %}</div>
+        {% with matches|get_match:62 as match %}<div class="col-md-offset-3 col-md-2 match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="62-home" data-country="{{ match.home_team.id }}" data-default="Winner Match 59">{{ match.home_team|default_if_none:"Winner Match 59" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-3"></div>
-        {% with matches|get_match:52 as match %}<div class="col-md-2 match{% if match.winner and match.winner and match.winner == match.home_team %} text-success{% endif %}" id="52-home" data-country="{{ match.home_team.id }}">{{ match.home_team|default_if_none:"Winner Group D" }}{% endwith %}</div>
-        {% with matches|get_match:59 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="59-away" data-country="{{ match.away_team.id }}">{{ match.away_team|default_if_none:"Winner Match 54" }}{% endwith %}</div>
+        {% with matches|get_match:52 as match %}<div class="col-md-2 match{% if match.winner and match.winner and match.winner == match.home_team %} text-success{% endif %}" id="52-home" data-country="{{ match.home_team.id }}" data-default="Winner Group D">{{ match.home_team|default_if_none:"Winner Group D" }}{% endwith %}</div>
+        {% with matches|get_match:59 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="59-away" data-country="{{ match.away_team.id }}" data-default="Winner Match 54">{{ match.away_team|default_if_none:"Winner Match 54" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-3"></div>
-        {% with matches|get_match:52 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="52-away" data-country="{{ match.away_team.id }}">{{ match.away_team|default_if_none:"Runner Up Group C" }}{% endwith %}</div>
+        {% with matches|get_match:52 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="52-away" data-country="{{ match.away_team.id }}" data-default="Runner Up Group C">{{ match.away_team|default_if_none:"Runner Up Group C" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-3"></div>
-        {% with matches|get_match:64 as match %}<div class="col-md-offset-4 col-md-2 match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="64-away">{{ match.away_team|default_if_none:"Winner Match 62" }}{% endwith %}</div>
+        {% with matches|get_match:64 as match %}<div class="col-md-offset-4 col-md-2 match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="64-away" data-default="Winner Match 62">{{ match.away_team|default_if_none:"Winner Match 62" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-3"></div>
-        {% with matches|get_match:55 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="55-home" data-country="{{ match.home_team.id }}">{{ match.home_team|default_if_none:"Winner Group F" }}{% endwith %}</div>
+        {% with matches|get_match:55 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="55-home" data-country="{{ match.home_team.id }}" data-default="Winner Group F">{{ match.home_team|default_if_none:"Winner Group F" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-3"></div>
-        {% with matches|get_match:55 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="55-away" data-country="{{ match.away_team.id }}">{{ match.away_team|default_if_none:"Runner Up Group E" }}{% endwith %}</div>
-        {% with matches|get_match:60 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="60-home" data-country="{{ match.home_team.id }}">{{ match.home_team|default_if_none:"Winner Match 55" }}{% endwith %}</div>
+        {% with matches|get_match:55 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="55-away" data-country="{{ match.away_team.id }}" data-default="Runner Up Group E">{{ match.away_team|default_if_none:"Runner Up Group E" }}{% endwith %}</div>
+        {% with matches|get_match:60 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="60-home" data-country="{{ match.home_team.id }}" data-default="Winner Match 55">{{ match.home_team|default_if_none:"Winner Match 55" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-3"></div>
-        {% with matches|get_match:62 as match %}<div class="col-md-offset-3 col-md-2 match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="62-away" data-country="{{ match.away_team.id }}">{{ match.away_team|default_if_none:"Winner Match 60" }}{% endwith %}</div>
+        {% with matches|get_match:62 as match %}<div class="col-md-offset-3 col-md-2 match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="62-away" data-country="{{ match.away_team.id }}" data-default="Winner Match 60">{{ match.away_team|default_if_none:"Winner Match 60" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-3"></div>
-        {% with matches|get_match:56 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="56-home" data-country="{{ match.home_team.id }}">{{ match.home_team|default_if_none:"Winner Group H" }}{% endwith %}</div>
-        {% with matches|get_match:60 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="60-away" data-country="{{ match.away_team.id }}">{{ match.away_team|default_if_none:"Winner Match 56" }}{% endwith %}</div>
+        {% with matches|get_match:56 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="56-home" data-country="{{ match.home_team.id }}" data-default="Winner Group H">{{ match.home_team|default_if_none:"Winner Group H" }}{% endwith %}</div>
+        {% with matches|get_match:60 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="60-away" data-country="{{ match.away_team.id }}" data-default="Winner Match 56">{{ match.away_team|default_if_none:"Winner Match 56" }}{% endwith %}</div>
     </div>
     <div class="row">
         <div class="col-md-3"></div>
-        {% with matches|get_match:56 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="56-away" data-country="{{ match.away_team.id }}">{{ match.away_team|default_if_none:"Runner Up Group G" }}{% endwith %}</div>
+        {% with matches|get_match:56 as match %}<div class="col-md-2 match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="56-away" data-country="{{ match.away_team.id }}" data-default="Runner Up Group G">{{ match.away_team|default_if_none:"Runner Up Group G" }}{% endwith %}</div>
     </div>
 {% endblock %}
 

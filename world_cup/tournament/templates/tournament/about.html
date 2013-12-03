@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}About{% endblock %}
+
+{% block about-nav %}class="active"{% endblock %}
+
+{% block css %}
+{% endblock %}
+
+{% block content %}
+    <div class="col-md-offset-3 col-md-6">
+        <div class="page-header">
+            <h1>2014 FIFA World Cup Brazil™ <small>All in One Rhythm™</small></h1>
+        </div>
+        <div class="text-center">
+            <img src="{% static "tournament/img/spain.jpg" %}" alt="Spain Wins the 2010 World Cup" class="img-rounded"/><br/><br/>
+        </div>
+        <h3>What is it?</h3>
+        <p>
+            The 2014 FIFA World Cup will be the 20th FIFA World Cup, an international men's football tournament, that is scheduled to take place in Brazil from 12 June to 13 July 2014. It will be the second time that Brazil has hosted the competition, the previous being in 1950. Brazil will become the fifth country to have hosted the World Cup twice, after Mexico, Italy, France, and Germany.<br/><br/>
+            The national teams of 32 countries will take part in the finals tournament, with matches to be played in 12 cities throughout Brazil. It is scheduled to be the first World Cup to be held in South America since the 1978 World Cup in Argentina, the first time two consecutive World Cups are staged outside Europe, and the first time two consecutive World Cups are staged in the Southern Hemisphere, since the 2010 World Cup was held in South Africa. It will also be the first World Cup to use goal-line technology.<br/><br/>
+            Spain is the defending champion, having defeated the Netherlands 1–0 in the 2010 World Cup final. It will also be the first finals appearance of Bosnia and Herzegovina. It is only the second time in history of the World Cup, and first since England in 1950 FIFA World Cup (also held in Brazil), that only one national team made a debut in a World Cup tournament.<br/>
+            <small><a href="http://en.wikipedia.org/wiki/2014_FIFA_World_Cup">Wikipedia</a></small>
+        </p>
+        <h3>What is this site?</h3>
+        <p>
+            This site was created to help people predict what is going to happen during the World Cup.  Every guess is recorded and every correct prediction earns you points.  Create or join a group to see who called it the best.<br/><br/>
+            I created this site to get people more involved with the World Cup than they otherwise would be.  It is completely open source so you can see how it was made and even help with the development if you feel.  Just head on over to the <a href="https://github.com/ericsaupe/world-cup">GitHub page</a> hosting this site and get involved!
+        </p>
+    </div>
+    
+{% endblock %}
+
+{% block javascript %}
+{% endblock %}

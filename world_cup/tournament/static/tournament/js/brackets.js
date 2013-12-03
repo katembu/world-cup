@@ -13,9 +13,9 @@ $(document).ready(function(){
                 },
                 success: function(data){
                     var ids = data[0];
-                    for(var i=0; i<ids.length; i++){
+                    for(var i = 0; i < ids.length; i++){
                         $("#" + ids[i]).removeClass("text-success");
-                        $("#" + ids[i]).html("Winner Match " + ids[i].split("-")[0]);
+                        $("#" + ids[i]).html($("#" + ids[i]).data("default"));
                     }
                     row.removeClass("success");
                     unlockTable(table);
@@ -33,9 +33,9 @@ $(document).ready(function(){
                 },
                 success: function(data){
                     var ids = data[0];
-                    for(var i=0; i<ids.length; i++){
+                    for(var i = 0; i < ids.length; i++){
                         $("#" + ids[i]).removeClass("text-success");
-                        $("#" + ids[i]).html("Winner Match " + ids[i].split("-")[0]);
+                        $("#" + ids[i]).html($("#" + ids[i]).data("default"));
                     }
                     row.removeClass("warning");
                     unlockTable(table);
@@ -97,9 +97,18 @@ $(document).ready(function(){
             success: function(data){
                 $("#" + data[0]).html(data[2]);
                 $("#" + data[0]).data("country", data[1]);
-                row.addClass("success");
+                row.addClass("text-success");
+                var match = row.attr("id").split("-")[0];
+                var homeAway = row.attr("id").split("-")[1];
+                if (homeAway == "home") {
+                    homeAway = "away";
+                }
+                else if (homeAway == "away") {
+                    homeAway = "home"
+                }
+                $("#" + match + "-" + homeAway).removeClass("text-success");
             }
-        }); 
+        });
     });
 });
 

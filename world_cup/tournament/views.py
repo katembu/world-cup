@@ -10,11 +10,17 @@ from tournament.helpers import place_team, update_matches
 
 
 def index(request):
+    """
+    Basic render of the tournament index page.
+    """
     return render_to_response('tournament/index.html', context_instance=RequestContext(request))
 
 
 @login_required
 def brackets(request):
+    """
+    Renders the bracket for the user.
+    """
     group_labels = Countries.objects.values('group').distinct()
     groups = []
     for label in group_labels:
@@ -26,7 +32,11 @@ def brackets(request):
 
 
 def save(request):
+    """
+    Saves a selection for the user.  Has various checks and will return errors if any are encountered.
+    """
     if request.method == 'POST':
+        #Called when a group selection is made.
         if request.POST['type'] == 'add-group':
             country = Countries.objects.get(id=request.POST['country'])
             position = int(request.POST['position'])
@@ -35,6 +45,7 @@ def save(request):
             bracket_placement = place_team(request.user, winner)
             return HttpResponse(simplejson.dumps([bracket_placement, country.id, country.name]),
                                 mimetype='application/json')
+        #Called when a group selection is unselected.
         elif request.POST['type'] == 'remove-group':
             country = Countries.objects.get(id=request.POST['country'])
             matches = MatchPredictions.objects.filter(Q(home_team=country) | Q(away_team=country), user=request.user)
@@ -43,13 +54,14 @@ def save(request):
                 if match.home_team == country:
                     match.home_team = None
                     output.append('%s-%s' % (match.match_number, 'home'))
-                elif match.away_team == countr:
+                elif match.away_team == country:
                     match.away_team = None
                     output.append('%s-%s' % (match.match_number, 'away'))
                 match.save()
             winner = GroupPredictions.objects.get(country=country)
             winner.delete()
             return HttpResponse(simplejson.dumps([output, country.id, country.name]), mimetype='application/json')
+        #Called when a knockout round selection is made.
         elif request.POST['type'] == 'save-match':
             match = MatchPredictions.objects.get(user=request.user, match_number=request.POST['match_number'])
             if request.POST['home_away'] == 'home':
@@ -60,3 +72,10 @@ def save(request):
             match.save()
             output = update_matches(request.user, match)
             return HttpResponse(simplejson.dumps([output, winner.id, winner.name]), mimetype='application/json')
+
+
+def about(request):
+    """
+    Basic render of the about page to inform about the World Cup and what this site is about.
+    """
+    return render_to_response('tournament/about.html', context_instance=RequestContext(request))
