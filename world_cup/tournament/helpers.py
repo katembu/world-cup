@@ -1,28 +1,30 @@
-from tournament.models import MatchPredictions
+from tournament.models import MatchPredictions, Brackets
 
 
-def create_matches(user):
+def create_matches(user, bracket_name):
+    bracket = Brackets(user=user, name=bracket_name)
+    bracket.save()
     #Round of 16
     for i in range(49, 57):
-        match = MatchPredictions(user=user, round=16, match_number=i)
+        match = MatchPredictions(bracket=bracket, round=16, match_number=i)
         match.save()
     #Round of 8
     for i in range(57, 61):
-        match = MatchPredictions(user=user, round=8, match_number=i)
+        match = MatchPredictions(bracket=bracket, round=8, match_number=i)
         match.save()
     #Semi-finals
     for i in range(61, 63):
-        match = MatchPredictions(user=user, round=4, match_number=i)
+        match = MatchPredictions(bracket=bracket, round=4, match_number=i)
         match.save()
     #Third Place Match
-    match = MatchPredictions(user=user, round=3, match_number=63)
+    match = MatchPredictions(bracket=bracket, round=3, match_number=63)
     match.save()
     #Final
-    match = MatchPredictions(user=user, round=1, match_number=64)
+    match = MatchPredictions(bracket=bracket, round=1, match_number=64)
     match.save()
 
 
-def place_team(user, group_prediction):
+def place_team(user, bracket_name, group_prediction):
     match_number = None
     if group_prediction.country.group == 'A':
         if group_prediction.position == 1:
@@ -64,7 +66,7 @@ def place_team(user, group_prediction):
             match_number = 56
         elif group_prediction.position == 2:
             match_number = 54
-    match = MatchPredictions.objects.get(user=user, match_number=match_number)
+    match = MatchPredictions.objects.get(bracket__user=user, bracket__name=bracket_name, match_number=match_number)
     if group_prediction.position == 1:
         match.home_team = group_prediction.country
         match.save()
@@ -75,73 +77,73 @@ def place_team(user, group_prediction):
         return '%s-%s' % (match_number, 'away')
 
 
-def update_matches(user, match):
+def update_matches(user, bracket_name, match):
     if match.match_number == 49:
-        next_match = MatchPredictions.objects.get(user=user, match_number=57)
+        next_match = MatchPredictions.objects.get(bracket__user=user, bracket__name=bracket_name, match_number=57)
         next_match.home_team = match.winner
         next_match.save()
         return '%s-%s' % (next_match.match_number, 'home')
     elif match.match_number == 50:
-        next_match = MatchPredictions.objects.get(user=user, match_number=57)
+        next_match = MatchPredictions.objects.get(bracket__user=user, bracket__name=bracket_name, match_number=57)
         next_match.away_team = match.winner
         next_match.save()
         return '%s-%s' % (next_match.match_number, 'away')
     elif match.match_number == 51:
-        next_match = MatchPredictions.objects.get(user=user, match_number=59)
+        next_match = MatchPredictions.objects.get(bracket__user=user, bracket__name=bracket_name, match_number=59)
         next_match.home_team = match.winner
         next_match.save()
         return '%s-%s' % (next_match.match_number, 'home')
     elif match.match_number == 52:
-        next_match = MatchPredictions.objects.get(user=user, match_number=59)
+        next_match = MatchPredictions.objects.get(bracket__user=user, bracket__name=bracket_name, match_number=59)
         next_match.away_team = match.winner
         next_match.save()
         return '%s-%s' % (next_match.match_number, 'away')
     elif match.match_number == 53:
-        next_match = MatchPredictions.objects.get(user=user, match_number=58)
+        next_match = MatchPredictions.objects.get(bracket__user=user, bracket__name=bracket_name, match_number=58)
         next_match.home_team = match.winner
         next_match.save()
         return '%s-%s' % (next_match.match_number, 'home')
     elif match.match_number == 54:
-        next_match = MatchPredictions.objects.get(user=user, match_number=58)
+        next_match = MatchPredictions.objects.get(bracket__user=user, bracket__name=bracket_name, match_number=58)
         next_match.away_team = match.winner
         next_match.save()
         return '%s-%s' % (next_match.match_number, 'away')
     elif match.match_number == 55:
-        next_match = MatchPredictions.objects.get(user=user, match_number=60)
+        next_match = MatchPredictions.objects.get(bracket__user=user, bracket__name=bracket_name, match_number=60)
         next_match.home_team = match.winner
         next_match.save()
         return '%s-%s' % (next_match.match_number, 'home')
     elif match.match_number == 56:
-        next_match = MatchPredictions.objects.get(user=user, match_number=60)
+        next_match = MatchPredictions.objects.get(bracket__user=user, bracket__name=bracket_name, match_number=60)
         next_match.away_team = match.winner
         next_match.save()
         return '%s-%s' % (next_match.match_number, 'away')
     elif match.match_number == 57:
-        next_match = MatchPredictions.objects.get(user=user, match_number=61)
+        next_match = MatchPredictions.objects.get(bracket__user=user, bracket__name=bracket_name, match_number=61)
         next_match.home_team = match.winner
         next_match.save()
         return '%s-%s' % (next_match.match_number, 'home')
     elif match.match_number == 58:
-        next_match = MatchPredictions.objects.get(user=user, match_number=61)
+        next_match = MatchPredictions.objects.get(bracket__user=user, bracket__name=bracket_name, match_number=61)
         next_match.away_team = match.winner
         next_match.save()
         return '%s-%s' % (next_match.match_number, 'away')
     elif match.match_number == 59:
-        next_match = MatchPredictions.objects.get(user=user, match_number=62)
+        next_match = MatchPredictions.objects.get(bracket__user=user, bracket__name=bracket_name, match_number=62)
         next_match.home_team = match.winner
         next_match.save()
         return '%s-%s' % (next_match.match_number, 'home')
     elif match.match_number == 60:
-        next_match = MatchPredictions.objects.get(user=user, match_number=62)
+        next_match = MatchPredictions.objects.get(bracket__user=user, bracket__name=bracket_name, match_number=62)
         next_match.away_team = match.winner
         next_match.save()
         return '%s-%s' % (next_match.match_number, 'away')
     elif match.match_number == 61:
         #Final
-        next_match = MatchPredictions.objects.get(user=user, match_number=64)
+        next_match = MatchPredictions.objects.get(bracket__user=user, bracket__name=bracket_name, match_number=64)
         next_match.home_team = match.winner
         #Third Place
-        third_place = MatchPredictions.objects.get(user=user, match_number=63)
+        third_place = MatchPredictions.objects.get(bracket__user=user, bracket__name=bracket_name, match_number=63)
         if match.home_team == match.winner:
             third_place.home_team = match.away_team
         else:
@@ -150,10 +152,10 @@ def update_matches(user, match):
         return '%s-%s' % (next_match.match_number, 'home')
     elif match.match_number == 62:
         #Final
-        next_match = MatchPredictions.objects.get(user=user, match_number=64)
+        next_match = MatchPredictions.objects.get(bracket__user=user, bracket__name=bracket_name, match_number=64)
         next_match.away_team = match.winner
         #Third Place
-        third_place = MatchPredictions.objects.get(user=user, match_number=63)
+        third_place = MatchPredictions.objects.get(bracket__user=user, bracket__name=bracket_name, match_number=63)
         if match.home_team == match.winner:
             third_place.away_team = match.away_team
         else:

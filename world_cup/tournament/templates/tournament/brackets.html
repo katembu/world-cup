@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% load brackets_tags %}
+{% block meta %}
+    <meta http-equiv="cache-control" content="no-cache">
+{% endblock %}
 {% block title %}Bracket{% endblock %}
 
 {% block bracket-nav %}class="active"{% endblock %}
@@ -10,6 +13,11 @@
 {% endblock %}
 
 {% block content %}
+    <div class="row">
+        <div class="page-header col-md-offset-2">
+            <h1 id="bracket-name">{{ bracket.name }}</h1>
+        </div>
+    </div>
     <!--Groups-->
     <div class="row">
         <div class="col-md-2"></div>
@@ -20,7 +28,7 @@
                         <th colspan=2>Group {{ group|group_name }}</th>
                     </tr>
                     {% for country in group %}
-                        <tr class="country {{ country|selected_class }}" data-country="{{ country.id }}">
+                        <tr class="country {{ country|selected_class:bracket.name }}" data-country="{{ country.id }}">
                             <td>{{ country.position }}</td>
                             <td>{{ country.name }}</td>
                         </tr>

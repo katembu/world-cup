@@ -10,15 +10,15 @@ def group_name(group):
 
 
 @register.filter
-def selected_class(country):
+def selected_class(country, bracket_name):
     try:
-        winner = GroupPredictions.objects.get(country=country)
+        winner = GroupPredictions.objects.get(bracket__name=bracket_name, country=country)
         if winner.position == 1:
             return 'success'
         if winner.position == 2:
             return 'warning'
     except:
-        winners = GroupPredictions.objects.filter(country__in=Countries.objects.filter(group=country.group))
+        winners = GroupPredictions.objects.filter(bracket__name=bracket_name, country__in=Countries.objects.filter(group=country.group))
         if len(winners) == 2:
             return 'active'
 

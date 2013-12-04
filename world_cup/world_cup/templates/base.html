@@ -3,6 +3,7 @@
 
 <html>
     <head>
+        {% block meta %}{% endblock %}
         <title>{% block title %}World Cup{% endblock %}</title>
         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="{% static "css/base.css" %}">
@@ -25,7 +26,8 @@
                         <div class="navbar-collapse collapse">
                             <ul class="nav navbar-nav">
                                 <li {% block home-nav %}{% endblock %}><a href="{% url "user_management.views.index" %}">Home</a></li>
-                                <li {% block bracket-nav %}{% endblock %} ><a href="{% url "tournament.views.brackets" %}">Bracket</a></li>
+                                <li {% block new-bracket-nav %}{% endblock %} ><a href="{% url "tournament.views.index" %}">New Bracket</a></li>
+                                <li {% block bracket-nav %}{% endblock %} ><a href="{% url "tournament.views.brackets" %}">Brackets</a></li>
                                 <li {% block about-nav %}{% endblock %}><a href="{% url "tournament.views.about" %}">About</a></li>
                                 <li {% block contact-nav %}{% endblock %}><a href="{% url "user_management.views.contact" %}">Contact</a></li>
                             </ul>

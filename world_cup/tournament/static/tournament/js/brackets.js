@@ -6,8 +6,8 @@ $(document).ready(function(){
         if (row.hasClass("success")) {
             $.ajax({
                 type: "POST",
-                url: "save/",
-                data: {'type': 'remove-group', 'country': row.data("country")},
+                url: "/tournament/save/",
+                data: {'bracket':$("#bracket-name").text(), 'type': 'remove-group', 'country': row.data("country")},
                 error: function(){
                     alert("There was an error and your choice was not saved.");
                 },
@@ -26,8 +26,8 @@ $(document).ready(function(){
         else if (row.hasClass("warning")) {
             $.ajax({
                 type: "POST",
-                url: "save/",
-                data: {'type': 'remove-group', 'country': row.data("country")},
+                url: "/tournament/save/",
+                data: {'bracket':$("#bracket-name").text(), 'type': 'remove-group', 'country': row.data("country")},
                 error: function(){
                     alert("There was an error and your choice was not saved.");
                 },
@@ -49,8 +49,8 @@ $(document).ready(function(){
                     //Save Second Place
                     $.ajax({
                         type: "POST",
-                        url: "save/",
-                        data: {'type': 'add-group', 'country': row.data("country"), 'position':2},
+                        url: "/tournament/save/",
+                        data: {'bracket':$("#bracket-name").text(), 'type': 'add-group', 'country': row.data("country"), 'position':2},
                         error: function(){
                             alert("There was an error and your choice was not saved.");
                         },
@@ -66,8 +66,8 @@ $(document).ready(function(){
                     //Save First Place
                     $.ajax({
                         type: "POST",
-                        url: "save/",
-                        data: {'type': 'add-group', 'country': row.data("country"), 'position':1},
+                        url: "/tournament/save/",
+                        data: {'bracket':$("#bracket-name").text(), 'type': 'add-group', 'country': row.data("country"), 'position':1},
                         error: function(){
                             alert("There was an error and your choice was not saved.");
                         },
@@ -89,8 +89,8 @@ $(document).ready(function(){
         var row = $(this);
         $.ajax({
             type: "POST",
-            url: "save/",
-            data:{'type': 'save-match', 'match_number': match_number, 'home_away': home_away},
+            url: "/tournament/save/",
+            data:{'bracket':$("#bracket-name").text(), 'type': 'save-match', 'match_number': match_number, 'home_away': home_away},
             error: function(){
                 alert("There was an error and your choice was not saved.");
             },

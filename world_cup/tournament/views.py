@@ -6,28 +6,40 @@ from django.contrib.auth import authenticate, login, logout
 from django.utils import simplejson
 from django.db.models import Q
 from tournament.models import *
-from tournament.helpers import place_team, update_matches
+from tournament.helpers import place_team, update_matches, create_matches
 
 
 def index(request):
     """
-    Basic render of the tournament index page.
+    Basic render of the tournament index page.  Used to create a new bracket with a unique name.
+    Bracket names are unique to the user.
     """
+    if request.method == "POST":
+        try:
+            bracket = Brackets.objects.get(user=request.user, name=request.POST['name'])
+        except:
+            create_matches(request.user, request.POST['name'])
+            return redirect('/tournament/brackets/%s/' % request.POST['name'])
     return render_to_response('tournament/index.html', context_instance=RequestContext(request))
 
 
 @login_required
-def brackets(request):
+def brackets(request, bracket_name=None):
     """
     Renders the bracket for the user.
     """
+    if not bracket_name:
+        brackets = Brackets.objects.filter(user=request.user)
+        return render_to_response('tournament/brackets_list.html', {'brackets': brackets, },
+                                  context_instance=RequestContext(request))
+    bracket = Brackets.objects.get(user=request.user, name=bracket_name)
     group_labels = Countries.objects.values('group').distinct()
     groups = []
     for label in group_labels:
         label = label['group']
         groups.append(Countries.objects.filter(group=label))
-    matches = MatchPredictions.objects.filter(user=request.user)
-    return render_to_response('tournament/brackets.html', {'groups': groups, 'matches': matches},
+    matches = MatchPredictions.objects.filter(bracket=bracket)
+    return render_to_response('tournament/brackets.html', {'bracket': bracket, 'groups': groups, 'matches': matches},
                               context_instance=RequestContext(request))
 
 
@@ -40,15 +52,17 @@ def save(request):
         if request.POST['type'] == 'add-group':
             country = Countries.objects.get(id=request.POST['country'])
             position = int(request.POST['position'])
-            winner = GroupPredictions(user=request.user, country=country, position=position)
+            bracket = Brackets.objects.get(user=request.user, name=request.POST['bracket'])
+            winner = GroupPredictions(bracket=bracket, country=country, position=position)
             winner.save()
-            bracket_placement = place_team(request.user, winner)
+            bracket_placement = place_team(request.user, bracket.name, winner)
             return HttpResponse(simplejson.dumps([bracket_placement, country.id, country.name]),
                                 mimetype='application/json')
         #Called when a group selection is unselected.
         elif request.POST['type'] == 'remove-group':
             country = Countries.objects.get(id=request.POST['country'])
-            matches = MatchPredictions.objects.filter(Q(home_team=country) | Q(away_team=country), user=request.user)
+            bracket = Brackets.objects.get(user=request.user, name=request.POST['bracket'])
+            matches = MatchPredictions.objects.filter(Q(home_team=country) | Q(away_team=country), bracket=bracket)
             output = []
             for match in matches:
                 if match.home_team == country:
@@ -63,14 +77,15 @@ def save(request):
             return HttpResponse(simplejson.dumps([output, country.id, country.name]), mimetype='application/json')
         #Called when a knockout round selection is made.
         elif request.POST['type'] == 'save-match':
-            match = MatchPredictions.objects.get(user=request.user, match_number=request.POST['match_number'])
+            bracket = Brackets.objects.get(user=request.user, name=request.POST['bracket'])
+            match = MatchPredictions.objects.get(bracket=bracket, match_number=request.POST['match_number'])
             if request.POST['home_away'] == 'home':
                 winner = match.home_team
             elif request.POST['home_away'] == 'away':
                 winner = match.away_team
             match.winner = winner
             match.save()
-            output = update_matches(request.user, match)
+            output = update_matches(request.user, bracket.name, match)
             return HttpResponse(simplejson.dumps([output, winner.id, winner.name]), mimetype='application/json')
 
 

@@ -16,8 +16,20 @@ class Countries(models.Model):
         verbose_name_plural = 'Countries'
 
 
-class GroupPredictions(models.Model):
+class Brackets(models.Model):
     user = models.ForeignKey(User)
+    name = models.CharField(max_length=255)
+
+    def save(self, *args, **kwargs):
+        try:
+            Brackets.objects.get(user=self.user, name=self.name)
+            return
+        except:
+            super(Brackets, self).save(*args, **kwargs)
+
+
+class GroupPredictions(models.Model):
+    bracket = models.ForeignKey(Brackets)
     country = models.ForeignKey(Countries)
     position = models.IntegerField()
 
@@ -33,7 +45,7 @@ class Matches(models.Model):
 
 
 class MatchPredictions(models.Model):
-    user = models.ForeignKey(User)
+    bracket = models.ForeignKey(Brackets)
     home_team = models.ForeignKey(Countries, related_name='home_team_coice', null=True)
     home_score = models.IntegerField(null=True)
     away_team = models.ForeignKey(Countries, related_name='away_team_choice', null=True)
