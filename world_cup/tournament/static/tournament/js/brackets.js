@@ -84,31 +84,33 @@ $(document).ready(function(){
     });
     
     $(".match").on("click", function(){
-        var match_number = $(this).attr("id").split("-")[0]
-        var home_away = $(this).attr("id").split("-")[1]
-        var row = $(this);
-        $.ajax({
-            type: "POST",
-            url: "/tournament/save/",
-            data:{'bracket':$("#bracket-name").text(), 'type': 'save-match', 'match_number': match_number, 'home_away': home_away},
-            error: function(){
-                alert("There was an error and your choice was not saved.");
-            },
-            success: function(data){
-                $("#" + data[0]).html(data[2]);
-                $("#" + data[0]).data("country", data[1]);
-                row.addClass("text-success");
-                var match = row.attr("id").split("-")[0];
-                var homeAway = row.attr("id").split("-")[1];
-                if (homeAway == "home") {
-                    homeAway = "away";
+        if (!($(this).text().indexOf("Winner") > -1 || $(this).text().indexOf("Group") > -1)) {
+            var match_number = $(this).attr("id").split("-")[0]
+            var home_away = $(this).attr("id").split("-")[1]
+            var row = $(this);
+            $.ajax({
+                type: "POST",
+                url: "/tournament/save/",
+                data:{'bracket':$("#bracket-name").text(), 'type': 'save-match', 'match_number': match_number, 'home_away': home_away},
+                error: function(){
+                    alert("There was an error and your choice was not saved.");
+                },
+                success: function(data){
+                    $("#" + data[0]).html(data[2]);
+                    $("#" + data[0]).data("country", data[1]);
+                    row.addClass("text-success");
+                    var match = row.attr("id").split("-")[0];
+                    var homeAway = row.attr("id").split("-")[1];
+                    if (homeAway == "home") {
+                        homeAway = "away";
+                    }
+                    else if (homeAway == "away") {
+                        homeAway = "home"
+                    }
+                    $("#" + match + "-" + homeAway).removeClass("text-success");
                 }
-                else if (homeAway == "away") {
-                    homeAway = "home"
-                }
-                $("#" + match + "-" + homeAway).removeClass("text-success");
-            }
-        });
+            });
+        }
     });
 });
 

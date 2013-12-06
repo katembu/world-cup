@@ -27,6 +27,13 @@ class Brackets(models.Model):
         except:
             super(Brackets, self).save(*args, **kwargs)
 
+    def __unicode__(self):
+        return '%s' % self.name
+
+    class Meta:
+        verbose_name = 'Bracket'
+        verbose_name_plural = 'Brackets'
+
 
 class GroupPredictions(models.Model):
     bracket = models.ForeignKey(Brackets)

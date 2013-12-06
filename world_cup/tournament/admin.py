@@ -1,5 +1,7 @@
 from django.contrib import admin
-from tournament.models import Countries
+from tournament.models import Countries, Brackets
+
+admin.site.register(Brackets)
 
 
 class CountriesAdmin(admin.ModelAdmin):

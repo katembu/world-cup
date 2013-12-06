@@ -8,7 +8,7 @@ from django.db.models import Q
 from tournament.models import *
 from tournament.helpers import place_team, update_matches, create_matches
 
-
+@login_required
 def index(request):
     """
     Basic render of the tournament index page.  Used to create a new bracket with a unique name.
