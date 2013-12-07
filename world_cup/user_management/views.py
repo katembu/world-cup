@@ -27,8 +27,6 @@ def create_user(request):
     if request.method == 'POST':
         if form.is_valid():
             user = form.save()
-            #Create bracket objects
-            create_matches(user)
             login(request, user)
             return HttpResponseRedirect('/')
     return render_to_response('create_user.html', {'form': form},
