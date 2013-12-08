@@ -22,6 +22,11 @@ def login_user(request):
     return render_to_response('login.html', context_instance=RequestContext(request))
 
 
+def logout_user(request):
+    logout(request)
+    return redirect('user_management.views.index')
+
+
 def create_user(request):
     form = CreateUserForm(request.POST or None)
     if request.method == 'POST':

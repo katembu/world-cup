@@ -39,14 +39,14 @@
                             </ul>
                             <ul class="nav navbar-nav navbar-right">
                                 {% if not user.is_authenticated %}
-                                    <li><a href="{% url "user_management.views.create_user" %}">Create User</a></li>
+                                    <li><a href="{% url "user_management.views.create_user" %}">Create Account</a></li>
                                 {% endif %}
                                 <li>
                                     {% if user.is_authenticated %}
                                         <li class="dropdown">
-                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Hey there, {{ user.username }}</a>
+                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Hey there, {% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %}</a>
                                             <ul class="dropdown-menu">
-                                                <li><a href="#">Logout</a></li>
+                                                <li><a href="{% url "user_management.views.logout_user" %}">Logout</a></li>
                                             </ul>
                                         </li>
                                     {% else %}
