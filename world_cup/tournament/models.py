@@ -9,7 +9,7 @@ class Countries(models.Model):
     final_position = models.IntegerField(blank=True, null=True)
 
     def __unicode__(self):
-        return '%s' % self.name
+        return u'%s' % self.name
 
     class Meta:
         verbose_name = 'Countries'
@@ -28,7 +28,7 @@ class Brackets(models.Model):
             super(Brackets, self).save(*args, **kwargs)
 
     def __unicode__(self):
-        return '%s' % self.name
+        return u'%s' % self.name
 
     class Meta:
         verbose_name = 'Bracket'
@@ -40,6 +40,12 @@ class GroupPredictions(models.Model):
     country = models.ForeignKey(Countries)
     position = models.IntegerField()
 
+    def __unicode__(self):
+        return u'%s' % self.country
+
+    class Meta:
+        verbose_name = 'Group Prediction'
+        verbose_name_plural = 'Group Predictions'
 
 class Matches(models.Model):
     home_team = models.ForeignKey(Countries, related_name='home_team', null=True)
@@ -60,3 +66,10 @@ class MatchPredictions(models.Model):
     winner = models.ForeignKey(Countries, related_name='winner_choice', null=True)
     round = models.IntegerField()
     match_number = models.IntegerField()
+
+    def __unicode__(self):
+        return u'%s' % self.winner
+
+    class Meta:
+        verbose_name = 'Match Prediction'
+        verbose_name_plural = 'Match Predictions'
