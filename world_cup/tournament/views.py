@@ -72,7 +72,7 @@ def save(request):
                     match.away_team = None
                     output.append('%s-%s' % (match.match_number, 'away'))
                 match.save()
-            winner = GroupPredictions.objects.get(country=country)
+            winner = GroupPredictions.objects.get(bracket=bracket, country=country)
             winner.delete()
             return HttpResponse(simplejson.dumps([output, country.id, country.name]), mimetype='application/json')
         #Called when a knockout round selection is made.
