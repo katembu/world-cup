@@ -5,3 +5,11 @@
 .country.active {
     cursor: auto;
 }
+
+.label {
+    font-size: medium;
+}
+
+.match {
+    margin-bottom: 10px;
+}

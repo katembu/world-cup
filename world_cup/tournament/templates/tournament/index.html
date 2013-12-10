@@ -3,6 +3,7 @@
 {% block title %}Brackets{% endblock %}
 
 {% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'tournament/css/brackets_index.css' %}"/>
 {% endblock %}
 
 {% block content %}
@@ -14,7 +15,7 @@
             {% csrf_token %}
             <label for="name">Bracket Name</label>
             <input id="name" type="text" class="form-control" name="name"/>
-            <button type="submit" class="btn btn-success">Submit</button>
+            <button type="submit" class="btn btn-success">Create Bracket</button>
         </form>
     </div>
     

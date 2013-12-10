@@ -1,0 +1,38 @@
+.flag {
+	width: 16px;
+	height: 11px;
+	background:url(../img/flags.png) no-repeat
+}
+
+
+.flag.flag-Argentina {background-position: -16px 0}
+.flag.flag-Australia {background-position: -32px 0}
+.flag.flag-Bosnia-Herzegovina {background-position: -48px 0}
+.flag.flag-Belgium {background-position: -64px 0}
+.flag.flag-Brazil {background-position: -80px 0}
+.flag.flag-Switzerland {background-position: 0 -11px}
+.flag.flag-Côte {background-position: -16px -11px}
+.flag.flag-Chile {background-position: -32px -11px}
+.flag.flag-Cameroon {background-position: -48px -11px}
+.flag.flag-Colombia {background-position: -64px -11px}
+.flag.flag-Germany {background-position: -80px -11px}
+.flag.flag-Algeria {background-position: 0 -22px}
+.flag.flag-Ecuador {background-position: -16px -22px}
+.flag.flag-England {background-position: -32px -22px}
+.flag.flag-Spain {background-position: -48px -22px}
+.flag.flag-France {background-position: -64px -22px}
+.flag.flag-Ghana {background-position: -80px -22px}
+.flag.flag-Greece {background-position: 0 -33px}
+.flag.flag-Honduras {background-position: -16px -33px}
+.flag.flag-Croatia {background-position: -32px -33px}
+.flag.flag-Iran {background-position: -48px -33px}
+.flag.flag-Italy {background-position: -64px -33px}
+.flag.flag-Japan {background-position: -80px -33px}
+.flag.flag-Korea {background-position: 0 -44px}
+.flag.flag-Mexico {background-position: -16px -44px}
+.flag.flag-Nigeria {background-position: -32px -44px}
+.flag.flag-Netherlands {background-position: -48px -44px}
+.flag.flag-Portugal {background-position: -64px -44px}
+.flag.flag-Russia {background-position: -80px -44px}
+.flag.flag-United {background-position: 0 -55px}
+.flag.flag-Uruguay {background-position: -16px -55px}
