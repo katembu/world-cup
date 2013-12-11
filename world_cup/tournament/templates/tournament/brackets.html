@@ -28,7 +28,7 @@
                         <th colspan=2>Group {{ group|group_name }}</th>
                     </tr>
                     {% for country in group %}
-                        <tr class="country {{ country|selected_class:bracket.name }}" data-country="{{ country.id }}">
+                        <tr class="country {{ country|selected_class:bracket }}" data-country="{{ country.id }}">
                             <td>{{ country.position }}</td>
                             <td><img src="{% static "img/blank.png" %}" class="flag flag-{{ country.name }}"></img> {{ country.name }}</td>
                         </tr>

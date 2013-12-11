@@ -35,6 +35,7 @@
                                         <li><a href="{% url "tournament.views.brackets" %}">My Brackets</a></li>
                                     </ul>
                                 </li>
+                                <li {% block groups-nav %}{% endblock %}><a href="{% url "tournament.views.group_create" %}">Groups</a></li>
                                 <li {% block about-nav %}{% endblock %}><a href="{% url "tournament.views.about" %}">About</a></li>
                                 <li {% block contact-nav %}{% endblock %}><a href="{% url "user_management.views.contact" %}">Contact</a></li>
                             </ul>

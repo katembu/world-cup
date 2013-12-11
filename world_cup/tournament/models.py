@@ -47,6 +47,7 @@ class GroupPredictions(models.Model):
         verbose_name = 'Group Prediction'
         verbose_name_plural = 'Group Predictions'
 
+
 class Matches(models.Model):
     home_team = models.ForeignKey(Countries, related_name='home_team', null=True)
     home_score = models.IntegerField(null=True)
@@ -73,3 +74,16 @@ class MatchPredictions(models.Model):
     class Meta:
         verbose_name = 'Match Prediction'
         verbose_name_plural = 'Match Predictions'
+
+
+class CompetitiveGroups(models.Model):
+    creator = models.ForeignKey(User)
+    name = models.CharField(max_length=255)
+    brackets = models.ManyToManyField(Brackets)
+
+    def __unicode__(self):
+        return u'%s' % self.name
+
+    class Meta:
+        verbose_name = 'Competitive Group'
+        verbose_name_plural = 'Competitive Groups'

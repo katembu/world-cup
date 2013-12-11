@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.utils import simplejson
 from django.db.models import Q
 from tournament.models import *
+from tournament.forms import CompetitiveGroupForm
 from tournament.helpers import place_team, update_matches, create_matches
 
 @login_required
@@ -94,3 +95,22 @@ def about(request):
     Basic render of the about page to inform about the World Cup and what this site is about.
     """
     return render_to_response('tournament/about.html', context_instance=RequestContext(request))
+
+
+@login_required
+def group_create(request):
+    if request.method == 'POST':
+        form = CompetitiveGroupForm(request.POST)
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.creator = request.user
+            form.save()
+            return redirect('/')
+        else:
+            form.fields['brackets'].queryset = Brackets.objects.filter(user=request.user)
+            return render_to_response('tournament/groups_create.html', {'form': form, },
+                                      context_instance=RequestContext(request))
+    form = CompetitiveGroupForm()
+    form.fields['brackets'].queryset = Brackets.objects.filter(user=request.user)
+    return render_to_response('tournament/groups_create.html', {'form': form, },
+                              context_instance=RequestContext(request))
