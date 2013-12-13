@@ -8,4 +8,6 @@ urlpatterns = patterns('',
                        url(r'^', include('user_management.urls')),
                        url(r'^tournament/', include('tournament.urls')),
                        url(r'^admin/', include(admin.site.urls)),
+
+                       url(r'^robots\.txt$', lambda r: HttpResponse("User-agent: *\nDisallow: ", mimetype="text/plain"))
                        )
