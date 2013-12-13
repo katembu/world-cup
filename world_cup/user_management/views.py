@@ -46,3 +46,7 @@ def index(request):
 
 def contact(request):
     return render_to_response('contact.html', context_instance=RequestContext(request))
+
+
+def donate(request):
+    return render_to_response('donate.html', context_instance=RequestContext(request))

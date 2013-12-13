@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}Donate{% endblock %}
+
+{% block css %}
+{% endblock %}
+
+{% block content %}
+    <div class="col-md-offset-3 col-md-6">
+        <div class="page-header">
+            <h1>Tip Jar</h1>
+        </div>
+        <div class="text-center">
+            <img src="http://distilleryimage9.ak.instagram.com/6d75e3a02caf11e3ab2122000a9f4dc5_8.jpg" class="img-thumbnail" width="500px"/>
+            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                <input type="hidden" name="cmd" value="_s-xclick">
+                <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+                ">
+                <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+            </form>
+        </div>
+        <p>Joel and I have put in a lot of work to make this site what it is.
+        We do it completely out of a labor of love for the beautiful game.
+        As you can see this site has no ads and is totally self-funded.
+        If you have liked using the application please drop us a small tip in our tip jar.
+        Development of this site runs on Red Bull and Takis and your tips go to further develop this site and make it better and better.</p>
+        <p>Thanks for using the site and for your support.</p>
+        <h3>&lt;3 Eric and Joel</h3>
+    </div>
+    
+{% endblock %}
+
+{% block javascript %}
+{% endblock %}
