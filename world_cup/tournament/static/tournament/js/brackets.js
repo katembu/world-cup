@@ -15,9 +15,9 @@ $(document).ready(function(){
                     var ids = data[0];
                     for(var i = 0; i < ids.length; i++){
                         $("#" + ids[i]).removeClass("text-success");
-                        $("#" + ids[i]).html($("#" + ids[i]).data("default"));
+                        $("#" + ids[i]).html('<div class="label label-default">' + $("#" + ids[i]).data("default") + '</div>');
                     }
-                    row.removeClass("success");
+                    row.removeClass("success").removeClass("bold");
                     unlockTable(table);
                 }
             });
@@ -35,9 +35,9 @@ $(document).ready(function(){
                     var ids = data[0];
                     for(var i = 0; i < ids.length; i++){
                         $("#" + ids[i]).removeClass("text-success");
-                        $("#" + ids[i]).html($("#" + ids[i]).data("default"));
+                        $("#" + ids[i]).html('<div class="label label-default">' + $("#" + ids[i]).data("default") + '</div>');
                     }
-                    row.removeClass("warning");
+                    row.removeClass("warning").removeClass("bold");
                     unlockTable(table);
                 }
             });
@@ -55,9 +55,9 @@ $(document).ready(function(){
                             alert("There was an error and your choice was not saved.");
                         },
                         success: function(data){
-                            $("#" + data[0]).html(data[2]);
+                            $("#" + data[0]).html('<div class="label label-default"> <img src="{% static "img/blank.png" %}" class="flag flag-' + data[2] + '"></img> ' + data[2] + '</div>');
                             $("#" + data[0]).data("country", data[1]);
-                            row.addClass("warning");
+                            row.addClass("warning").addClass("bold");
                             lockTable(table);
                         }
                     });
@@ -72,9 +72,9 @@ $(document).ready(function(){
                             alert("There was an error and your choice was not saved.");
                         },
                         success: function(data){
-                            $("#" + data[0]).html(data[2]);
+                            $("#" + data[0]).html('<div class="label label-default"> <img src="{% static "img/blank.png" %}" class="flag flag-' + data[2] + '"></img> ' + data[2] + '</div>');
                             $("#" + data[0]).data("country", data[1]);
-                            row.addClass("success");
+                            row.addClass("success").addClass("bold");
                             lockTable(table);
                         }
                     });
@@ -96,9 +96,10 @@ $(document).ready(function(){
                     alert("There was an error and your choice was not saved.");
                 },
                 success: function(data){
-                    $("#" + data[0]).html(data[2]);
+                    console.log(data);
+                    $("#" + data[0]).html('<div class="label label-default"> <img src="{% static "img/blank.png" %}" class="flag flag-' + data[2] + '"></img> ' + data[2] + '</div>');
                     $("#" + data[0]).data("country", data[1]);
-                    row.addClass("text-success");
+                    row.children(".label").removeClass("label-default").addClass("label-success");
                     var match = row.attr("id").split("-")[0];
                     var homeAway = row.attr("id").split("-")[1];
                     if (homeAway == "home") {
@@ -107,7 +108,7 @@ $(document).ready(function(){
                     else if (homeAway == "away") {
                         homeAway = "home"
                     }
-                    $("#" + match + "-" + homeAway).removeClass("text-success");
+                    $("#" + match + "-" + homeAway).children(".label").removeClass("label-success").addClass("label-default");
                 }
             });
         }
@@ -121,8 +122,8 @@ function tableLocked(table){
 function lockTable(table) {
     if (table.find("tr").hasClass("success") && table.find("tr").hasClass("warning")) {
         table.find("tr").each(function(){
-            if (!$(this).hasClass("success") || !$(this).hasClass("warning")) {
-                $(this).toggleClass("active");
+            if (!$(this).hasClass("success") && !$(this).hasClass("warning") && !$(this).hasClass("group-header")) {
+                $(this).toggleClass("active").addClass("text-muted");
             }
         });
     }
@@ -130,6 +131,6 @@ function lockTable(table) {
 
 function unlockTable(table) {
     table.find("tr").each(function(){
-        $(this).removeClass("active");
+        $(this).removeClass("active").removeClass("text-muted");
     });
 }
