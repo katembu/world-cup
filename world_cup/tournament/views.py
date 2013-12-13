@@ -43,7 +43,7 @@ def brackets(request, bracket_name=None):
         matches = MatchPredictions.objects.filter(bracket=bracket)
         return render_to_response('tournament/brackets.html',
                                   {'bracket': bracket, 'groups': groups, 'matches': matches,
-                                   'read-only': True, },
+                                   'read_only': True, },
                                   context_instance=RequestContext(request))
     if not bracket_name:
         # List all brackets for user
@@ -59,7 +59,7 @@ def brackets(request, bracket_name=None):
         groups.append(Countries.objects.filter(group=label))
     matches = MatchPredictions.objects.filter(bracket=bracket)
     return render_to_response('tournament/brackets.html',
-                              {'bracket': bracket, 'groups': groups, 'matches': matches, 'read-only': False, },
+                              {'bracket': bracket, 'groups': groups, 'matches': matches, 'read_only': False, },
                               context_instance=RequestContext(request))
 
 
