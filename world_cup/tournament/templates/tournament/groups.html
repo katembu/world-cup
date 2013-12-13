@@ -18,15 +18,15 @@
             <button class="btn btn-success" type="submit">Submit</button>
         </form>
         <h2>My Groups</h2>
-        <ul>
+        <ul class="nav nav-pills nav-stacked bracket-list">
             {% for group in groups %}
-                <li><a href="{% url "tournament.views.groups" group.name %}">{{ group.name }}</a></li>
+                <li><a href="{% url "tournament.views.groups" group.name %}"><span class="fa fa-group"></span> {{ group.name }} <span class="text-muted">({{ group.brackets.all.count }} Bracket{% if group.brackets.all.count > 1 %}s{% endif %})</span></a></li>
             {% endfor %}
         </ul>
         <h2>Public Groups</h2>
-        <ul>
+        <ul class="nav nav-pills nav-stacked bracket-list">
             {% for group in public_groups %}
-                <li><a href="{% url "tournament.views.groups" group.name %}">{{ group.name }}</a></li>
+                <li><a href="{% url "tournament.views.groups" group.name %}"><span class="fa fa-group"></span> {{ group.name }} <span class="text-muted">({{ group.brackets.all.count }} Bracket{% if group.brackets.all.count > 1 %}s{% endif %})</span></a></li>
             {% endfor %}
         </ul>
     </div>

@@ -1,0 +1,14 @@
+.bracket-list {
+    font-size: medium;
+    font-weight: bold;
+}
+
+.gold-color {
+    color: #FFC631;
+}
+
+.errorlist {
+    color: #d9534f;
+    font-weight: bold;
+    list-style-type: none;
+}

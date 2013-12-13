@@ -3,6 +3,7 @@
 {% block title %}Your Brackets{% endblock %}
 
 {% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'tournament/css/brackets_index.css' %}"/>
 {% endblock %}
 
 {% block content %}
@@ -10,9 +11,9 @@
         <div class="page-header">
             <h1>My Brackets</h1>
         </div>
-        <ul>
+        <ul class="nav nav-pills nav-stacked bracket-list">
             {% for bracket in brackets %}
-                <li><a href="{% url "tournament.views.brackets" %}{{ bracket.name }}/">{{ bracket.name }}</a></li>
+                <li><a href="{% url "tournament.views.brackets" %}{{ bracket.name }}/"><span class="fa fa-trophy gold-color"></span> {{ bracket.name }}<span class="text-muted small">{% for group in bracket.competitivegroups_set.all %} ({{ group.name }}){% endfor %}</span></a></li>
             {% endfor %}
         </ul>
     </div>
