@@ -14,10 +14,23 @@
         </div>
         <form method="POST">
             {% csrf_token %}
-            {{ form.as_table }}
+            {{ form.as_table }}<br/>
             <button class="btn btn-success" type="submit">Submit</button>
         </form>
+        <h2>My Groups</h2>
+        <ul>
+            {% for group in groups %}
+                <li><a href="{% url "tournament.views.groups" group.name %}">{{ group.name }}</a></li>
+            {% endfor %}
+        </ul>
+        <h2>Public Groups</h2>
+        <ul>
+            {% for group in public_groups %}
+                <li><a href="{% url "tournament.views.groups" group.name %}">{{ group.name }}</a></li>
+            {% endfor %}
+        </ul>
     </div>
+    
     
 {% endblock %}
 

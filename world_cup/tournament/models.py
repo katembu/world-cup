@@ -78,7 +78,8 @@ class MatchPredictions(models.Model):
 
 class CompetitiveGroups(models.Model):
     creator = models.ForeignKey(User)
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
+    password = models.CharField(max_length=255, blank=True)
     brackets = models.ManyToManyField(Brackets)
 
     def __unicode__(self):
@@ -87,3 +88,16 @@ class CompetitiveGroups(models.Model):
     class Meta:
         verbose_name = 'Competitive Group'
         verbose_name_plural = 'Competitive Groups'
+
+
+class GroupPermissions(models.Model):
+    user = models.ForeignKey(User)
+    group = models.ForeignKey(CompetitiveGroups)
+    allowed = models.BooleanField(default=False)
+
+    def __unicode__(self):
+        return u'%s - %s' % (self.requester, self.group)
+
+    class Meta:
+        verbose_name = 'Group Permission'
+        verbose_name_plural = 'Group Permissions'

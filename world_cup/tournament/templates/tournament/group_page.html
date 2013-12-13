@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}{{ group.name }}{% endblock %}
+
+{% block groups-nav %}class="active"{% endblock %}
+
+{% block css %}
+{% endblock %}
+
+{% block content %}
+    <div class="col-md-offset-3 col-md-6">
+        <div class="page-header">
+            <h1>{{ group.name }}</h1>{% if group.password %}Private{% endif %}
+        </div>
+        {% if not user_in_group %}
+            <div class="row">
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#joinModal">Join Group</button>
+            </div>
+        {% endif %}
+        <h2>Brackets</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Bracket</th>
+                    <th>Points</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for bracket in group.brackets.all %}
+                    <tr>
+                        <td>{% if bracket.user.first_name %}{{ bracket.user.get_full_name }}{% else %}{{ bracket.user.username }}{% endif %}</td>
+                        <td><a href="{% url "tournament.views.brackets" %}?user={{ bracket.user.username }}&bracket-name={{ bracket.name }}">{{ bracket.name }}</a></td>
+                        <td>-</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- Join Modal -->
+    <div class="modal fade" id="joinModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="joinForm" method="POST">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="joinLabel">Choose Bracket</h4>
+                    </div>
+                    <div class="modal-body">
+                        {% csrf_token %}
+                        {{ bracket_form.as_table }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">Save</button>
+                    </div>
+                </form>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+{% endblock %}
+
+{% block javascript %}
+{% endblock %}

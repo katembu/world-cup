@@ -35,7 +35,7 @@
                                         <li><a href="{% url "tournament.views.brackets" %}">My Brackets</a></li>
                                     </ul>
                                 </li>
-                                <li {% block groups-nav %}{% endblock %}><a href="{% url "tournament.views.group_create" %}">Groups</a></li>
+                                <li {% block groups-nav %}{% endblock %}><a href="{% url "tournament.views.groups" %}">Groups</a></li>
                                 <li {% block about-nav %}{% endblock %}><a href="{% url "tournament.views.about" %}">About</a></li>
                                 <li {% block contact-nav %}{% endblock %}><a href="{% url "user_management.views.contact" %}">Contact</a></li>
                             </ul>
@@ -64,7 +64,7 @@
         {% block content %}{% endblock %}
         <div id="footer" class="row">
             <div class="col-md-offset-3 col-md-6 text-center">
-                <small>Copyright © {% now "Y" %} Eric Saupe | <a href="https://github.com/ericsaupe/world-cup/blob/master/LICENSE">Licensed Under the MIT License</a> | <a href="mailto:ericsaupe@gmail.com">ericsaupe@gmail.com</a> | <a href="http://ericsaupe.com">ericsaupe.com</a> | <a href="https://github.com/ericsaupe/world-cup/">GitHub Project Page</a></small>
+                <small>Copyright © {% now "Y" %} Eric Saupe | <a href="https://github.com/ericsaupe/world-cup/blob/master/LICENSE">MIT License</a> | <a href="mailto:ericsaupe@gmail.com">ericsaupe@gmail.com</a> | <a href="http://ericsaupe.com">ericsaupe.com</a> | <a href="https://github.com/ericsaupe/world-cup/">GitHub Project Page</a></small>
             </div>
         </div>
     </body>

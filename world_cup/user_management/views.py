@@ -11,15 +11,17 @@ def login_user(request):
     logout(request)
     username = password = ''
     user = None
+    next = request.GET['next'] if 'next' in request.GET else None
     if request.POST:
         username = request.POST['username']
         password = request.POST['password']
+        next = request.POST['next']
         user = authenticate(username=username, password=password)
     if user is not None:
         if user.is_active:
             login(request, user)
-        return HttpResponseRedirect('/')
-    return render_to_response('login.html', context_instance=RequestContext(request))
+        return HttpResponseRedirect('%s' % next if next != 'None' else '/')
+    return render_to_response('login.html', {'next': next, }, context_instance=RequestContext(request))
 
 
 def logout_user(request):
