@@ -2,15 +2,27 @@
 {% load staticfiles %}
 {% block title %}Your Brackets{% endblock %}
 
+{% block brackets-nav %}class="active"{% endblock %}
+
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'tournament/css/brackets_index.css' %}"/>
 {% endblock %}
 
 {% block content %}
-    <div class="col-md-offset-3 col-md-6">
+    <div class="col-md-offset-1 col-md-2 well">
         <div class="page-header">
-            <h1>My Brackets</h1>
+            <h1>New Bracket</h1>
         </div>
+        <form method="POST">
+            {% csrf_token %}
+            <label for="name">Bracket Name</label>
+            <input id="name" type="text" class="form-control" name="name"/>
+            <br />
+            <button type="submit" class="btn btn-success">Create Bracket</button>
+        </form>
+    </div>
+    <div class="col-md-9">
+        <h2>My Brackets</h2>
         <ul class="nav nav-pills nav-stacked bracket-list">
             {% for bracket in brackets %}
                 <li><a href="{% url "tournament.views.brackets" %}{{ bracket.name }}/"><span class="fa fa-trophy gold-color"></span> {{ bracket.name }}<span class="text-muted small">{% for group in bracket.competitivegroups_set.all %} ({{ group.name }}){% endfor %}</span></a></li>

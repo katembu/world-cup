@@ -22,7 +22,7 @@
               <h1>Make Your Predictions</h1>
               <p>How well can you predict the 2014 World Cup?  Make your guesses and compete with others to see who knows best.</p>
               {% if user.is_authenticated %}
-                  <p><a class="btn btn-large btn-primary" href="{% url "tournament.views.index" %}">Create Bracket</a></p>
+                  <p><a class="btn btn-large btn-primary" href="{% url "tournament.views.brackets" %}">Create Bracket</a></p>
               {% else %}
                   <p><a class="btn btn-large btn-primary" href="{% url "user_management.views.create_user" %}">Sign up today</a></p>
               {% endif %}

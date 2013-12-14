@@ -25,8 +25,7 @@ def index(request):
     return render_to_response('tournament/index.html', context_instance=RequestContext(request))
 
 
-@login_required
-def brackets(request, bracket_name=None):
+def brackets(request):
     """
     Renders the bracket for the user.
     """
@@ -45,11 +44,22 @@ def brackets(request, bracket_name=None):
                                   {'bracket': bracket, 'groups': groups, 'matches': matches,
                                    'read_only': True, },
                                   context_instance=RequestContext(request))
-    if not bracket_name:
+    if request.user.is_authenticated():
         # List all brackets for user
         brackets = Brackets.objects.filter(user=request.user)
+        if request.method == "POST":
+            try:
+                bracket = Brackets.objects.get(user=request.user, name=request.POST['name'])
+            except:
+                create_matches(request.user, request.POST['name'])
+                return redirect('/tournament/brackets/%s/' % request.POST['name'])
         return render_to_response('tournament/brackets_list.html', {'brackets': brackets, },
                                   context_instance=RequestContext(request))
+    return redirect('/accounts/login/?next=/tournament/brackets/')
+
+
+@login_required
+def render_bracket(request, bracket_name):
     # Render user bracket
     bracket = Brackets.objects.get(user=request.user, name=bracket_name)
     group_labels = Countries.objects.values('group').distinct()
