@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 
 
 class Countries(models.Model):
@@ -17,7 +17,7 @@ class Countries(models.Model):
 
 
 class Brackets(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     name = models.CharField(max_length=255)
 
     def save(self, *args, **kwargs):
@@ -77,7 +77,7 @@ class MatchPredictions(models.Model):
 
 
 class CompetitiveGroups(models.Model):
-    creator = models.ForeignKey(User)
+    creator = models.ForeignKey(settings.AUTH_USER_MODEL)
     name = models.CharField(max_length=255, unique=True)
     password = models.CharField(max_length=255, blank=True)
     brackets = models.ManyToManyField(Brackets)
@@ -91,7 +91,7 @@ class CompetitiveGroups(models.Model):
 
 
 class GroupPermissions(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
     group = models.ForeignKey(CompetitiveGroups)
     allowed = models.BooleanField(default=False)
 

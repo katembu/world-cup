@@ -30,5 +30,8 @@
                 </div>
             {% endfor %}
         {% endif %}
+        <div class="pull-right">
+            <a href="{% url "user_management.views.create_user" %}">Create Account</a>
+        </div>
     </div>
 {% endblock %}

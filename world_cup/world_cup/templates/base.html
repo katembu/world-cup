@@ -33,6 +33,7 @@
                                 <li {% block groups-nav %}{% endblock %}><a href="{% url "tournament.views.groups" %}">Groups</a></li>
                                 <li {% block about-nav %}{% endblock %}><a href="{% url "tournament.views.about" %}">About</a></li>
                                 <li {% block contact-nav %}{% endblock %}><a href="{% url "user_management.views.contact" %}">Contact</a></li>
+                                <li><a href="/blog/" target="_blank">Blog</a></li>
                             </ul>
                             <ul class="nav navbar-nav navbar-right">
                                 {% if not user.is_authenticated %}

@@ -8,7 +8,15 @@
 {% endblock %}
 
 {% block content %}
-    <div class="col-md-offset-3 col-md-6">
+    <div class="col-md-offset-1 col-md-2 well">
+        <ul class="nav nav-pills nav-stacked">
+                <li><a href="#"><i class="fa fa-plus-circle text-success"></i> Invite Friends</a></li>
+                <li><a href="#"><i class="fa fa-sitemap text-muted"></i> Change Bracket</a></li>
+                <li><a href="#"><i class="fa fa-envelope"></i> Message Group</a></li>
+                <li><a href="#"><i class="fa fa-ban text-danger"></i> Leave Group</a></li>
+        </ul>
+    </div>
+    <div class="col-md-6">
         <div class="page-header">
             <h1>{{ group.name }}</h1>{% if group.password %}Private{% endif %}
         </div>
