@@ -22,4 +22,3 @@ class BracketSelectForm(forms.Form):
 
 class GroupLoginForm(forms.Form):
     password = forms.CharField(max_length=255, widget=forms.TextInput(attrs=({'class': 'form-control', })))
-

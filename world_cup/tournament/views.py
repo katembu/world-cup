@@ -3,11 +3,16 @@ from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+from django.core.mail import EmailMessage
 from django.utils import simplejson
 from django.db.models import Q
 from tournament.models import *
 from tournament.forms import CompetitiveGroupForm, BracketSelectForm, GroupLoginForm
 from tournament.helpers import place_team, update_matches, create_matches
+from user_management.models import CustomUser as User
+from user_management.models import UserMessages
+from user_management.forms import MessageForm
+import json
 
 
 @login_required
@@ -148,7 +153,9 @@ def groups(request, group_name=None):
         # Render page with bracket selection, may not be used if user already in group
         bracket_form = BracketSelectForm()
         bracket_form.fields['brackets'].queryset = Brackets.objects.filter(user=request.user)
+        message_form = MessageForm()
         return render_to_response('tournament/group_page.html', {'group': group, 'bracket_form': bracket_form,
+                                                                 'message_form': message_form,
                                                                  'user_in_group': user_in_group, },
                                   context_instance=RequestContext(request))
     else:
@@ -195,3 +202,22 @@ def group_login(request, group_name):
                 return redirect('/tournament/groups/%s/' % group.name)
     return render_to_response('tournament/group_login.html', {'form': form, 'group': group, },
                               context_instance=RequestContext(request))
+
+
+@login_required
+def message_group(request, group_name):
+    if request.is_ajax():
+        try:
+            form = MessageForm(request.POST)
+            if form.is_valid():
+                group = CompetitiveGroups.objects.get(name=group_name, brackets__user=request.user)
+                # Add message to all members of group
+                for bracket in group.brackets.all():
+                    if bracket.user != request.user:
+                        message = UserMessages(to=bracket.user, sent_by=request.user, subject=form.cleaned_data['subject'],
+                                               message=form.cleaned_data['body'], group=group)
+                        message.save()
+                return HttpResponse(json.dumps('Success'), content_type='application/json')
+            return HttpResponse(json.dumps('Nope'), content_type='application/json')
+        except:
+            return HttpResponse(json.dumps('Nope'), content_type='application/json')

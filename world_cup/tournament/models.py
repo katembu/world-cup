@@ -82,6 +82,12 @@ class CompetitiveGroups(models.Model):
     password = models.CharField(max_length=255, blank=True)
     brackets = models.ManyToManyField(Brackets)
 
+    def get_group_emails(self):
+        group_emails = []
+        for bracket in self.brackets.all():
+            group_emails.append(bracket.user.email)
+        return group_emails
+
     def __unicode__(self):
         return u'%s' % self.name
 

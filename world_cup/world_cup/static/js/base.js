@@ -1,3 +1,52 @@
+$(document).ready(function(){
+     $(".reply, .reply-all").on("click", function(e){
+          e.stopPropagation();
+          $.ajax({
+               type: "GET",
+               url: "/message/form/",
+               data: {"message": $(this).data("message")},
+               error: function(){
+                    alert("There was an error and we could not load the message.");
+               },
+               success: function(data){
+                    $("#messageModal").html(data);
+                    $("#messageModal").modal("toggle");
+               }
+          })
+     });
+     
+     $(".new-message").on("click", function(e){
+          e.stopPropagation();
+          $.ajax({
+               type: "GET",
+               url: "/message/form/",
+               data: {},
+               error: function(){
+                    alert("There was an error and we could not load the message.");
+               },
+               success: function(data){
+                    $("#messageModal").html(data);
+                    $("#messageModal").modal("toggle");
+               }
+          })
+     });
+     
+     $(".delete-message").on("click", function(e){
+          e.stopPropagation();
+          $.ajax({
+               type: "POST",
+               url: "/message/delete/",
+               data: {"message": $(this).data("message")},
+               error: function(){
+                    alert("There was an error and we could not load the message.");
+               },
+               success: function(data){
+                    location.reload();
+               }
+          })
+     });
+});
+
 $.ajaxSetup({ 
      beforeSend: function(xhr, settings) {
          function getCookie(name) {

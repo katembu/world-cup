@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth import authenticate
-from django.contrib.auth.models import User
+from user_management.models import CustomUser as User
+from user_management.models import UserMessages
+from tournament.models import CompetitiveGroups
 
 
 class CreateUserForm(forms.Form):
@@ -43,3 +45,36 @@ class CreateUserForm(forms.Form):
         new_user.save()
         new_user = authenticate(username=self.cleaned_data['username'], password=self.cleaned_data['password1'])
         return new_user
+
+
+class MessageForm(forms.Form):
+    to = forms.CharField(required=False, max_length=255, widget=forms.TextInput(attrs={'class': 'form-control', }))
+    subject = forms.CharField(max_length=255, widget=forms.TextInput(attrs=({'class': 'form-control', })))
+    body = forms.CharField(widget=forms.Textarea(attrs=({'class': 'form-control'})))
+    group = forms.CharField(required=False, max_length=255, widget=forms.TextInput(attrs={'class': 'form-control',
+                                                                                          'readonly': 'readonly'}))
+    message = forms.CharField(required=False, widget=forms.HiddenInput())
+
+    def clean_to(self):
+        if self.cleaned_data['to']:
+            try:
+                return User.objects.get(username=self.cleaned_data['to'])
+            except:
+                raise forms.ValidationError("User not found.")
+        return None
+
+    def clean_message(self):
+        if self.cleaned_data['message']:
+            try:
+                return UserMessages.objects.get(id=self.cleaned_data['message'])
+            except:
+                raise forms.ValidationError("Message does not exist.")
+        return None
+
+    def clean_group(self):
+        if self.cleaned_data['group']:
+            try:
+                return CompetitiveGroups.objects.get(name=self.cleaned_data['group'])
+            except:
+                raise forms.ValidationError("Group does not exist.")
+        return None

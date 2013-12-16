@@ -111,6 +111,11 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'user_management.context_processors.extra_context',
+)
+
 ROOT_URLCONF = 'world_cup.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
@@ -163,3 +168,9 @@ LOGGING = {
         },
     }
 }
+
+EMAIL_HOST = 'smtp.webfaction.com'
+EMAIL_HOST_USER = 'pandacraze_dev'
+EMAIL_HOST_PASSWORD = 'pandaMail'
+DEFAULT_FROM_EMAIL = 'info@ericsaupe.com'
+SERVER_EMAIL = 'info@ericsaupe.com'

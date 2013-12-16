@@ -15,7 +15,7 @@
 {% block content %}
     <div class="row">
         <div class="page-header col-md-offset-2">
-            <h1 id="bracket-name">{% if read_only %}{{ user.get_full_name }}'s Bracket: {% endif %}{{ bracket.name }}</h1>
+            <h1 id="bracket-name">{% if read_only %}{{ bracket.user.get_full_name }}'s Bracket: {% endif %}{{ bracket.name }}</h1>
         </div>
     </div>
     <!--Groups-->
@@ -616,6 +616,6 @@
 
 {% block javascript %}
     {% if not read_only %}
-    <script src="{% static "tournament/js/brackets.js" %}"></script>
+        <script src="{% static "tournament/js/brackets.js" %}"></script>
     {% endif %}
 {% endblock %}
