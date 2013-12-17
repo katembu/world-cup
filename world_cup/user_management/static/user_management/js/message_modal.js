@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    localStorage.clear();
     $("#messageForm").on("submit", function(e){
         e.preventDefault();
         $.ajax({
@@ -20,4 +21,13 @@ $(document).ready(function(){
                },
           });
      });
+    
+    $('#id_to').typeahead({                              
+        name: 'user-list',                                                        
+        prefetch: '/userlist/',                                             
+        template: [                                                                 
+            '<p><img src="http://www.regentsprep.org/regents/math/geometry/GG2/soccerball.jpg" width="25"/> {{value}}</p>',
+        ].join(''),                                                                 
+        engine: Hogan                                                               
+    });
 });

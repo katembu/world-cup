@@ -9,6 +9,15 @@
 {% block content %}
     {% if message %}
         <div class="col-md-offset-3 col-md-6">
+            {% for message in message|get_reply_messages %}
+                <div class="well">
+                    <h3>{{ message.subject }}</h3>
+                    <small class="text-muted">{{ message.sent_by }} {{ message.date_sent }}</small>
+                    <p>
+                        {{ message.message }}
+                    </p>
+                </div>
+            {% endfor %}
             <div class="well">
                 <div class="row">
                     <button type="button" class="btn btn-primary reply" data-message="{{ message.id }}"><i class="fa fa-mail-reply"></i></button>
@@ -47,7 +56,7 @@
                         <tr>
                             <td>{{ message.sent_by }}</td>
                             <td>{{ message.subject }}</td>
-                            <td>{{ message.message|cut:"150" }}</td>
+                            <td><a href="{% url "user_management.views.messages" %}?id={{ message.id }}">{{ message.message|cut:"150" }}</a></td>
                             <td>{{ message.date_sent }}</td>
                             <td>
                                 <button type="button" class="btn btn-xs btn-primary reply" data-message="{{ message.id }}"><i class="fa fa-mail-reply"></i></button>

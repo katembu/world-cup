@@ -48,7 +48,9 @@ class CreateUserForm(forms.Form):
 
 
 class MessageForm(forms.Form):
-    to = forms.CharField(required=False, max_length=255, widget=forms.TextInput(attrs={'class': 'form-control', }))
+    to = forms.CharField(required=False, max_length=255,
+                         widget=forms.TextInput(attrs={'class': 'form-control typeahead',
+                                                       'autocomplete': 'off'}))
     subject = forms.CharField(max_length=255, widget=forms.TextInput(attrs=({'class': 'form-control', })))
     body = forms.CharField(widget=forms.Textarea(attrs=({'class': 'form-control'})))
     group = forms.CharField(required=False, max_length=255, widget=forms.TextInput(attrs={'class': 'form-control',

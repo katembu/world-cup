@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from user_management.forms import *
 from user_management.models import UserMessages
+from user_management.models import CustomUser as User
 from tournament.helpers import create_matches
 import json
 
@@ -66,7 +67,7 @@ def messages(request):
 
 def message_form(request):
     if 'message' in request.GET:
-        message = UserMessages.objects.get(id=request.GET['message'])
+        message = UserMessages.objects.get(id=request.GET['message'], to=request.user)
         if message.group:
             message_form = MessageForm(initial={'subject': 'RE: %s' % message.subject, 'group': message.group.name,
                                                 'message': message.id, })
@@ -84,7 +85,6 @@ def message_form(request):
 
 @login_required
 def message_send(request):
-    import pdb; pdb.set_trace()
     if request.is_ajax():
         try:
             form = MessageForm(request.POST)
@@ -117,3 +117,14 @@ def message_delete(request):
         message = UserMessages.objects.get(id=request.POST['message'], to=request.user)
         message.delete()
         return HttpResponse(json.dumps('Success'), content_type='application/json')
+
+
+@login_required
+def user_list(request):
+    output = []
+    users = User.objects.all()
+    for user in users:
+        output.append({'value': '%s' % user.username,
+                       'tokens': user.username.split(),
+                       'image': user.image.url if user.image else ''})
+    return HttpResponse(json.dumps(output), content_type='application/json')
