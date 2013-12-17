@@ -5,7 +5,7 @@
         <form id="messageForm" method="POST">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="messageLabel">Send Message to {% if message.group %}{{ message.group.name }}{% else %}{{ message.sent_by }}{% endif %}</h4>
+                <h4 class="modal-title" id="messageLabel">Send Message to {% if message_form.group.value %}{{ message_form.group.value }}{% else %}{{ message.sent_by }}{% endif %}</h4>
             </div>
             <div class="modal-body">
                 {% csrf_token %}

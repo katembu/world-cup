@@ -4,7 +4,7 @@ $(document).ready(function(){
           $.ajax({
                type: "GET",
                url: "/message/form/",
-               data: {"message": $(this).data("message")},
+               data: {"group": $(this).data("group")},
                error: function(){
                     alert("There was an error and we could not load the message.");
                },

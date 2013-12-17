@@ -10,10 +10,10 @@
 {% block content %}
     <div class="col-md-offset-1 col-md-2 well">
         <ul class="nav nav-pills nav-stacked">
-                <li><a href="#"><i class="fa fa-plus-circle text-success"></i> Invite Friends</a></li>
-                <li><a href="#"><i class="fa fa-sitemap text-muted"></i> Change Bracket</a></li>
-                <li><a href="#" data-toggle="modal" data-target="#messageModal"><i class="fa fa-envelope"></i> Message Group</a></li>
-                <li><a href="#"><i class="fa fa-ban text-danger"></i> Leave Group</a></li>
+                <li><a href="#" class="text-muted"><i class="fa fa-plus-circle"></i> Invite Friends</a></li>
+                <li><a href="#" class="text-muted"><i class="fa fa-sitemap text-muted"></i> Change Bracket</a></li>
+                <li><a href="#" class="reply-all" data-group="{{ group.id }}"><i class="fa fa-envelope"></i> Message Group</a></li>
+                <li><a href="#" class="text-muted"><i class="fa fa-ban"></i> Leave Group</a></li>
         </ul>
     </div>
     <div class="col-md-6">
@@ -62,28 +62,6 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-success">Save</button>
-                    </div>
-                </form>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-    
-    <!-- Message Modal -->
-    <div class="modal fade" id="messageModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form id="messageForm" method="POST">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="messageLabel">Send Group Message</h4>
-                    </div>
-                    <div class="modal-body">
-                        {% csrf_token %}
-                        {{ message_form.as_table }}
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success">Send</button>
                     </div>
                 </form>
             </div><!-- /.modal-content -->

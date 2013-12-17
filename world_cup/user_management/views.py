@@ -55,6 +55,7 @@ def donate(request):
     return render_to_response('donate.html', context_instance=RequestContext(request))
 
 
+@login_required
 def messages(request):
     if 'id' in request.GET:
         message = get_object_or_404(UserMessages, id=request.GET['id'], to=request.user)
@@ -65,8 +66,12 @@ def messages(request):
     return render_to_response('user_management/messages.html', context_instance=RequestContext(request))
 
 
+@login_required
 def message_form(request):
-    if 'message' in request.GET:
+    if 'group' in request.GET:
+        group = CompetitiveGroups.objects.get(id=request.GET['group'])
+        message_form = MessageForm(initial={'group': group.name, })
+    elif 'message' in request.GET:
         message = UserMessages.objects.get(id=request.GET['message'], to=request.user)
         if message.group:
             message_form = MessageForm(initial={'subject': 'RE: %s' % message.subject, 'group': message.group.name,
@@ -77,7 +82,8 @@ def message_form(request):
         return render_to_response('user_management/message_modal.html',
                                   {'message': message, 'message_form': message_form, },
                                   context_instance=RequestContext(request))
-    message_form = MessageForm()
+    else:
+        message_form = MessageForm()
     return render_to_response('user_management/message_modal.html',
                               {'message_form': message_form, },
                               context_instance=RequestContext(request))
