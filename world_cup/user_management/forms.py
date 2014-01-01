@@ -47,6 +47,32 @@ class CreateUserForm(forms.Form):
         return new_user
 
 
+class UserProfileForm(forms.ModelForm):
+    first_name = forms.CharField(label='First Name', widget=forms.TextInput(attrs={'class': 'form-control'}))
+    last_name = forms.CharField(label='Last Name', widget=forms.TextInput(attrs={'class': 'form-control'}))
+    password = forms.CharField(required=False, label='Password', widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    password2 = forms.CharField(required=False, label='Verify Password', widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    email = forms.EmailField(label='Email', widget=forms.TextInput(attrs={'class': 'form-control'}))
+    image = forms.ImageField(required=False, label='Profile Picture')
+    language = forms.ChoiceField(choices=[('English', 'English'), ])
+    newsletter = forms.BooleanField(required=False, )
+    message_notifications = forms.BooleanField(required=False, label='Receive Email when a user sends you message')
+    searchable = forms.BooleanField(required=False, label='Searchable by Other Users')
+    show_full_name = forms.BooleanField(required=False, label='Show Full Name to Others')
+
+    def clean(self):
+        if 'password' in self.cleaned_data and 'password2' in self.cleaned_data:
+            if self.cleaned_data['password'] != self.cleaned_data['password2']:
+                raise forms.ValidationError("Passwords don't match.")
+
+        return self.cleaned_data
+
+    class Meta:
+        model = User
+        exclude = ['username', 'is_superuser', 'last_login', 'groups', 'user_permissions', 'is_staff', 'is_active',
+                   'date_joined', ]
+
+
 class MessageForm(forms.Form):
     to = forms.CharField(required=False, max_length=255,
                          widget=forms.TextInput(attrs={'class': 'form-control typeahead',

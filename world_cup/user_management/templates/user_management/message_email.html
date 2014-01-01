@@ -1,0 +1,23 @@
+<html>
+    <body>
+        <table width="700" padding="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td>
+                    <h1>{{ header|safe }}</h1>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    {{ content|safe }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div style="font-size:10px; margin-top:15px;">
+                        You've received this message because you are subscribed to receive notifications.  You can <a href="http://soccer.ericsaupe.com/unsubscribe?user={{ user.username }}">unsubscribe</a> at any time.
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

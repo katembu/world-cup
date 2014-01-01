@@ -202,22 +202,3 @@ def group_login(request, group_name):
                 return redirect('/tournament/groups/%s/' % group.name)
     return render_to_response('tournament/group_login.html', {'form': form, 'group': group, },
                               context_instance=RequestContext(request))
-
-
-@login_required
-def message_group(request, group_name):
-    if request.is_ajax():
-        try:
-            form = MessageForm(request.POST)
-            if form.is_valid():
-                group = CompetitiveGroups.objects.get(name=group_name, brackets__user=request.user)
-                # Add message to all members of group
-                for bracket in group.brackets.all():
-                    if bracket.user != request.user:
-                        message = UserMessages(to=bracket.user, sent_by=request.user, subject=form.cleaned_data['subject'],
-                                               message=form.cleaned_data['body'], group=group)
-                        message.save()
-                return HttpResponse(json.dumps('Success'), content_type='application/json')
-            return HttpResponse(json.dumps('Nope'), content_type='application/json')
-        except:
-            return HttpResponse(json.dumps('Nope'), content_type='application/json')

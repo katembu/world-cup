@@ -52,21 +52,29 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for message in user|get_messages %}
-                        <tr>
-                            <td>{{ message.sent_by }}</td>
-                            <td>{{ message.subject }}</td>
-                            <td><a href="{% url "user_management.views.messages" %}?id={{ message.id }}">{{ message.message|cut:"150" }}</a></td>
-                            <td>{{ message.date_sent }}</td>
-                            <td>
-                                <button type="button" class="btn btn-xs btn-primary reply" data-message="{{ message.id }}"><i class="fa fa-mail-reply"></i></button>
-                                {% if message.group %}
-                                    <button type="button" class="btn btn-xs btn-primary reply-all" data-message="{{ message.id }}"><i class="fa fa-mail-reply-all"></i></button>
-                                {% endif %}
-                                <button type="button" class="btn btn-xs btn-danger delete-message" data-message="{{ message.id }}"><i class="fa fa-trash-o"></i></button>
-                            </td>
-                        </tr>
-                    {% endfor %}
+                    {% with user|get_messages as messages %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <tr>
+                                    <td>{{ message.sent_by }}</td>
+                                    <td>{{ message.subject }}</td>
+                                    <td><a href="{% url "user_management.views.messages" %}?id={{ message.id }}">{{ message.message|cut:"150" }}</a></td>
+                                    <td>{{ message.date_sent }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-xs btn-primary reply" data-message="{{ message.id }}"><i class="fa fa-mail-reply"></i></button>
+                                        {% if message.group %}
+                                            <button type="button" class="btn btn-xs btn-primary reply-all" data-message="{{ message.id }}"><i class="fa fa-mail-reply-all"></i></button>
+                                        {% endif %}
+                                        <button type="button" class="btn btn-xs btn-danger delete-message" data-message="{{ message.id }}"><i class="fa fa-trash-o"></i></button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan=6><div class="text-center"><h4>No messages.</h4></div></td>
+                            </tr>
+                        {% endif %}
+                    {% endwith %}
                 </tbody>
             </table>
         </div>

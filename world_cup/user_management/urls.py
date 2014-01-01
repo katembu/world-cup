@@ -12,4 +12,6 @@ urlpatterns = patterns('user_management.views',
                        url(r'^message/send/$', 'message_send'),
                        url(r'^message/delete/$', 'message_delete'),
                        url(r'^userlist/$', 'user_list'),
+                       url(r'^profile/$', 'user_profile'),
+                       url(r'^unsubscribe/$', 'unsubscribe'),
                        )

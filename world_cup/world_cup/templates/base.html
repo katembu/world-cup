@@ -73,6 +73,7 @@
                                     <li class="dropdown">
                                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Hey there, {% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %}</a>
                                         <ul class="dropdown-menu">
+                                            <li><a href="{% url "user_management.views.user_profile" %}">Edit Profile</a></li>
                                             <li><a href="{% url "user_management.views.logout_user" %}">Logout</a></li>
                                         </ul>
                                     </li>

@@ -1,5 +1,6 @@
+from django.conf import settings
 from django.http import HttpResponse
-from django.conf.urls import patterns, include, url
+from django.conf.urls import patterns, include, url, static
 
 from django.contrib import admin
 admin.autodiscover()
@@ -12,3 +13,6 @@ urlpatterns = patterns('',
 
                        url(r'^robots\.txt$', lambda r: HttpResponse("User-agent: *\nDisallow: ", mimetype="text/plain"))
                        )
+
+if settings.DEBUG:
+    urlpatterns += static.static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
