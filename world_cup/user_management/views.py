@@ -20,16 +20,17 @@ def login_user(request):
     username = password = ''
     user = None
     next = request.GET['next'] if 'next' in request.GET else None
-    if request.POST:
+    if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
         next = request.POST['next']
         user = authenticate(username=username, password=password)
-    if user is not None:
-        if user.is_active:
-            login(request, user)
-        return HttpResponseRedirect('%s' % next if next != 'None' else '/')
-    return render_to_response('login.html', {'next': next, }, context_instance=RequestContext(request))
+        if user:
+            if user.is_active:
+                login(request, user)
+            return HttpResponseRedirect('%s' % next if next != 'None' else '/')
+        return render_to_response('login.html', {'next': next, 'error': True}, context_instance=RequestContext(request))
+    return render_to_response('login.html', {'next': next, 'error': False}, context_instance=RequestContext(request))
 
 
 def logout_user(request):
@@ -178,10 +179,11 @@ def user_profile(request):
     if request.method == 'POST':
         profile_form = UserProfileForm(request.POST, request.FILES, instance=request.user)
         if profile_form.is_valid():
-            password = profile_form.cleaned_data['password']
+            password = profile_form.cleaned_data['password1']
+            if password:
+                request.user.set_password(password)
+                request.user.save()
             profile_form.save()
-            request.user.set_password(password)
-            request.user.save()
         else:
             return render_to_response('user_management/profile.html', {'form': profile_form, },
                                       context_instance=RequestContext(request))

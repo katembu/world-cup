@@ -3,6 +3,11 @@
 
 {% block content %}
     <div class="well well-lg col-md-offset-5 col-md-2">
+        {% if error %}
+            <div class="well text-danger">
+                Please enter a correct username and password.
+            </div>
+        {% endif %}
         <form id="loginForm" method="POST">
             {% csrf_token %}
             <div class="form-group">

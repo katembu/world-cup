@@ -34,7 +34,8 @@ class CustomUser(AbstractUser):
         self.image.save('%s.%s' % (os.path.splitext(suf.name)[0], image_type), suf, save=False)
 
     def save(self, **kwargs):
-        self.resize_image()
+        if self.image and not (self.image.width == 128 or self.image.height == 128):
+            self.resize_image()
         super(CustomUser, self).save()
 
 
