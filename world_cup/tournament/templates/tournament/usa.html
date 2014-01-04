@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}USA{% endblock %}
+
+{% block css %}
+{% endblock %}
+
+{% block content %}
+    <div class="col-md-offset-3 col-md-6">
+        <div class="page-header">
+            <h1>United States of America</h1>
+        </div>
+        <h3>World Cup History</h3>
+        <p>
+            The United States men's national soccer team, often referred to as the USMNT, represents the United States in international association football (soccer).
+            It is controlled by the United States Soccer Federation and competes in CONCACAF (the Confederation of North, Central American and Caribbean Association Football).
+            The team is ranked 13th in the world according to the FIFA World Rankings, and 12th in the World Football Elo Ratings.
+            They have appeared in the last six FIFA World Cups and hosted the 1994 edition.<br/>
+            <small><a href="http://en.wikipedia.org/wiki/USMNT">Wikipedia</a></small>
+        </p>
+        <div class="text-center">
+            <iframe width="728" height="410" src="//www.youtube.com/embed/59O8KeUWKnM" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-lg-offset-2">
+            <div class="text-center">
+                  <img class="img-circle" src="{% static "img/Twitter.png" %}" data-src="holder.js/140x140" alt="140x140" style="width: 140px; height: 140px;">
+            </div>
+            <h2>World Cup Tweets</h2>
+            <p>
+                <a class="twitter-timeline" href="https://twitter.com/search?q=%23usmnt" data-widget-id="418987955978379265">Tweets about "#usmnt"</a>
+                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+            </p>
+        </div>
+      
+        <div class="col-lg-4">
+              <div class="text-center">
+                    <img class="img-circle" src="{% static "img/Instagram.png" %}" data-src="holder.js/140x140" alt="140x140" style="width: 140px; height: 140px;">
+              </div>
+              <h2>World Cup Instagram Pictures</h2>
+              <p>
+                    <div id="instafeed"></div>
+              </p>
+        </div>
+    </div>
+    
+{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript">
+        var feed = new Instafeed({
+            get: 'tagged',
+            tagName: 'usmnt',
+            clientId: '40ce76096dab4406aa512558ec936435',
+            limit: 12,
+        });
+        feed.run();
+    </script>
+{% endblock %}

@@ -1,4 +1,18 @@
 $(document).ready(function(){
+    $("#reset").on("click", function(){
+        $.ajax({
+            type: "POST",
+            url: "/tournament/reset/",
+            data: {"bracket":$("#bracket-name").text(), },
+            error: function(){
+                alert("There was an error and your choices were not reset.");
+            },
+            success: function(){
+                location.reload();
+            }
+        })
+    });
+    
     $(".country").on("click", function(){
         var row = $(this);
         var table = row.parents("table");

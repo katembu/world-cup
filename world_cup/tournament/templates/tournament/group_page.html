@@ -10,10 +10,10 @@
 {% block content %}
     <div class="col-md-offset-1 col-md-2 well">
         <ul class="nav nav-pills nav-stacked">
-                <li><a href="#" class="text-muted"><i class="fa fa-plus-circle"></i> Invite Friends</a></li>
-                <li><a href="#" class="text-muted"><i class="fa fa-sitemap text-muted"></i> Change Bracket</a></li>
+                <li><a href="#" data-toggle="modal" data-target="#inviteModal"><i class="fa fa-plus-circle text-success"></i> Invite Friends</a></li>
+                <li><a href="#" data-toggle="modal" data-target="#joinModal"><i class="fa fa-sitemap" style="color: black;"></i> Change Bracket</a></li>
                 <li><a href="#" class="reply-all" data-group="{{ group.id }}"><i class="fa fa-envelope"></i> Message Group</a></li>
-                <li><a href="#" class="text-muted"><i class="fa fa-ban"></i> Leave Group</a></li>
+                <li><a href="#" id="leave" data-group="{{ group.id }}"><i class="fa fa-ban text-danger"></i> Leave Group</a></li>
         </ul>
     </div>
     <div class="col-md-6">
@@ -62,6 +62,34 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-success">Save</button>
+                    </div>
+                </form>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    
+    <!-- Invite Modal -->
+    <div class="modal fade" id="inviteModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="inviteForm" class="form-inline" method="POST">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="inviteLabel">Invite Friends</h4>
+                    </div>
+                    <div class="modal-body">
+                        {% csrf_token %}
+                        <div id="emailFormGroup" class="form-group col-md-11">
+                            <label for="inviteInput" class="sr-only">Enter Emails</label>
+                            <input type="email" id="inviteInput" class="form-control" placeholder="Enter Email"/>    
+                        </div>
+                        <button type="button" class="btn btn-primary" id="add"><i class="fa fa-plus"></i></button>
+                        <strong>Message Being Sent To:</strong>
+                        <ul id="inviteList"></ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">Send</button>
                     </div>
                 </form>
             </div><!-- /.modal-content -->

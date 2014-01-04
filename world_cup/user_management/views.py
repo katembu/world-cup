@@ -70,11 +70,14 @@ def messages(request):
     Renders the user's messages or a single message if the id parameter is in the request.
     """
     if 'id' in request.GET:
-        message = get_object_or_404(UserMessages, id=request.GET['id'], to=request.user)
-        message.read = True
-        message.save()
-        return render_to_response('user_management/messages.html', {'message': message, },
-                                  context_instance=RequestContext(request))
+        try:
+            message = UserMessages.objects.get(id=request.GET['id'], to=request.user)
+            message.read = True
+            message.save()
+            return render_to_response('user_management/messages.html', {'message': message, },
+                                      context_instance=RequestContext(request))
+        except:
+            pass
     return render_to_response('user_management/messages.html', context_instance=RequestContext(request))
 
 

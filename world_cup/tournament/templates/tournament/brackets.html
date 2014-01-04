@@ -18,6 +18,11 @@
             <h1 id="bracket-name">{% if read_only %}{{ bracket.user.get_full_name }}'s Bracket: {% endif %}{{ bracket.name }}</h1>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <button type="button" class="btn btn-primary" id="reset">Reset <i class="fa fa-refresh"></i></button>
+        </div>
+    </div>
     <!--Groups-->
     <div id="group-div" class="row custom-row">
         {% for group in groups %}

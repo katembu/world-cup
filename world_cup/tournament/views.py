@@ -1,8 +1,9 @@
 from django.http import *
-from django.shortcuts import render_to_response, redirect
-from django.template import RequestContext
+from django.shortcuts import render_to_response, redirect, get_object_or_404
+from django.template import RequestContext, Context
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+from django.template.loader import get_template
 from django.core.mail import EmailMessage
 from django.utils import simplejson
 from django.db.models import Q
@@ -12,6 +13,7 @@ from tournament.helpers import place_team, update_matches, create_matches
 from user_management.models import CustomUser as User
 from user_management.models import UserMessages
 from user_management.forms import MessageForm
+from world_cup.helpers import EmailThread
 import json
 
 
@@ -66,7 +68,7 @@ def brackets(request):
 @login_required
 def render_bracket(request, bracket_name):
     # Render user bracket
-    bracket = Brackets.objects.get(user=request.user, name=bracket_name)
+    bracket = get_object_or_404(Brackets, user=request.user, name=bracket_name)
     group_labels = Countries.objects.values('group').distinct()
     groups = []
     for label in group_labels:
@@ -78,6 +80,7 @@ def render_bracket(request, bracket_name):
                               context_instance=RequestContext(request))
 
 
+@login_required
 def save(request):
     """
     Saves a selection for the user.  Has various checks and will return errors if any are encountered.
@@ -124,6 +127,22 @@ def save(request):
             return HttpResponse(simplejson.dumps([output, winner.id, winner.name]), mimetype='application/json')
 
 
+@login_required
+def reset(request):
+    if 'bracket' in request.POST:
+        bracket = Brackets.objects.get(user=request.user, name=request.POST['bracket'])
+        matches = MatchPredictions.objects.filter(bracket=bracket)
+        for match in matches:
+            match.home_team = None
+            match.away_team = None
+            match.winner = None
+            match.save()
+        group_predictions = GroupPredictions.objects.filter(bracket=bracket)
+        for prediction in group_predictions:
+            prediction.delete()
+        return HttpResponse(simplejson.dumps('Success'), mimetype='application/json')
+
+
 def about(request):
     """
     Basic render of the about page to inform about the World Cup and what this site is about.
@@ -138,11 +157,16 @@ def groups(request, group_name=None):
     """
     if group_name:
         # Get Group
-        group = CompetitiveGroups.objects.get(name=group_name)
+        group = get_object_or_404(CompetitiveGroups, name=group_name)
         # Save bracket to group if request is POST
         if request.method == 'POST':
             bracket_form = BracketSelectForm(request.POST)
             if bracket_form.is_valid():
+                try:
+                    bracket = Brackets.objects.get(user=request.user, competitivegroups=group)
+                    group.brackets.remove(bracket)
+                except:
+                    pass
                 group.brackets.add(bracket_form.cleaned_data['brackets'])
         # Check if user is in the group or has permission to be here
         user_in_group = group.brackets.filter(user=request.user)
@@ -202,3 +226,38 @@ def group_login(request, group_name):
                 return redirect('/tournament/groups/%s/' % group.name)
     return render_to_response('tournament/group_login.html', {'form': form, 'group': group, },
                               context_instance=RequestContext(request))
+
+
+@login_required
+def send_invites(request, group_name):
+    if request.method == 'POST':
+        group = CompetitiveGroups.objects.get(name=group_name)
+        to = request.POST.getlist('invites[]')
+        subject = '%s wants you in %s | %s' % (request.user, group.name, 'soccer.ericsaupe.com')
+        content = '%s wants you to join the group \
+                  <a href="http://soccer.ericsaupe.com/tournament/groups/%s">%s</a>.<br/> \
+                  Prove you can predict the World Cup better than them!' % (request.user, group.name, group.name)
+        if group.password:
+            content += 'This is a private group.  To get in you will need the password below. <br/>\
+                       <strong>Password:</strong> %s' % group.password
+        template = get_template('user_management/message_email.html')
+        context = Context({'header': subject, 'content': content, 'user': request.user})
+        body = template.render(context)
+        EmailThread(subject, body, to).start()
+        return HttpResponse(simplejson.dumps('Success'), mimetype='application/json')
+
+
+@login_required
+def leave_group(request):
+    if 'group' in request.POST:
+        group = CompetitiveGroups.objects.get(id=request.POST['group'])
+        bracket = Brackets.objects.get(user=request.user, competitivegroups=group)
+        group.brackets.remove(bracket)
+        if len(group.brackets.all()) == 0:
+            group.delete()
+        return HttpResponse(simplejson.dumps('Success'), mimetype='application/json')
+
+
+def usa(request):
+    return render_to_response('tournament/usa.html', context_instance=RequestContext(request))
+

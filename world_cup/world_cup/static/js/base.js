@@ -1,10 +1,26 @@
 $(document).ready(function(){
-     $(".reply, .reply-all").on("click", function(e){
+     $(".reply-all").on("click", function(e){
           e.stopPropagation();
           $.ajax({
                type: "GET",
                url: "/message/form/",
                data: {"group": $(this).data("group")},
+               error: function(){
+                    alert("There was an error and we could not load the message.");
+               },
+               success: function(data){
+                    $("#messageModal").html(data);
+                    $("#messageModal").modal("toggle");
+               }
+          })
+     });
+     
+     $(".reply").on("click", function(e){
+          e.stopPropagation();
+          $.ajax({
+               type: "GET",
+               url: "/message/form/",
+               data: {"message": $(this).data("message")},
                error: function(){
                     alert("There was an error and we could not load the message.");
                },
