@@ -13,6 +13,9 @@ $(document).ready(function(){
         })
     });
     
+    // Check to see if knockout stage has enough info to be shown
+    displayKnockout();
+    
     $(".country").on("click", function(){
         var row = $(this);
         var table = row.parents("table");
@@ -32,7 +35,9 @@ $(document).ready(function(){
                         $("#" + ids[i]).html('<div class="label label-default">' + $("#" + ids[i]).data("default") + '</div>');
                     }
                     row.removeClass("success").removeClass("bold");
+                    row.find(".gold").addClass("hide");
                     unlockTable(table);
+                    displayKnockout();
                 }
             });
         }
@@ -52,7 +57,9 @@ $(document).ready(function(){
                         $("#" + ids[i]).html('<div class="label label-default">' + $("#" + ids[i]).data("default") + '</div>');
                     }
                     row.removeClass("warning").removeClass("bold");
+                    row.find(".silver").addClass("hide");
                     unlockTable(table);
+                    displayKnockout();
                 }
             });
         }
@@ -69,10 +76,12 @@ $(document).ready(function(){
                             alert("There was an error and your choice was not saved.");
                         },
                         success: function(data){
-                            $("#" + data[0]).html('<div class="label label-default"> <img src="{% static "img/blank.png" %}" class="flag flag-' + data[2] + '"></img> ' + data[2] + '</div>');
+                            $("#" + data[0]).html('<div class="label label-default"> <img src="/static/img/blank.png" class="flag flag-' + data[2] + '"></img> ' + data[2] + '</div>');
                             $("#" + data[0]).data("country", data[1]);
                             row.addClass("warning").addClass("bold");
+                            row.find(".silver").removeClass("hide");
                             lockTable(table);
+                            displayKnockout();
                         }
                     });
                 }
@@ -86,10 +95,12 @@ $(document).ready(function(){
                             alert("There was an error and your choice was not saved.");
                         },
                         success: function(data){
-                            $("#" + data[0]).html('<div class="label label-default"> <img src="{% static "img/blank.png" %}" class="flag flag-' + data[2] + '"></img> ' + data[2] + '</div>');
+                            $("#" + data[0]).html('<div class="label label-default"> <img src="/static/img/blank.png" class="flag flag-' + data[2] + '"></img> ' + data[2] + '</div>');
                             $("#" + data[0]).data("country", data[1]);
                             row.addClass("success").addClass("bold");
+                            row.find(".gold").removeClass("hide");
                             lockTable(table);
+                            displayKnockout();
                         }
                     });
                 }
@@ -110,9 +121,18 @@ $(document).ready(function(){
                     alert("There was an error and your choice was not saved.");
                 },
                 success: function(data){
-                    console.log(data);
-                    $("#" + data[0]).html('<div class="label label-default"> <img src="{% static "img/blank.png" %}" class="flag flag-' + data[2] + '"></img> ' + data[2] + '</div>');
+                    var final_match = '';
+                    if (match_number == "64") {
+                        final_match = ' final-match';
+                    }
+                    if (!data[0]) {
+                        data[0] = match_number + "-" + home_away;
+                    }
+                    $("#" + data[0]).html('<div class="label label-default' + final_match + '" data-name="' + data[2] + '"><img src="/static/img/blank.png" class="flag flag-' + data[2] + '"></img> ' + data[2] + '</div>');
                     $("#" + data[0]).data("country", data[1]);
+                    if (data[0] == "65-home") {
+                        $("#" + data[0]).addClass("label-success").addClass("winner");
+                    }
                     row.children(".label").removeClass("label-default").addClass("label-success");
                     var match = row.attr("id").split("-")[0];
                     var homeAway = row.attr("id").split("-")[1];
@@ -123,6 +143,23 @@ $(document).ready(function(){
                         homeAway = "home"
                     }
                     $("#" + match + "-" + homeAway).children(".label").removeClass("label-success").addClass("label-default");
+                    // Displays the correct final winner
+                    var country = "";
+                    $(".final-match").each(function(){
+                        if ($(this).hasClass('label-success')){
+                            country = $(this).data("name");
+                        }    
+                    });
+                    //if ($("#64-home").children(".label-success").length > 0) {
+                    //    country = $("#64-home").data("name");
+                    //} else if ($("#64-away").children(".label-success").length > 0) {
+                    //    country = $("#64-away").data("name");
+                    //}
+                    if (!country) {
+                        $(".winner").removeClass("label-success").addClass("label-default").html("Winner");
+                    } else {
+                        $(".winner").addClass("label-success").html('<img src="/static/img/blank.png" class="flag flag-' + country + '"></img> ' + country);    
+                    }
                 }
             });
         }
@@ -147,4 +184,16 @@ function unlockTable(table) {
     table.find("tr").each(function(){
         $(this).removeClass("active").removeClass("text-muted");
     });
+}
+
+function displayKnockout() {
+    if (($("#group-div .country.success").length == 16 && $("#group-div .country.warning").length == 16) || ($("#group-div .country.success").length == 8 && $("#group-div .country.warning").length == 8)) {
+        $("#knockout-div").fadeIn(500);
+        $(".knockout-hidden").fadeOut(500);
+        $(".knockout-hidden").hide();
+    }
+    else if ($("#group-div .country.success").length == 0 && $("#group-div .country.warning").length == 0) {
+        $("#knockout-div").fadeOut(500);
+        $(".knockout-hidden").fadeIn(500);
+    }
 }

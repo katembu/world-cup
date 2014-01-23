@@ -28,6 +28,14 @@ td, th {
     border-radius: .25em;
 }
 
+.silver {
+    color: #B4B4BD;
+}
+
+.gold {
+    color: #E8B30C;
+}
+
 .bold {
     font-weight: bold;
 }
