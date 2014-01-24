@@ -3,7 +3,7 @@ $(document).ready(function(){
         $.ajax({
             type: "POST",
             url: "/tournament/reset/",
-            data: {"bracket":$("#bracket-name").text(), },
+            data: {"bracket":$("#bracket-name").text() },
             error: function(){
                 alert("There was an error and your choices were not reset.");
             },

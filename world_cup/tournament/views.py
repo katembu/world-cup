@@ -2,34 +2,16 @@ from django.http import *
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext, Context
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login, logout
 from django.template.loader import get_template
-from django.core.mail import EmailMessage
-from django.utils import simplejson
 from django.db.models import Q
 from tournament.models import *
 from tournament.forms import CompetitiveGroupForm, BracketSelectForm, GroupLoginForm
 from tournament.helpers import place_team, update_matches, create_matches
 from user_management.models import CustomUser as User
-from user_management.models import UserMessages
 from user_management.forms import MessageForm
 from world_cup.helpers import EmailThread
+from django.core.exceptions import ObjectDoesNotExist
 import json
-
-
-@login_required
-def index(request):
-    """
-    Basic render of the tournament index page.  Used to create a new bracket with a unique name.
-    Bracket names are unique to the user.
-    """
-    if request.method == "POST":
-        try:
-            bracket = Brackets.objects.get(user=request.user, name=request.POST['name'])
-        except:
-            create_matches(request.user, request.POST['name'])
-            return redirect('/tournament/brackets/%s/' % request.POST['name'])
-    return render_to_response('tournament/index.html', context_instance=RequestContext(request))
 
 
 def brackets(request):
@@ -42,25 +24,25 @@ def brackets(request):
         bracket_name = request.GET['bracket-name']
         bracket = Brackets.objects.get(user=user, name=bracket_name)
         group_labels = Countries.objects.values('group').distinct()
-        groups = []
+        group_predictions = []
         for label in group_labels:
             label = label['group']
-            groups.append(Countries.objects.filter(group=label))
+            group_predictions.append(Countries.objects.filter(group=label))
         matches = MatchPredictions.objects.filter(bracket=bracket)
         return render_to_response('tournament/brackets.html',
-                                  {'bracket': bracket, 'groups': groups, 'matches': matches,
+                                  {'bracket': bracket, 'groups': group_predictions, 'matches': matches,
                                    'read_only': True, },
                                   context_instance=RequestContext(request))
     if request.user.is_authenticated():
         # List all brackets for user
-        brackets = Brackets.objects.filter(user=request.user)
+        user_brackets = Brackets.objects.filter(user=request.user)
         if request.method == "POST":
             try:
-                bracket = Brackets.objects.get(user=request.user, name=request.POST['name'])
-            except:
+                Brackets.objects.get(user=request.user, name=request.POST['name'])
+            except ObjectDoesNotExist:
                 create_matches(request.user, request.POST['name'])
                 return redirect('/tournament/brackets/%s/' % request.POST['name'])
-        return render_to_response('tournament/brackets_list.html', {'brackets': brackets, },
+        return render_to_response('tournament/brackets_list.html', {'brackets': user_brackets, },
                                   context_instance=RequestContext(request))
     return redirect('/accounts/login/?next=/tournament/brackets/')
 
@@ -70,13 +52,14 @@ def render_bracket(request, bracket_name):
     # Render user bracket
     bracket = get_object_or_404(Brackets, user=request.user, name=bracket_name)
     group_labels = Countries.objects.values('group').distinct()
-    groups = []
+    group_predictions = []
     for label in group_labels:
         label = label['group']
-        groups.append(Countries.objects.filter(group=label))
+        group_predictions.append(Countries.objects.filter(group=label))
     matches = MatchPredictions.objects.filter(bracket=bracket)
     return render_to_response('tournament/brackets.html',
-                              {'bracket': bracket, 'groups': groups, 'matches': matches, 'read_only': False, },
+                              {'bracket': bracket, 'groups': group_predictions, 'matches': matches,
+                               'read_only': False, },
                               context_instance=RequestContext(request))
 
 
@@ -94,7 +77,7 @@ def save(request):
             winner = GroupPredictions(bracket=bracket, country=country, position=position)
             winner.save()
             bracket_placement = place_team(request.user, bracket.name, winner)
-            return HttpResponse(simplejson.dumps([bracket_placement, country.id, country.name]),
+            return HttpResponse(json.dumps([bracket_placement, country.id, country.name]),
                                 mimetype='application/json')
         #Called when a group selection is unselected.
         elif request.POST['type'] == 'remove-group':
@@ -112,11 +95,12 @@ def save(request):
                 match.save()
             winner = GroupPredictions.objects.get(bracket=bracket, country=country)
             winner.delete()
-            return HttpResponse(simplejson.dumps([output, country.id, country.name]), mimetype='application/json')
+            return HttpResponse(json.dumps([output, country.id, country.name]), mimetype='application/json')
         #Called when a knockout round selection is made.
         elif request.POST['type'] == 'save-match':
             bracket = Brackets.objects.get(user=request.user, name=request.POST['bracket'])
             match = MatchPredictions.objects.get(bracket=bracket, match_number=request.POST['match_number'])
+            winner = None
             if request.POST['home_away'] == 'home':
                 winner = match.home_team
             elif request.POST['home_away'] == 'away':
@@ -124,7 +108,7 @@ def save(request):
             match.winner = winner
             match.save()
             output = update_matches(request.user, bracket.name, match)
-            return HttpResponse(simplejson.dumps([output, winner.id, winner.name]), mimetype='application/json')
+            return HttpResponse(json.dumps([output, winner.id, winner.name]), mimetype='application/json')
 
 
 @login_required
@@ -140,7 +124,7 @@ def reset(request):
         group_predictions = GroupPredictions.objects.filter(bracket=bracket)
         for prediction in group_predictions:
             prediction.delete()
-        return HttpResponse(simplejson.dumps('Success'), mimetype='application/json')
+        return HttpResponse(json.dumps('Success'), mimetype='application/json')
 
 
 def about(request):
@@ -165,7 +149,7 @@ def groups(request, group_name=None):
                 try:
                     bracket = Brackets.objects.get(user=request.user, competitivegroups=group)
                     group.brackets.remove(bracket)
-                except:
+                except ObjectDoesNotExist:
                     pass
                 group.brackets.add(bracket_form.cleaned_data['brackets'])
         # Check if user is in the group or has permission to be here
@@ -184,7 +168,7 @@ def groups(request, group_name=None):
                                   context_instance=RequestContext(request))
     else:
         # Render user group list and group creation form
-        groups = CompetitiveGroups.objects.filter(brackets__user=request.user)
+        competitive_groups = CompetitiveGroups.objects.filter(brackets__user=request.user)
         public_groups = CompetitiveGroups.objects.filter(password='')
         # Save group form
         if request.method == 'POST':
@@ -197,13 +181,13 @@ def groups(request, group_name=None):
                 return redirect('/tournament/groups/%s/' % new_group.name)
             else:
                 form.fields['brackets'].queryset = Brackets.objects.filter(user=request.user)
-                return render_to_response('tournament/groups.html', {'form': form, 'groups': groups,
+                return render_to_response('tournament/groups.html', {'form': form, 'groups': competitive_groups,
                                                                      'public_groups': public_groups, },
                                           context_instance=RequestContext(request))
         # Render page and group form
         form = CompetitiveGroupForm()
         form.fields['brackets'].queryset = Brackets.objects.filter(user=request.user)
-        return render_to_response('tournament/groups.html', {'form': form, 'groups': groups,
+        return render_to_response('tournament/groups.html', {'form': form, 'groups': competitive_groups,
                                                              'public_groups': public_groups, },
                                   context_instance=RequestContext(request))
 
@@ -233,6 +217,16 @@ def send_invites(request, group_name):
     if request.method == 'POST':
         group = CompetitiveGroups.objects.get(name=group_name)
         to = request.POST.getlist('invites[]')
+        email_addresses = []
+        for address in to:
+            if '@' in address:
+                email_addresses.append(address)
+            else:
+                try:
+                    user = User.objects.get(username=address)
+                    email_addresses.append(user.email)
+                except ObjectDoesNotExist:
+                    pass
         subject = '%s wants you in %s | %s' % (request.user, group.name, 'soccer.ericsaupe.com')
         content = '%s wants you to join the group \
                   <a href="http://soccer.ericsaupe.com/tournament/groups/%s">%s</a>.<br/> \
@@ -243,8 +237,8 @@ def send_invites(request, group_name):
         template = get_template('user_management/message_email.html')
         context = Context({'header': subject, 'content': content, 'user': request.user})
         body = template.render(context)
-        EmailThread(subject, body, to).start()
-        return HttpResponse(simplejson.dumps('Success'), mimetype='application/json')
+        EmailThread(subject, body, email_addresses).start()
+        return HttpResponse(json.dumps('Success'), mimetype='application/json')
 
 
 @login_required
@@ -255,9 +249,8 @@ def leave_group(request):
         group.brackets.remove(bracket)
         if len(group.brackets.all()) == 0:
             group.delete()
-        return HttpResponse(simplejson.dumps('Success'), mimetype='application/json')
+        return HttpResponse(json.dumps('Success'), mimetype='application/json')
 
 
 def usa(request):
     return render_to_response('tournament/usa.html', context_instance=RequestContext(request))
-

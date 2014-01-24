@@ -55,16 +55,22 @@ $(document).ready(function(){
     });
     
     $("#add").on("click", function(){
-        var email_check = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$/i;
-        if (email_check.test($("#inviteInput").val())){
-            $("#inviteList").append("<li><input type='hidden' name='invites[]' value='" + $("#inviteInput").val() + "'>" + $("#inviteInput").val() + "</li>");
-            $("#inviteInput").val("");
-        }
-        else{
-            $("#emailFormGroup").addClass("has-error");
-        }
+        $("#inviteList").append("<li><input type='hidden' name='invites[]' value='" + $("#inviteInput").val() + "'>" + $("#inviteInput").val() + "</li>");
+        $("#inviteInput").val("");
     });
-    
+
+    $("#inviteInput").typeahead({
+        name: 'users',
+        prefetch: '/userlist/',
+        limit: 10,
+        template: [
+            '<p><img src="{{image}}" width="25"/> {{value}}</p>',
+        ].join(''),
+        engine: Hogan
+    }).on('typeahead:selected', function($e, datum){
+            $("#add").click();
+        });
+
     $("#inviteForm").on("submit", function(e){
         e.preventDefault();
         $.ajax({

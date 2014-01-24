@@ -23,7 +23,7 @@
             <h2>Group Stage</h2>
         </div>
                 <div class="col-md-7">
-            <h2 class="text-muted knockout-hidden">Make Group Stage selections before moving on to Knockout Stage.</h2>
+            <h2 class="text-muted knockout-hidden" {% if not bracket|group_not_completed %}hidden{% endif %}>Make Group Stage selections before moving on to Knockout Stage.</h2>
         </div>
         <div class="col-md-1">
             <span class="fa fa-trophy fa-lg gold"></span><span class="text-muted"> Group Winner</span><br />
@@ -52,7 +52,7 @@
             </div>
         {% endfor %}
     </div>
-    <div id="knockout-div">
+    <div id="knockout-div" {% if bracket|group_not_completed %}hidden{% endif %}>
         <div class="row">
             <div class="col-md-8 col-md-offset-1">
                 <h2>Knockout Stage</h2>

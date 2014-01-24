@@ -27,3 +27,9 @@ def selected_class(country, bracket):
 @register.filter
 def get_match(matches, match_number):
     return matches.get(match_number=match_number)
+
+
+@register.filter
+def group_not_completed(bracket):
+    predictions = GroupPredictions.objects.filter(bracket=bracket)
+    return len(predictions) != 16
