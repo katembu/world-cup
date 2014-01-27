@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="col-md-offset-3 col-md-6">
+    <div class="col-md-offset-2 col-md-8">
         <div class="page-header">
             <h1>Tip Jar</h1>
         </div>
@@ -21,19 +21,24 @@
                 <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
                 <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
             </form>
-            <img src="{% static "img/bitcoinqr.png" %}"/>
-            <a href="bitcoin:1QJxA2x74xayYCQDegsG4PyDLgGn5To6qd?amount=0.005&label=World%20Cup&message=We%20%3C3%20You%21">
-                <img src="{% static "img/bitcoin.gif" %}"/>
-            </a>
-            <h3>1QJxA2x74xayYCQDegsG4PyDLgGn5To6qd</h3>
+            <div class="col-lg-6 col-lg-offset-3 well" style="text-align: -webkit-center;">
+                <a href="bitcoin:1QJxA2x74xayYCQDegsG4PyDLgGn5To6qd?amount=0.005&label=World%20Cup&message=We%20%3C3%20You%21">
+                    <img src="{% static "img/bitcoin.gif" %}" class="img-responsive"/>
+                </a>
+                <img src="{% static "img/bitcoinqr.png" %}"/>
+                <h3><span class="hidden-xs">1QJxA2x74xayYCQDegsG4PyDLgGn5To6qd</span></h3>
+            </div>
         </div>
-        <p>Joel and I have put in a lot of work to make this site what it is.
-        We do it completely out of a labor of love for the beautiful game.
-        As you can see this site has no ads and is totally self-funded.
-        If you have liked using the application please drop us a small tip in our tip jar.
-        Development of this site runs on Red Bull and Takis and your tips go to further develop this site and make it better and better.</p>
-        <p>Thanks for using the site and for your support.</p>
-        <h3>&lt;3 Eric and Joel</h3>
+        <div class="col-lg-6 col-lg-offset-3">
+            <p>Joel and I have put in a lot of work to make this site what it is.
+            We do it completely out of a labor of love for the beautiful game.
+            As you can see this site has no ads and is totally self-funded.
+            If you have liked using the application please drop us a small tip in our tip jar.
+            Development of this site runs on Red Bull and Takis and your tips go to further develop this site and make it better and better.</p>
+            <p>Thanks for using the site and for your support.</p>
+            <h3><span class="fa fa-heart fa-lg" style="color: red;"></span> Eric and Joel</h3>
+            <br />
+        </div>
     </div>
     
 {% endblock %}
