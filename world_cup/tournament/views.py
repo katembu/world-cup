@@ -51,6 +51,11 @@ def brackets(request):
 def render_bracket(request, bracket_name):
     # Render user bracket
     bracket = get_object_or_404(Brackets, user=request.user, name=bracket_name)
+    # Change name
+    if request.method == 'POST':
+        bracket.name = request.POST['bracket-name']
+        bracket.save()
+        return redirect('/tournament/brackets/%s/' % bracket.name)
     group_labels = Countries.objects.values('group').distinct()
     group_predictions = []
     for label in group_labels:
@@ -109,6 +114,14 @@ def save(request):
             match.save()
             output = update_matches(request.user, bracket.name, match)
             return HttpResponse(json.dumps([output, winner.id, winner.name]), mimetype='application/json')
+
+
+@login_required
+def delete(request):
+    if request.method == 'POST':
+        bracket = Brackets.objects.get(user=request.user, name=request.POST['bracket'])
+        bracket.delete()
+        return HttpResponse(json.dumps('Success'), mimetype='application/json')
 
 
 @login_required

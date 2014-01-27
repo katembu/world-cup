@@ -15,7 +15,16 @@
 {% block content %}
     <div class="row">
         <div class="page-header col-md-offset-2">
-            <h1 id="bracket-name">{% if read_only %}{{ bracket.user.get_full_name }}'s Bracket: {% endif %}{{ bracket.name }}</h1>
+            <h1>
+                {% if read_only %}{{ bracket.user.get_full_name }}'s Bracket: {% endif %}<span id="bracket-name">{{ bracket.name }}</span>
+                {% if not read_only %}
+                <small>
+                    <a href="#" class="btn btn-default" data-toggle="modal" data-target="#changeNameModal"><i class="fa fa-pencil"></i></a>
+                    <a href="#" id="delete-bracket" class="btn btn-default"><i class="fa fa-trash-o text-danger"></i></a>
+                </small>
+                {% endif %}
+            </h1>
+
         </div>
     </div>
     <div class="row">
@@ -45,7 +54,7 @@
                         <tr class="country {{ country|selected_class:bracket }}" data-country="{{ country.id }}">
                         <tr class="country {{ country|selected_class:bracket }} {% if country|selected_class:bracket == "warning" or country|selected_class:bracket == "success" %} bold{% elif country|selected_class:bracket == "active" %} text-muted{% endif %}" data-country="{{ country.id }}">
                             <td>{{ country.position }}</td>
-                            <td><img src="{% static "img/blank.png" %}" class="flag flag-{{ country.name }}"></img> {{ country.name }} <span class="fa fa-trophy pull-right fa-lg gold{% if country|selected_class:bracket != "success" %} hide{% endif %}"></span><span class="fa fa-trophy pull-right silver{% if country|selected_class:bracket != "warning" %} hide{% endif %}"></span></td>
+                            <td><img src="{% static "img/blank.png" %}" class="flag flag-{{ country.name }}"/> {{ country.name }} <span class="fa fa-trophy pull-right fa-lg gold{% if country|selected_class:bracket != "success" %} hide{% endif %}"></span><span class="fa fa-trophy pull-right silver{% if country|selected_class:bracket != "warning" %} hide{% endif %}"></span></td>
                         </tr>
                     {% endfor %}
                 </table>
@@ -81,7 +90,7 @@
                 <!--Row 1-->
                 <tr>
                     <td class="td-content">
-                        {% with matches|get_match:49 as match %}<div class="match" id="49-home" data-country="{{ match.home_team.id }}" data-default="Winner Group A"><div class="label{% if match.winner and match.winner == match.home_team %} label-success{% else %} label-default{% endif %} ">{% if match.home_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.home_team }}"></img> {% endif %}{{ match.home_team|default_if_none:"Winner Group A" }}</div>{% endwith %}</div>
+                        {% with matches|get_match:49 as match %}<div class="match" id="49-home" data-country="{{ match.home_team.id }}" data-default="Winner Group A"><div class="label{% if match.winner and match.winner == match.home_team %} label-success{% else %} label-default{% endif %} ">{% if match.home_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.home_team }}"/> {% endif %}{{ match.home_team|default_if_none:"Winner Group A" }}</div>{% endwith %}</div>
                     </td>
                     <td class="td-bracket bottom">&nbsp;</td>
                     <td class="td-bracket">&nbsp;</td>
@@ -98,7 +107,7 @@
                 </tr>
                 <tr>
                     <td class="td-content">
-                        {% with matches|get_match:49 as match %}<div class=" match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="49-away" data-country="{{ match.away_team.id }}" data-default="Runner Up Group B"><div class="label{% if match.winner and match.winner == match.away_team %} label-success{% else %} label-default{% endif %}">{% if match.away_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.away_team }}"></img> {% endif %}{{ match.away_team|default_if_none:"Runner Up Group B" }}</div>{% endwith %}</div>    
+                        {% with matches|get_match:49 as match %}<div class=" match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="49-away" data-country="{{ match.away_team.id }}" data-default="Runner Up Group B"><div class="label{% if match.winner and match.winner == match.away_team %} label-success{% else %} label-default{% endif %}">{% if match.away_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.away_team }}"/> {% endif %}{{ match.away_team|default_if_none:"Runner Up Group B" }}</div>{% endwith %}</div>
                     </td>
                     <td class="td-bracket right">&nbsp;</td>
                     <td class="td-bracket">&nbsp;</td>
@@ -133,7 +142,7 @@
                     <td class="td-bracket right">&nbsp;</td>
                     <td class="td-bracket bottom">&nbsp;</td>
                     <td class="td-content">
-                        {% with matches|get_match:57 as match %}<div class=" match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="57-home" data-country="{{ match.home_team.id }}" data-default="Winner Match 49"><div class="label{% if match.winner and match.winner == match.home_team %} label-success{% else %} label-default{% endif %} ">{% if match.home_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.home_team }}"></img> {% endif %}{{ match.home_team|default_if_none:"Winner Match 49" }}</div>{% endwith %}</div>    
+                        {% with matches|get_match:57 as match %}<div class=" match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="57-home" data-country="{{ match.home_team.id }}" data-default="Winner Match 49"><div class="label{% if match.winner and match.winner == match.home_team %} label-success{% else %} label-default{% endif %} ">{% if match.home_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.home_team }}"/> {% endif %}{{ match.home_team|default_if_none:"Winner Match 49" }}</div>{% endwith %}</div>
                     </td>
                     <td class="td-bracket bottom">&nbsp;</td>
                     <td class="td-bracket">&nbsp;</td>
@@ -150,7 +159,7 @@
                     <td class="td-bracket right">&nbsp;</td>
                     <td class="td-bracket">&nbsp;</td>
                     <td class="td-content">
-                        {% with matches|get_match:57 as match %}<div class=" match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="57-away" data-country="{{ match.away_team.id }}" data-default="Winner Match 50"><div class="label{% if match.winner and match.winner == match.away_team %} label-success{% else %} label-default{% endif %}">{% if match.away_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.away_team }}"></img> {% endif %}{{ match.away_team|default_if_none:"Winner Match 50" }}</div>{% endwith %}</div>
+                        {% with matches|get_match:57 as match %}<div class=" match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="57-away" data-country="{{ match.away_team.id }}" data-default="Winner Match 50"><div class="label{% if match.winner and match.winner == match.away_team %} label-success{% else %} label-default{% endif %}">{% if match.away_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.away_team }}"/> {% endif %}{{ match.away_team|default_if_none:"Winner Match 50" }}</div>{% endwith %}</div>
                     </td>
                     <td class="td-bracket right">&nbsp;</td>
                     <td class="td-bracket">&nbsp;</td>
@@ -164,7 +173,7 @@
                 </tr>
                 <tr>
                     <td class="td-content">
-                        {% with matches|get_match:50 as match %}<div class=" match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="50-home" data-country="{{ match.home_team.id }}" data-default="Winner Group C"><div class="label{% if match.winner and match.winner == match.home_team %} label-success{% else %} label-default{% endif %} ">{% if match.home_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.home_team }}"></img> {% endif %}{{ match.home_team|default_if_none:"Winner Group C" }}</div>{% endwith %}</div>
+                        {% with matches|get_match:50 as match %}<div class=" match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="50-home" data-country="{{ match.home_team.id }}" data-default="Winner Group C"><div class="label{% if match.winner and match.winner == match.home_team %} label-success{% else %} label-default{% endif %} ">{% if match.home_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.home_team }}"/> {% endif %}{{ match.home_team|default_if_none:"Winner Group C" }}</div>{% endwith %}</div>
                     </td>
                     <td class="td-bracket right bottom">&nbsp;</td>
                     <td class="td-bracket">&nbsp;</td>
@@ -182,7 +191,7 @@
                 <!--BLANK ROWS-->
                 <tr>
                     <td class="td-content">
-                        {% with matches|get_match:50 as match %}<div class=" match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="50-away" data-country="{{ match.away_team.id }}" data-default="Runner Up Group D"><div class="label{% if match.winner and match.winner == match.away_team %} label-success{% else %} label-default{% endif %}">{% if match.away_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.away_team }}"></img> {% endif %}{{ match.away_team|default_if_none:"Runner Up Group D" }}</div>{% endwith %}</div>
+                        {% with matches|get_match:50 as match %}<div class=" match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="50-away" data-country="{{ match.away_team.id }}" data-default="Runner Up Group D"><div class="label{% if match.winner and match.winner == match.away_team %} label-success{% else %} label-default{% endif %}">{% if match.away_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.away_team }}"/> {% endif %}{{ match.away_team|default_if_none:"Runner Up Group D" }}</div>{% endwith %}</div>
                     </td>
                     <td class="td-bracket">&nbsp;</td>
                     <td class="td-bracket">&nbsp;</td>
@@ -205,7 +214,7 @@
                     <td class="td-bracket right">&nbsp;</td>
                     <td class="td-bracket bottom">&nbsp;</td>
                     <td class="td-content">
-                        {% with matches|get_match:61 as match %}<div class="  match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="61-home" data-country="{{ match.home_team.id }}" data-default="Winner Match 57"><div class="label{% if match.winner and match.winner == match.home_team %} label-success{% else %} label-default{% endif %} ">{% if match.home_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.home_team }}"></img> {% endif %}{{ match.home_team|default_if_none:"Winner Match 57" }}</div>{% endwith %}</div>
+                        {% with matches|get_match:61 as match %}<div class="  match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="61-home" data-country="{{ match.home_team.id }}" data-default="Winner Match 57"><div class="label{% if match.winner and match.winner == match.home_team %} label-success{% else %} label-default{% endif %} ">{% if match.home_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.home_team }}"/> {% endif %}{{ match.home_team|default_if_none:"Winner Match 57" }}</div>{% endwith %}</div>
                     </td>
                     <td class="td-bracket bottom">&nbsp;</td>
                     <td class="td-bracket">&nbsp;</td>
@@ -218,7 +227,7 @@
     <!--Row 2-->
                 <tr>
                     <td class="td-content">
-                        {% with matches|get_match:53 as match %}<div class=" match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="53-home" data-country="{{ match.home_team.id }}" data-default="Winner Group E"><div class="label{% if match.winner and match.winner == match.home_team %} label-success{% else %} label-default{% endif %} ">{% if match.home_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.home_team }}"></img> {% endif %}{{ match.home_team|default_if_none:"Winner Group E" }}</div>{% endwith %}</div>
+                        {% with matches|get_match:53 as match %}<div class=" match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="53-home" data-country="{{ match.home_team.id }}" data-default="Winner Group E"><div class="label{% if match.winner and match.winner == match.home_team %} label-success{% else %} label-default{% endif %} ">{% if match.home_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.home_team }}"/> {% endif %}{{ match.home_team|default_if_none:"Winner Group E" }}</div>{% endwith %}</div>
                     </td>
                     <td class="td-bracket bottom">&nbsp;</td>
                     <td class="td-bracket">&nbsp;</td>
@@ -226,7 +235,7 @@
                     <td class="td-bracket right">&nbsp;</td>
                     <td class="td-bracket">&nbsp;</td>
                     <td class="td-content">
-                        {% with matches|get_match:61 as match %}<div class="  match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="61-away" data-country="{{ match.away_team.id }}" data-default="Winner Match 58"><div class="label{% if match.winner and match.winner == match.away_team %} label-success{% else %} label-default{% endif %}">{% if match.away_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.away_team }}"></img> {% endif %}{{ match.away_team|default_if_none:"Winner Match 58" }}</div>{% endwith %}</div>
+                        {% with matches|get_match:61 as match %}<div class="  match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="61-away" data-country="{{ match.away_team.id }}" data-default="Winner Match 58"><div class="label{% if match.winner and match.winner == match.away_team %} label-success{% else %} label-default{% endif %}">{% if match.away_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.away_team }}"/> {% endif %}{{ match.away_team|default_if_none:"Winner Match 58" }}</div>{% endwith %}</div>
                     </td>
                     <td class="td-bracket right">&nbsp;</td>
                     <td class="td-bracket">&nbsp;</td>
@@ -237,7 +246,7 @@
                 </tr>
                 <tr>
                     <td class="td-content">
-                        {% with matches|get_match:53 as match %}<div class=" match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="53-away" data-country="{{ match.away_team.id }}" data-default="Runner Up Group F"><div class="label{% if match.winner and match.winner == match.away_team %} label-success{% else %} label-default{% endif %}">{% if match.away_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.away_team }}"></img> {% endif %}{{ match.away_team|default_if_none:"Runner Up Group F" }}</div>{% endwith %}</div>
+                        {% with matches|get_match:53 as match %}<div class=" match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="53-away" data-country="{{ match.away_team.id }}" data-default="Runner Up Group F"><div class="label{% if match.winner and match.winner == match.away_team %} label-success{% else %} label-default{% endif %}">{% if match.away_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.away_team }}"/> {% endif %}{{ match.away_team|default_if_none:"Runner Up Group F" }}</div>{% endwith %}</div>
                     </td>
                     <td class="td-bracket right">&nbsp;</td>
                     <td class="td-bracket">&nbsp;</td>
@@ -272,7 +281,7 @@
                     <td class="td-bracket right">&nbsp;</td>
                     <td class="td-bracket bottom">&nbsp;</td>
                     <td class="td-content">
-                        {% with matches|get_match:58 as match %}<div class="match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="58-home" data-country="{{ match.home_team.id }}" data-default="Winner Match 51"><div class="label{% if match.winner and match.winner == match.home_team %} label-success{% else %} label-default{% endif %} ">{% if match.home_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.home_team }}"></img> {% endif %}{{ match.home_team|default_if_none:"Winner Match 51" }}</div>{% endwith %}</div>
+                        {% with matches|get_match:58 as match %}<div class="match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="58-home" data-country="{{ match.home_team.id }}" data-default="Winner Match 51"><div class="label{% if match.winner and match.winner == match.home_team %} label-success{% else %} label-default{% endif %} ">{% if match.home_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.home_team }}"/> {% endif %}{{ match.home_team|default_if_none:"Winner Match 51" }}</div>{% endwith %}</div>
                     </td>
                     <td class="td-bracket right bottom">&nbsp;</td>
                     <td class="td-bracket">&nbsp;</td>
@@ -289,7 +298,7 @@
                     <td class="td-bracket right">&nbsp;</td>
                     <td class="td-bracket">&nbsp;</td>
                     <td class="td-content">
-                        {% with matches|get_match:58 as match %}<div class=" match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="58-away" data-country="{{ match.away_team.id }}" data-default="Winner Match 52"><div class="label{% if match.winner and match.winner == match.away_team %} label-success{% else %} label-default{% endif %}">{% if match.away_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.away_team }}"></img> {% endif %}{{ match.away_team|default_if_none:"Winner Match 52" }}</div>{% endwith %}</div>
+                        {% with matches|get_match:58 as match %}<div class=" match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="58-away" data-country="{{ match.away_team.id }}" data-default="Winner Match 52"><div class="label{% if match.winner and match.winner == match.away_team %} label-success{% else %} label-default{% endif %}">{% if match.away_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.away_team }}"/> {% endif %}{{ match.away_team|default_if_none:"Winner Match 52" }}</div>{% endwith %}</div>
                     </td>
                     <td class="td-bracket">&nbsp;</td>
                     <td class="td-bracket">&nbsp;</td>
@@ -303,7 +312,7 @@
                 </tr>
                 <tr>
                     <td class="td-content">
-                        {% with matches|get_match:54 as match %}<div class=" match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="54-home" data-country="{{ match.home_team.id }}" data-default="Winner Group G"><div class="label{% if match.winner and match.winner == match.home_team %} label-success{% else %} label-default{% endif %} ">{% if match.home_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.home_team }}"></img> {% endif %}{{ match.home_team|default_if_none:"Winner Group G" }}</div>{% endwith %}</div>
+                        {% with matches|get_match:54 as match %}<div class=" match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="54-home" data-country="{{ match.home_team.id }}" data-default="Winner Group G"><div class="label{% if match.winner and match.winner == match.home_team %} label-success{% else %} label-default{% endif %} ">{% if match.home_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.home_team }}"/> {% endif %}{{ match.home_team|default_if_none:"Winner Group G" }}</div>{% endwith %}</div>
                     </td>
                     <td class="td-bracket right bottom">&nbsp;</td>
                     <td class="td-bracket">&nbsp;</td>
@@ -321,7 +330,7 @@
                 <!--BLANK ROWS-->
                 <tr>
                     <td class="td-content">
-                        {% with matches|get_match:54 as match %}<div class=" match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="54-away" data-country="{{ match.away_team.id }}" data-default="Runner Up Group H"><div class="label{% if match.winner and match.winner == match.away_team %} label-success{% else %} label-default{% endif %}">{% if match.away_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.away_team }}"></img> {% endif %}{{ match.away_team|default_if_none:"Runner Up Group H" }}</div>{% endwith %}</div>
+                        {% with matches|get_match:54 as match %}<div class=" match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="54-away" data-country="{{ match.away_team.id }}" data-default="Runner Up Group H"><div class="label{% if match.winner and match.winner == match.away_team %} label-success{% else %} label-default{% endif %}">{% if match.away_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.away_team }}"/> {% endif %}{{ match.away_team|default_if_none:"Runner Up Group H" }}</div>{% endwith %}</div>
                     </td>
                     <td class="td-bracket">&nbsp;</td>
                     <td class="td-bracket">&nbsp;</td>
@@ -347,19 +356,19 @@
                     <td class="td-bracket right">&nbsp;</td>
                     <td class="td-bracket bottom">&nbsp;</td>
                     <td class="td-content">
-                        {% with matches|get_match:64 as match %}<div class="final match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="64-home" data-country="{{ match.home_team.id }}" data-name="{{ match.home_team.name }}" data-default="Winner Match 61"><div class="final-match label{% if match.winner and match.winner == match.home_team %} label-success{% else %} label-default{% endif %} " data-name="{{ match.home_team.name }}">{% if match.home_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.home_team }}"></img> {% endif %}{{ match.home_team|default_if_none:"Winner Match 61" }}</div>{% endwith %}</div>
+                        {% with matches|get_match:64 as match %}<div class="final match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="64-home" data-country="{{ match.home_team.id }}" data-name="{{ match.home_team.name }}" data-default="Winner Match 61"><div class="final-match label{% if match.winner and match.winner == match.home_team %} label-success{% else %} label-default{% endif %} " data-name="{{ match.home_team.name }}">{% if match.home_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.home_team }}"/> {% endif %}{{ match.home_team|default_if_none:"Winner Match 61" }}</div>{% endwith %}</div>
                     </td>
                     <td class="td-bracket bottom">&nbsp;</td>
                     <td class="td-bracket bottom">&nbsp;</td>
                     <td rowspan="2" class="td-content">
-                        {% with matches|get_match:64 as match %}<div class="" id="65-home" data-country="{% if match.winner and match.winner == match.home_team %}{{ match.home_team.id }}{% elif match.winner and match.winner == match.away_team %}{{ match.away_team.id }}{% endif %}" data-default="Winner Match 65"><div class="winner{% if match.winner and match.winner == match.home_team or match.winner == match.away_team %} label-success{% else %} label-default{% endif %} ">{% if match.winner and match.winner == match.home_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.home_team }}"></img> {{ match.home_team|default_if_none:"Winner" }}</div>{% elif match.winner and match.winner == match.away_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.away_team }}"></img> {{ match.away_team|default_if_none:"Winner" }}</div>{% else %}Winner{% endif %}{% endwith %}</div>
+                        {% with matches|get_match:64 as match %}<div class="" id="65-home" data-country="{% if match.winner and match.winner == match.home_team %}{{ match.home_team.id }}{% elif match.winner and match.winner == match.away_team %}{{ match.away_team.id }}{% endif %}" data-default="Winner Match 65"><div class="winner{% if match.winner and match.winner == match.home_team or match.winner == match.away_team %} label-success{% else %} label-default{% endif %} ">{% if match.winner and match.winner == match.home_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.home_team }}"/> {{ match.home_team|default_if_none:"Winner" }}</div>{% elif match.winner and match.winner == match.away_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.away_team }}"/> {{ match.away_team|default_if_none:"Winner" }}</div>{% else %}Winner{% endif %}{% endwith %}</div>
                     </td>
                 </tr>
                 
     <!--Row 3-->
                 <tr>
                     <td class="td-content">
-                        {% with matches|get_match:51 as match %}<div class=" match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="51-home" data-country="{{ match.home_team.id }}" data-default="Winner Group B"><div class="label{% if match.winner and match.winner == match.home_team %} label-success{% else %} label-default{% endif %} ">{% if match.home_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.home_team }}"></img> {% endif %}{{ match.home_team|default_if_none:"Winner Group B" }}</div>{% endwith %}</div>
+                        {% with matches|get_match:51 as match %}<div class=" match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="51-home" data-country="{{ match.home_team.id }}" data-default="Winner Group B"><div class="label{% if match.winner and match.winner == match.home_team %} label-success{% else %} label-default{% endif %} ">{% if match.home_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.home_team }}"/> {% endif %}{{ match.home_team|default_if_none:"Winner Group B" }}</div>{% endwith %}</div>
                     </td>
                     <td class="td-bracket bottom">&nbsp;</td>
                     <td class="td-bracket">&nbsp;</td>
@@ -370,14 +379,14 @@
                     <td class="td-bracket right">&nbsp;</td>
                     <td class="td-bracket">&nbsp;</td>
                     <td class="td-content">
-                        {% with matches|get_match:64 as match %}<div class="final match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="64-away" data-country="{{ match.away_team.id }}" data-name="{{ match.away_team.name }}" data-default="Winner Match 62"><div class="final-match label{% if match.winner and match.winner == match.away_team %} label-success{% else %} label-default{% endif %}" data-name="{{ match.away_team.name }}">{% if match.away_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.away_team }}"></img> {% endif %}{{ match.away_team|default_if_none:"Winner Match 62" }}</div>{% endwith %}</div>
+                        {% with matches|get_match:64 as match %}<div class="final match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="64-away" data-country="{{ match.away_team.id }}" data-name="{{ match.away_team.name }}" data-default="Winner Match 62"><div class="final-match label{% if match.winner and match.winner == match.away_team %} label-success{% else %} label-default{% endif %}" data-name="{{ match.away_team.name }}">{% if match.away_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.away_team }}"/> {% endif %}{{ match.away_team|default_if_none:"Winner Match 62" }}</div>{% endwith %}</div>
                     </td>
                     <td class="td-bracket">&nbsp;</td>
                     <td class="td-bracket">&nbsp;</td>
                 </tr>
                 <tr>
                     <td class="td-content">
-                        {% with matches|get_match:51 as match %}<div class=" match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="51-away" data-country="{{ match.away_team.id }}" data-default="Runner Up Group A"><div class="label{% if match.winner and match.winner == match.away_team %} label-success{% else %} label-default{% endif %}">{% if match.away_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.away_team }}"></img> {% endif %}{{ match.away_team|default_if_none:"Runner Up Group A" }}</div>{% endwith %}</div>
+                        {% with matches|get_match:51 as match %}<div class=" match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="51-away" data-country="{{ match.away_team.id }}" data-default="Runner Up Group A"><div class="label{% if match.winner and match.winner == match.away_team %} label-success{% else %} label-default{% endif %}">{% if match.away_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.away_team }}"/> {% endif %}{{ match.away_team|default_if_none:"Runner Up Group A" }}</div>{% endwith %}</div>
                     </td>
                     <td class="td-bracket right">&nbsp;</td>
                     <td class="td-bracket">&nbsp;</td>
@@ -412,7 +421,7 @@
                     <td class="td-bracket right">&nbsp;</td>
                     <td class="td-bracket bottom">&nbsp;</td>
                     <td class="td-content">
-                        {% with matches|get_match:59 as match %}<div class=" match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="59-home" data-country="{{ match.home_team.id }}" data-default="Winner Match 53"><div class="label{% if match.winner and match.winner == match.home_team %} label-success{% else %} label-default{% endif %} ">{% if match.home_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.home_team }}"></img> {% endif %}{{ match.home_team|default_if_none:"Winner Match 53" }}</div>{% endwith %}</div>
+                        {% with matches|get_match:59 as match %}<div class=" match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="59-home" data-country="{{ match.home_team.id }}" data-default="Winner Match 53"><div class="label{% if match.winner and match.winner == match.home_team %} label-success{% else %} label-default{% endif %} ">{% if match.home_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.home_team }}"/> {% endif %}{{ match.home_team|default_if_none:"Winner Match 53" }}</div>{% endwith %}</div>
                     </td>
                     <td class="td-bracket bottom">&nbsp;</td>
                     <td class="td-bracket">&nbsp;</td>
@@ -429,7 +438,7 @@
                     <td class="td-bracket right">&nbsp;</td>
                     <td class="td-bracket">&nbsp;</td>
                     <td class="td-content">
-                        {% with matches|get_match:59 as match %}<div class=" match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="59-away" data-country="{{ match.away_team.id }}" data-default="Winner Match 54"><div class="label{% if match.winner and match.winner == match.away_team %} label-success{% else %} label-default{% endif %}">{% if match.away_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.away_team }}"></img> {% endif %}{{ match.away_team|default_if_none:"Winner Match 54" }}</div>{% endwith %}</div>
+                        {% with matches|get_match:59 as match %}<div class=" match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="59-away" data-country="{{ match.away_team.id }}" data-default="Winner Match 54"><div class="label{% if match.winner and match.winner == match.away_team %} label-success{% else %} label-default{% endif %}">{% if match.away_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.away_team }}"/> {% endif %}{{ match.away_team|default_if_none:"Winner Match 54" }}</div>{% endwith %}</div>
                     </td>
                     <td class="td-bracket right">&nbsp;</td>
                     <td class="td-bracket">&nbsp;</td>
@@ -443,7 +452,7 @@
                 </tr>
                 <tr>
                     <td class="td-content">
-                        {% with matches|get_match:52 as match %}<div class=" match{% if match.winner and match.winner and match.winner == match.home_team %} text-success{% endif %}" id="52-home" data-country="{{ match.home_team.id }}" data-default="Winner Group D"><div class="label{% if match.winner and match.winner == match.home_team %} label-success{% else %} label-default{% endif %} ">{% if match.home_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.home_team }}"></img> {% endif %}{{ match.home_team|default_if_none:"Winner Group D" }}</div>{% endwith %}</div>
+                        {% with matches|get_match:52 as match %}<div class=" match{% if match.winner and match.winner and match.winner == match.home_team %} text-success{% endif %}" id="52-home" data-country="{{ match.home_team.id }}" data-default="Winner Group D"><div class="label{% if match.winner and match.winner == match.home_team %} label-success{% else %} label-default{% endif %} ">{% if match.home_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.home_team }}"/> {% endif %}{{ match.home_team|default_if_none:"Winner Group D" }}</div>{% endwith %}</div>
                     </td>
                     <td class="td-bracket right bottom">&nbsp;</td>
                     <td class="td-bracket">&nbsp;</td>
@@ -461,7 +470,7 @@
                 <!--BLANK ROWS-->
                 <tr>
                     <td class="td-content">
-                        {% with matches|get_match:52 as match %}<div class=" match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="52-away" data-country="{{ match.away_team.id }}" data-default="Runner Up Group C"><div class="label{% if match.winner and match.winner == match.away_team %} label-success{% else %} label-default{% endif %}">{% if match.away_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.away_team }}"></img> {% endif %}{{ match.away_team|default_if_none:"Runner Up Group C" }}</div>{% endwith %}</div>
+                        {% with matches|get_match:52 as match %}<div class=" match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="52-away" data-country="{{ match.away_team.id }}" data-default="Runner Up Group C"><div class="label{% if match.winner and match.winner == match.away_team %} label-success{% else %} label-default{% endif %}">{% if match.away_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.away_team }}"/> {% endif %}{{ match.away_team|default_if_none:"Runner Up Group C" }}</div>{% endwith %}</div>
                     </td>
                     <td class="td-bracket">&nbsp;</td>
                     <td class="td-bracket">&nbsp;</td>
@@ -484,7 +493,7 @@
                     <td class="td-bracket right">&nbsp;</td>
                     <td class="td-bracket bottom">&nbsp;</td>
                     <td class="td-content">
-                        {% with matches|get_match:62 as match %}<div class="  match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="62-home" data-country="{{ match.home_team.id }}" data-default="Winner Match 59"><div class="label{% if match.winner and match.winner == match.home_team %} label-success{% else %} label-default{% endif %} ">{% if match.home_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.home_team }}"></img> {% endif %}{{ match.home_team|default_if_none:"Winner Match 59" }}</div>{% endwith %}</div>
+                        {% with matches|get_match:62 as match %}<div class="  match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="62-home" data-country="{{ match.home_team.id }}" data-default="Winner Match 59"><div class="label{% if match.winner and match.winner == match.home_team %} label-success{% else %} label-default{% endif %} ">{% if match.home_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.home_team }}"/> {% endif %}{{ match.home_team|default_if_none:"Winner Match 59" }}</div>{% endwith %}</div>
                     </td>
                     <td class="td-bracket right bottom">&nbsp;</td>
                     <td class="td-bracket">&nbsp;</td>
@@ -497,7 +506,7 @@
                 <!--Row 4-->
                 <tr>
                     <td class="td-content">
-                        {% with matches|get_match:55 as match %}<div class=" match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="55-home" data-country="{{ match.home_team.id }}" data-default="Winner Group F"><div class="label{% if match.winner and match.winner == match.home_team %} label-success{% else %} label-default{% endif %} ">{% if match.home_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.home_team }}"></img> {% endif %}{{ match.home_team|default_if_none:"Winner Group F" }}</div>{% endwith %}</div>
+                        {% with matches|get_match:55 as match %}<div class=" match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="55-home" data-country="{{ match.home_team.id }}" data-default="Winner Group F"><div class="label{% if match.winner and match.winner == match.home_team %} label-success{% else %} label-default{% endif %} ">{% if match.home_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.home_team }}"/> {% endif %}{{ match.home_team|default_if_none:"Winner Group F" }}</div>{% endwith %}</div>
                     </td>
                     <td class="td-bracket bottom">&nbsp;</td>
                     <td class="td-bracket">&nbsp;</td>
@@ -505,7 +514,7 @@
                     <td class="td-bracket right">&nbsp;</td>
                     <td class="td-bracket">&nbsp;</td>
                     <td class="td-content">
-                        {% with matches|get_match:62 as match %}<div class="  match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="62-away" data-country="{{ match.away_team.id }}" data-default="Winner Match 60"><div class="label{% if match.winner and match.winner == match.away_team %} label-success{% else %} label-default{% endif %}">{% if match.away_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.away_team }}"></img> {% endif %}{{ match.away_team|default_if_none:"Winner Match 60" }}</div>{% endwith %}</div>
+                        {% with matches|get_match:62 as match %}<div class="  match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="62-away" data-country="{{ match.away_team.id }}" data-default="Winner Match 60"><div class="label{% if match.winner and match.winner == match.away_team %} label-success{% else %} label-default{% endif %}">{% if match.away_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.away_team }}"/> {% endif %}{{ match.away_team|default_if_none:"Winner Match 60" }}</div>{% endwith %}</div>
                     </td>
                     <td class="td-bracket">&nbsp;</td>
                     <td class="td-bracket">&nbsp;</td>
@@ -516,7 +525,7 @@
                 </tr>
                 <tr>
                     <td class="td-content">
-                        {% with matches|get_match:55 as match %}<div class=" match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="55-away" data-country="{{ match.away_team.id }}" data-default="Runner Up Group E"><div class="label{% if match.winner and match.winner == match.away_team %} label-success{% else %} label-default{% endif %}">{% if match.away_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.away_team }}"></img> {% endif %}{{ match.away_team|default_if_none:"Runner Up Group E" }}</div>{% endwith %}</div>
+                        {% with matches|get_match:55 as match %}<div class=" match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="55-away" data-country="{{ match.away_team.id }}" data-default="Runner Up Group E"><div class="label{% if match.winner and match.winner == match.away_team %} label-success{% else %} label-default{% endif %}">{% if match.away_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.away_team }}"/> {% endif %}{{ match.away_team|default_if_none:"Runner Up Group E" }}</div>{% endwith %}</div>
                     </td>
                     <td class="td-bracket right">&nbsp;</td>
                     <td class="td-bracket">&nbsp;</td>
@@ -551,7 +560,7 @@
                     <td class="td-bracket right">&nbsp;</td>
                     <td class="td-bracket bottom">&nbsp;</td>
                     <td class="td-content">
-                        {% with matches|get_match:60 as match %}<div class=" match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="60-home" data-country="{{ match.home_team.id }}" data-default="Winner Match 55"><div class="label{% if match.winner and match.winner == match.home_team %} label-success{% else %} label-default{% endif %} ">{% if match.home_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.home_team }}"></img> {% endif %}{{ match.home_team|default_if_none:"Winner Match 55" }}</div>{% endwith %}</div>
+                        {% with matches|get_match:60 as match %}<div class=" match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="60-home" data-country="{{ match.home_team.id }}" data-default="Winner Match 55"><div class="label{% if match.winner and match.winner == match.home_team %} label-success{% else %} label-default{% endif %} ">{% if match.home_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.home_team }}"/> {% endif %}{{ match.home_team|default_if_none:"Winner Match 55" }}</div>{% endwith %}</div>
                     </td>
                     <td class="td-bracket right bottom">&nbsp;</td>
                     <td class="td-bracket">&nbsp;</td>
@@ -568,7 +577,7 @@
                     <td class="td-bracket right">&nbsp;</td>
                     <td class="td-bracket">&nbsp;</td>
                     <td class="td-content">
-                        {% with matches|get_match:60 as match %}<div class=" match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="60-away" data-country="{{ match.away_team.id }}" data-default="Winner Match 56"><div class="label{% if match.winner and match.winner == match.away_team %} label-success{% else %} label-default{% endif %}">{% if match.away_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.away_team }}"></img> {% endif %}{{ match.away_team|default_if_none:"Winner Match 56" }}</div>{% endwith %}</div>
+                        {% with matches|get_match:60 as match %}<div class=" match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="60-away" data-country="{{ match.away_team.id }}" data-default="Winner Match 56"><div class="label{% if match.winner and match.winner == match.away_team %} label-success{% else %} label-default{% endif %}">{% if match.away_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.away_team }}"/> {% endif %}{{ match.away_team|default_if_none:"Winner Match 56" }}</div>{% endwith %}</div>
                     </td>
                     <td class="td-bracket">&nbsp;</td>
                     <td class="td-bracket">&nbsp;</td>
@@ -582,7 +591,7 @@
                 </tr>
                 <tr>
                     <td class="td-content">
-                        {% with matches|get_match:56 as match %}<div class=" match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="56-home" data-country="{{ match.home_team.id }}" data-default="Winner Group H"><div class="label{% if match.winner and match.winner == match.home_team %} label-success{% else %} label-default{% endif %} ">{% if match.home_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.home_team }}"></img> {% endif %}{{ match.home_team|default_if_none:"Winner Group H" }}</div>{% endwith %}</div>
+                        {% with matches|get_match:56 as match %}<div class=" match{% if match.winner and match.winner == match.home_team %} text-success{% endif %}" id="56-home" data-country="{{ match.home_team.id }}" data-default="Winner Group H"><div class="label{% if match.winner and match.winner == match.home_team %} label-success{% else %} label-default{% endif %} ">{% if match.home_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.home_team }}"/> {% endif %}{{ match.home_team|default_if_none:"Winner Group H" }}</div>{% endwith %}</div>
                     </td>
                     <td class="td-bracket right bottom">&nbsp;</td>
                     <td class="td-bracket">&nbsp;</td>
@@ -600,7 +609,7 @@
                 <!--BLANK ROWS-->
                 <tr>
                     <td class="td-content">
-                        {% with matches|get_match:56 as match %}<div class=" match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="56-away" data-country="{{ match.away_team.id }}" data-default="Runner Up Group G"><div class="label{% if match.winner and match.winner == match.away_team %} label-success{% else %} label-default{% endif %}">{% if match.away_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.away_team }}"></img> {% endif %}{{ match.away_team|default_if_none:"Runner Up Group G" }}</div>{% endwith %}</div>
+                        {% with matches|get_match:56 as match %}<div class=" match{% if match.winner and match.winner == match.away_team %} text-success{% endif %}" id="56-away" data-country="{{ match.away_team.id }}" data-default="Runner Up Group G"><div class="label{% if match.winner and match.winner == match.away_team %} label-success{% else %} label-default{% endif %}">{% if match.away_team %}<img src="{% static "img/blank.png" %}" class="flag flag-{{ match.away_team }}"/> {% endif %}{{ match.away_team|default_if_none:"Runner Up Group G" }}</div>{% endwith %}</div>
                     </td>
                     <td class="td-bracket">&nbsp;</td>
                     <td class="td-bracket">&nbsp;</td>
@@ -633,6 +642,33 @@
             </tbody>
         </table>
     </div>
+
+    {% if not read_only %}
+        <!-- Change Name Modal -->
+        <div class="modal fade" id="changeNameModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form id="changeNameForm" class="form-inline" method="POST">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="changeNameLabel">New Bracket Name</h4>
+                        </div>
+                        <div class="modal-body">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="changeNameInput">Bracket Name</label>
+                                <input type="text" id="changeNameInput" class="form-control" name="bracket-name" value="{{ bracket.name }}"/>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-success">Save</button>
+                        </div>
+                    </form>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    {% endif %}
 {% endblock %}
 
 {% block javascript %}

@@ -11,6 +11,7 @@ urlpatterns = patterns('tournament.views',
                        url(r'^leavegroup/', 'leave_group'),
                        url(r'^save/$', 'save'),
                        url(r'^reset/$', 'reset'),
+                       url(r'^delete/$', 'delete'),
                        url(r'^about/$', 'about'),
                        url(r'^usa/$', 'usa'),
                        )
