@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 
 
 class Countries(models.Model):
@@ -24,7 +25,7 @@ class Brackets(models.Model):
         try:
             Brackets.objects.get(user=self.user, name=self.name)
             return
-        except:
+        except ObjectDoesNotExist:
             super(Brackets, self).save(*args, **kwargs)
 
     def __unicode__(self):

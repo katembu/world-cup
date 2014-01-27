@@ -39,7 +39,9 @@
             <span class="fa fa-trophy silver"></span><span class="text-muted"> Runner Up</span>
         </div>
         <div class="col-md-1">
-            <button type="button" class="btn btn-primary" id="reset">Reset <i class="fa fa-refresh"></i></button>
+            {% if not read_only %}
+                <button type="button" class="btn btn-primary" id="reset">Reset <i class="fa fa-refresh"></i></button>
+            {% endif %}
         </div>
     </div>
     <!--Groups-->
@@ -645,12 +647,12 @@
 
     {% if not read_only %}
         <!-- Change Name Modal -->
-        <div class="modal fade" id="changeNameModal" tabindex="-1" role="dialog">
+        <div class="modal fade" id="changeNameModal" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <form id="changeNameForm" class="form-inline" method="POST">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
                             <h4 class="modal-title" id="changeNameLabel">New Bracket Name</h4>
                         </div>
                         <div class="modal-body">

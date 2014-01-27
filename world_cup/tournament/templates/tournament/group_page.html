@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+
+{% load brackets_tags %}
 {% load staticfiles %}
 {% block title %}{{ group.name }}{% endblock %}
 
@@ -39,7 +41,7 @@
                     <tr>
                         <td>{% if bracket.user.first_name %}{{ bracket.user.get_full_name }}{% else %}{{ bracket.user.username }}{% endif %}</td>
                         <td><a href="{% url "tournament.views.brackets" %}?user={{ bracket.user.username }}&bracket-name={{ bracket.name }}">{{ bracket.name }}</a></td>
-                        <td>-</td>
+                        <td>{{ bracket|score }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
