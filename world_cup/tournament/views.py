@@ -250,7 +250,7 @@ def send_invites(request, group_name):
             content += 'This is a private group.  To get in you will need the password below. <br/>\
                        <strong>Password:</strong> %s' % group.password
         template = get_template('user_management/message_email.html')
-        context = Context({'header': subject, 'content': content, 'user': request.user})
+        context = Context({'header': subject, 'content': content, 'user': request.user, 'footer': False})
         body = template.render(context)
         EmailThread(subject, body, email_addresses).start()
         return HttpResponse(json.dumps('Success'), mimetype='application/json')

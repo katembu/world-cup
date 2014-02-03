@@ -125,7 +125,7 @@ def message_send(request):
                 <a href="http://%s/messages/">messages</a> to read it.' % (request.user, 'soccer.ericsaupe.com',
                                                                            'soccer.ericsaupe.com')
                 template = get_template('user_management/message_email.html')
-                context = Context({'header': subject, 'content': content, 'user': request.user})
+                context = Context({'header': subject, 'content': content, 'user': request.user, 'footer': True})
                 body = template.render(context)
                 if group:
                     # Add message to all members of group
