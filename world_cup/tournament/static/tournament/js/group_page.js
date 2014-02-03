@@ -2,7 +2,7 @@ $(document).ready(function(){
     $("#messageForm").on("submit", function(e){
         e.preventDefault();
         $.ajax({
-            url: '/tournament/message/' + $("#groupName").text() + '/',
+            url: '/tournament/message/' + encodeURIComponent($("#groupName").text()) + '/',
             type: 'POST',
             data: $(this).serialize(),
             error: function(data) {
@@ -74,7 +74,7 @@ $(document).ready(function(){
     $("#inviteForm").on("submit", function(e){
         e.preventDefault();
         $.ajax({
-            url: '/tournament/invite/' + $("#groupName").text() + '/',
+            url: '/tournament/invite/' + encodeURIComponent($("#groupName").text()) + '/',
             type: 'POST',
             data: $(this).serialize(),
             error: function(data) {

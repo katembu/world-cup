@@ -40,7 +40,7 @@
                 {% for bracket in group.brackets.all %}
                     <tr>
                         <td>{% if bracket.user.first_name %}{{ bracket.user.get_full_name }}{% else %}{{ bracket.user.username }}{% endif %}</td>
-                        <td><a href="{% url "tournament.views.brackets" %}?user={{ bracket.user.username }}&bracket-name={{ bracket.name }}">{{ bracket.name }}</a></td>
+                        <td><a href="{% url "tournament.views.brackets" %}?user={{ bracket.user.username }}&bracket-name={{ bracket.name|urlencode }}">{{ bracket.name }}</a></td>
                         <td>{{ bracket|score }}</td>
                     </tr>
                 {% endfor %}

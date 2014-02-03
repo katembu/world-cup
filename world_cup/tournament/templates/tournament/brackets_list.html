@@ -29,7 +29,7 @@
                 <h2>You don't have any brackets, please create a new one on the left.</h2>
             {% endif %}
             {% for bracket in brackets %}
-                <li><a href="{% url "tournament.views.brackets" %}{{ bracket.name }}/"><span class="fa fa-trophy gold-color"></span> {{ bracket.name }}<span class="text-muted small">{% for group in bracket.competitivegroups_set.all %} ({{ group.name }}){% endfor %}</span></a></li>
+                <li><a href="{% url "tournament.views.brackets" %}{{ bracket.name|urlencode }}/"><span class="fa fa-trophy gold-color"></span> {{ bracket.name }}<span class="text-muted small">{% for group in bracket.competitivegroups_set.all %} ({{ group.name }}){% endfor %}</span></a></li>
             {% endfor %}
         </ul>
     </div>

@@ -4,6 +4,7 @@ from django.template import RequestContext, Context
 from django.contrib.auth.decorators import login_required
 from django.template.loader import get_template
 from django.db.models import Q
+from django.utils.http import urlquote
 from tournament.models import *
 from tournament.forms import CompetitiveGroupForm, BracketSelectForm, GroupLoginForm
 from tournament.helpers import place_team, update_matches, create_matches
@@ -41,7 +42,7 @@ def brackets(request):
                 Brackets.objects.get(user=request.user, name=request.POST['name'])
             except ObjectDoesNotExist:
                 create_matches(request.user, request.POST['name'])
-                return redirect('/tournament/brackets/%s/' % request.POST['name'])
+                return redirect(urlquote('/tournament/brackets/%s/' % request.POST['name']))
         return render_to_response('tournament/brackets_list.html', {'brackets': user_brackets, },
                                   context_instance=RequestContext(request))
     return redirect('/accounts/login/?next=/tournament/brackets/')
@@ -55,7 +56,7 @@ def render_bracket(request, bracket_name):
     if request.method == 'POST':
         bracket.name = request.POST['bracket-name']
         bracket.save()
-        return redirect('/tournament/brackets/%s/' % bracket.name)
+        return redirect(urlquote('/tournament/brackets/%s/' % bracket.name))
     group_labels = Countries.objects.values('group').distinct()
     group_predictions = []
     for label in group_labels:
@@ -170,7 +171,7 @@ def groups(request, group_name=None):
         user_has_permission = GroupPermissions.objects.filter(user=request.user, group=group, allowed=True)
         # If they don't, and we require a password, redirect to group login view
         if group.password and not (user_in_group or user_has_permission):
-            return redirect('/tournament/login/%s/' % group.name)
+            return redirect(urlquote('/tournament/login/%s/' % group.name))
         # Render page with bracket selection, may not be used if user already in group
         bracket_form = BracketSelectForm()
         bracket_form.fields['brackets'].queryset = Brackets.objects.filter(user=request.user)
@@ -191,7 +192,7 @@ def groups(request, group_name=None):
                 new_group.creator = request.user
                 new_group.save()
                 new_group.brackets.add(form.cleaned_data['brackets'])
-                return redirect('/tournament/groups/%s/' % new_group.name)
+                return redirect(urlquote('/tournament/groups/%s/' % new_group.name))
             else:
                 form.fields['brackets'].queryset = Brackets.objects.filter(user=request.user)
                 return render_to_response('tournament/groups.html', {'form': form, 'groups': competitive_groups,
@@ -220,7 +221,7 @@ def group_login(request, group_name):
                 # Add user to group permissions
                 permission = GroupPermissions(user=request.user, group=group, allowed=True)
                 permission.save()
-                return redirect('/tournament/groups/%s/' % group.name)
+                return redirect(urlquote('/tournament/groups/%s/' % group.name))
     return render_to_response('tournament/group_login.html', {'form': form, 'group': group, },
                               context_instance=RequestContext(request))
 
@@ -243,7 +244,8 @@ def send_invites(request, group_name):
         subject = '%s wants you in %s | %s' % (request.user, group.name, 'soccer.ericsaupe.com')
         content = '%s wants you to join the group \
                   <a href="http://soccer.ericsaupe.com/tournament/groups/%s">%s</a>.<br/> \
-                  Prove you can predict the World Cup better than them!' % (request.user, group.name, group.name)
+                  Prove you can predict the World Cup better than them!' % (request.user, urlquote(group.name),
+                                                                            group.name)
         if group.password:
             content += 'This is a private group.  To get in you will need the password below. <br/>\
                        <strong>Password:</strong> %s' % group.password
