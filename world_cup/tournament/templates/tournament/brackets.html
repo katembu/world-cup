@@ -24,7 +24,7 @@
                 </small>
                 {% endif %}
             </h1>
-
+            <h3>Score: {{ bracket|score }}</h3>
         </div>
     </div>
     <div class="row">
@@ -55,7 +55,7 @@
                     {% for country in group %}
                         <tr class="country {{ country|selected_class:bracket }}" data-country="{{ country.id }}">
                         <tr class="country {{ country|selected_class:bracket }} {% if country|selected_class:bracket == "warning" or country|selected_class:bracket == "success" %} bold{% elif country|selected_class:bracket == "active" %} text-muted{% endif %}" data-country="{{ country.id }}">
-                            <td>{{ country.position }}</td>
+                            <td>{{ country.world_rank }}</td>
                             <td><img src="{% static "img/blank.png" %}" class="flag flag-{{ country.name }}"/> {{ country.name }} <span class="fa fa-trophy pull-right fa-lg gold{% if country|selected_class:bracket != "success" %} hide{% endif %}"></span><span class="fa fa-trophy pull-right silver{% if country|selected_class:bracket != "warning" %} hide{% endif %}"></span></td>
                         </tr>
                     {% endfor %}

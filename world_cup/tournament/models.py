@@ -8,6 +8,7 @@ class Countries(models.Model):
     group = models.CharField(max_length=1)
     position = models.IntegerField()
     final_position = models.IntegerField(blank=True, null=True)
+    world_rank = models.IntegerField(default=99)
 
     def __unicode__(self):
         return u'%s' % self.name
