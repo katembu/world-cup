@@ -35,8 +35,13 @@
                 </div>
             {% endfor %}
         {% endif %}
-        <div class="pull-right">
-            <a href="{% url "user_management.views.create_user" %}">Create Account</a>
+        <div class="row">
+            <div class="pull-left">
+                <a href="{% url "password_reset" %}">Forgot Password?</a>
+            </div>
+            <div class="pull-right">
+                <a href="{% url "user_management.views.create_user" %}">Create Account</a>
+            </div>
         </div>
     </div>
 {% endblock %}
