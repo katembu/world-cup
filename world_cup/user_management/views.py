@@ -29,7 +29,8 @@ def login_user(request):
             if user.is_active:
                 login(request, user)
             return HttpResponseRedirect('%s' % next if next != 'None' else '/')
-        return render_to_response('login.html', {'next': next, 'error': True}, context_instance=RequestContext(request))
+        return render_to_response('login.html', {'next': next, 'error': True, 'username':username},
+                                  context_instance=RequestContext(request))
     return render_to_response('login.html', {'next': next, 'error': False}, context_instance=RequestContext(request))
 
 
