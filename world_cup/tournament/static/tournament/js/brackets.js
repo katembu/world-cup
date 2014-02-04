@@ -42,7 +42,7 @@ $(document).ready(function(){
                 url: "/tournament/save/",
                 data: {'bracket':$("#bracket-name").text(), 'type': 'remove-group', 'country': row.data("country")},
                 error: function(){
-                    alert("There was an error and your choice was not saved.");
+                    alert("There was an error and your choice was not saved.  Refresh the page and try again.");
                 },
                 success: function(data){
                     var ids = data[0];
@@ -64,7 +64,7 @@ $(document).ready(function(){
                 url: "/tournament/save/",
                 data: {'bracket':$("#bracket-name").text(), 'type': 'remove-group', 'country': row.data("country")},
                 error: function(){
-                    alert("There was an error and your choice was not saved.");
+                    alert("There was an error and your choice was not saved.  Refresh the page and try again.");
                 },
                 success: function(data){
                     var ids = data[0];
@@ -89,7 +89,7 @@ $(document).ready(function(){
                         url: "/tournament/save/",
                         data: {'bracket':$("#bracket-name").text(), 'type': 'add-group', 'country': row.data("country"), 'position':2},
                         error: function(){
-                            alert("There was an error and your choice was not saved.");
+                            alert("There was an error and your choice was not saved.  Refresh the page and try again.");
                         },
                         success: function(data){
                             $("#" + data[0]).html('<div class="label label-default"> <img src="/static/img/blank.png" class="flag flag-' + data[2] + '"></img> ' + data[2] + '</div>');
@@ -108,7 +108,7 @@ $(document).ready(function(){
                         url: "/tournament/save/",
                         data: {'bracket':$("#bracket-name").text(), 'type': 'add-group', 'country': row.data("country"), 'position':1},
                         error: function(){
-                            alert("There was an error and your choice was not saved.");
+                            alert("There was an error and your choice was not saved.  Refresh the page and try again.");
                         },
                         success: function(data){
                             $("#" + data[0]).html('<div class="label label-default"> <img src="/static/img/blank.png" class="flag flag-' + data[2] + '"></img> ' + data[2] + '</div>');
@@ -134,7 +134,7 @@ $(document).ready(function(){
                 url: "/tournament/save/",
                 data:{'bracket':$("#bracket-name").text(), 'type': 'save-match', 'match_number': match_number, 'home_away': home_away},
                 error: function(){
-                    alert("There was an error and your choice was not saved.");
+                    alert("There was an error and your choice was not saved.  Refresh the page and try again.");
                 },
                 success: function(data){
                     var final_match = '';

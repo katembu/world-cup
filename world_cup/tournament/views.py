@@ -259,12 +259,15 @@ def send_invites(request, group_name):
 @login_required
 def leave_group(request):
     if 'group' in request.POST:
-        group = CompetitiveGroups.objects.get(id=request.POST['group'])
-        bracket = Brackets.objects.get(user=request.user, competitivegroups=group)
-        group.brackets.remove(bracket)
-        if len(group.brackets.all()) == 0:
-            group.delete()
-        return HttpResponse(json.dumps('Success'), mimetype='application/json')
+        try:
+            group = CompetitiveGroups.objects.get(id=request.POST['group'])
+            bracket = Brackets.objects.get(user=request.user, competitivegroups=group)
+            group.brackets.remove(bracket)
+            if len(group.brackets.all()) == 0:
+                group.delete()
+            return HttpResponse(json.dumps('Success'), mimetype='application/json')
+        except ObjectDoesNotExist:
+            return HttpResponse(json.dumps('Fail'), mimetype='application/json')
 
 
 def usa(request):
