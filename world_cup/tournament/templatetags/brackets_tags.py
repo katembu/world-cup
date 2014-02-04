@@ -64,7 +64,8 @@ def score(bracket):
 
 @register.filter
 def get_url(bracket):
-    return 'http://soccer.ericsaupe.com/?user=%s&bracket-name=%s' % (bracket.user.username, urlquote(bracket.name))
+    return 'http://soccer.ericsaupe.com/tournament/brackets/?user=%s&bracket-name=%s' % (bracket.user.username,
+                                                                                         urlquote(bracket.name))
 
 
 @register.filter
