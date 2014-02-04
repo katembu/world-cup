@@ -92,7 +92,7 @@ $(document).ready(function(){
                             alert("There was an error and your choice was not saved.  Refresh the page and try again.");
                         },
                         success: function(data){
-                            $("#" + data[0]).html('<div class="label label-default"> <img src="/static/img/blank.png" class="flag flag-' + data[2] + '"></img> ' + data[2] + '</div>');
+                            $("#" + data[0]).html('<div class="label label-default">' + data[3] + ' <img src="/static/img/blank.png" class="flag flag-' + data[2] + '"></img> ' + data[2] + '</div>');
                             $("#" + data[0]).data("country", data[1]);
                             row.addClass("warning").addClass("bold");
                             row.find(".silver").removeClass("hide");
@@ -111,7 +111,7 @@ $(document).ready(function(){
                             alert("There was an error and your choice was not saved.  Refresh the page and try again.");
                         },
                         success: function(data){
-                            $("#" + data[0]).html('<div class="label label-default"> <img src="/static/img/blank.png" class="flag flag-' + data[2] + '"></img> ' + data[2] + '</div>');
+                            $("#" + data[0]).html('<div class="label label-default">' + data[3] + ' <img src="/static/img/blank.png" class="flag flag-' + data[2] + '"></img> ' + data[2] + '</div>');
                             $("#" + data[0]).data("country", data[1]);
                             row.addClass("success").addClass("bold");
                             row.find(".gold").removeClass("hide");
@@ -144,7 +144,7 @@ $(document).ready(function(){
                     if (!data[0]) {
                         data[0] = match_number + "-" + home_away;
                     }
-                    $("#" + data[0]).html('<div class="label label-default' + final_match + '" data-name="' + data[2] + '"><img src="/static/img/blank.png" class="flag flag-' + data[2] + '"></img> ' + data[2] + '</div>');
+                    $("#" + data[0]).html('<div class="label label-default' + final_match + '" data-name="' + data[2] + '">' + data[3] + ' <img src="/static/img/blank.png" class="flag flag-' + data[2] + '"></img> ' + data[2] + '</div>');
                     $("#" + data[0]).data("country", data[1]);
                     if (data[0] == "65-home") {
                         $("#" + data[0]).addClass("label-success").addClass("winner");

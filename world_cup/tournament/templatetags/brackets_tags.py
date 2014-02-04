@@ -1,6 +1,7 @@
 from django import template
 from tournament.models import Countries, GroupPredictions, MatchPredictions, Matches
 from django.core.exceptions import ObjectDoesNotExist
+from django.utils.http import urlquote
 
 register = template.Library()
 
@@ -59,3 +60,13 @@ def score(bracket):
         except ObjectDoesNotExist:
             pass
     return bracket_score
+
+
+@register.filter
+def get_url(bracket):
+    return 'http://soccer.ericsaupe.com/?user=%s&bracket-name=%s' % (bracket.user.username, urlquote(bracket.name))
+
+
+@register.filter
+def get_group_url(group):
+    return 'http://soccer.ericsaupe.com/tournament/groups/%s' % urlquote(group.name)

@@ -83,7 +83,7 @@ def save(request):
             winner = GroupPredictions(bracket=bracket, country=country, position=position)
             winner.save()
             bracket_placement = place_team(request.user, bracket.name, winner)
-            return HttpResponse(json.dumps([bracket_placement, country.id, country.name]),
+            return HttpResponse(json.dumps([bracket_placement, country.id, country.name, country.world_rank]),
                                 mimetype='application/json')
         #Called when a group selection is unselected.
         elif request.POST['type'] == 'remove-group':
@@ -101,7 +101,8 @@ def save(request):
                 match.save()
             winner = GroupPredictions.objects.get(bracket=bracket, country=country)
             winner.delete()
-            return HttpResponse(json.dumps([output, country.id, country.name]), mimetype='application/json')
+            return HttpResponse(json.dumps([output, country.id, country.name, country.world_rank]),
+                                mimetype='application/json')
         #Called when a knockout round selection is made.
         elif request.POST['type'] == 'save-match':
             bracket = Brackets.objects.get(user=request.user, name=request.POST['bracket'])
@@ -114,7 +115,8 @@ def save(request):
             match.winner = winner
             match.save()
             output = update_matches(request.user, bracket.name, match)
-            return HttpResponse(json.dumps([output, winner.id, winner.name]), mimetype='application/json')
+            return HttpResponse(json.dumps([output, winner.id, winner.name, winner.world_rank]),
+                                mimetype='application/json')
 
 
 @login_required
