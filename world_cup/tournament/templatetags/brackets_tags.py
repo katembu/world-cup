@@ -1,6 +1,6 @@
 from django import template
 from tournament.models import Countries, GroupPredictions, MatchPredictions, Matches
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.utils.http import urlquote
 
 register = template.Library()
@@ -14,7 +14,12 @@ def group_name(group):
 @register.filter
 def selected_class(country, bracket):
     try:
-        winner = GroupPredictions.objects.get(bracket=bracket, country=country)
+        try:
+            winner = GroupPredictions.objects.get(bracket=bracket, country=country)
+        except MultipleObjectsReturned:
+            winners = GroupPredictions.objects.filter(bracket=bracket, country=country)
+            winner = winners[0]
+            winners[1].delete()
         if winner.position == 1:
             return 'success'
         if winner.position == 2:
