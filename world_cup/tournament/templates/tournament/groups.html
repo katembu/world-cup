@@ -8,10 +8,16 @@
 {% endblock %}
 
 {% block content %}
-    <div class="col-md-offset-1 col-md-2 well">
-        <div class="page-header">
-            <h1>New Group</h1>
+    <div class="row">
+        <div class="col-sm-10 col-sm-offset-1">
+            <h1>Groups</h1>
+            <p>Groups are a way to compare your bracket against others.  You can join a group by clicking on a group listed under Public Groups or check in on how your bracket is doing on groups you've already joined by clicking them under the My Groups section.</p>
+        <p>If you'd like to create your own group just give it a name, select the bracket you want to use to compete in the group, and to make it private give it a password.  Want anyone to join?  Don't put in a password and hit Submit!</p>
         </div>
+    </div>
+    <div class="col-md-offset-1 col-md-2 well">
+        <h1>New Group</h1>
+
         <form method="POST">
             {% csrf_token %}
             {{ form.as_table }}<br/>

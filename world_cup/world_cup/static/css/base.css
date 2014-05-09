@@ -1,3 +1,42 @@
+body {
+    background-color: #9CB09C;
+}
+
+.well {
+    background-color: #C7D2C7;
+}
+
+.text-muted {
+    color: #FFFFC2;
+}
+
+.navbar {
+    background-color: #335C33;
+    width: 100%;
+}
+
+.navbar a {
+    color: white;
+}
+
+.navbar-toggle .icon-bar {
+    background-color: white;
+}
+
+ul.nav a:hover {
+    background-color: #5C7D5C;
+    color: #000 !important;
+}
+
+.dropdown.open .dropdown-toggle {
+    background-color: #5C7D5C !important;
+    color: #000 !important;
+}
+
+.nav-pills a {
+    color: black;
+}
+
 .bracket-list {
     font-size: medium;
     font-weight: bold;

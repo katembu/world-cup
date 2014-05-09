@@ -14,33 +14,32 @@
 
 {% block content %}
     <div class="row">
-        <div class="page-header col-sm-10 col-sm-offset-2">
+        <div class="page-header col-xs-offset-1 col-sm-offset-1">
             <h1>
                 {% if read_only %}{{ bracket.user.get_full_name }}'s Bracket: {% endif %}<span id="bracket-name">{{ bracket.name }}</span>
                 {% if not read_only %}
-                <small>
-                    <a href="#" class="btn btn-default" data-toggle="modal" data-target="#changeNameModal"><i class="fa fa-pencil"></i></a>
-                    <a href="#" id="delete-bracket" class="btn btn-default"><i class="fa fa-trash-o text-danger"></i></a>
-                </small>
+                    <small>
+                        <a href="#" class="btn btn-default" data-toggle="modal" data-target="#changeNameModal"><i class="fa fa-pencil"></i></a>
+                        <a href="#" id="delete-bracket" class="btn btn-default"><i class="fa fa-trash-o text-danger"></i></a>
+
+                    </small>
                 {% endif %}
             </h1>
-            <h3>Score: {{ bracket|score }}</h3>
-        </div>
-        <div class="row col-sm-offset-2">
-            <div class="col-sm-1">
+            <h3>
+                Score: {{ bracket|score }}
                 <a href="https://twitter.com/share" class="twitter-share-button" data-lang="en" data-url="{{ bracket|get_url }}" data-text="Check out my #WorldCup Predictions!">Tweet</a>
                 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-            </div>
+            </h3>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-2 col-md-offset-1">
+        <div class="col-lg-2 col-lg-offset-1">
             <h2>Group Stage</h2>
         </div>
-                <div class="col-md-7">
+                <div class="col-lg-7">
             <h2 class="text-muted knockout-hidden" {% if not bracket|group_not_completed %}hidden{% endif %}>Make Group Stage selections before moving on to Knockout Stage.</h2>
         </div>
-        <div class="col-md-1">
+        <div class="col-lg-1">
             <span class="fa fa-trophy fa-lg gold"></span><span class="text-muted"> Group Winner</span><br />
             <span class="fa fa-trophy silver"></span><span class="text-muted"> Runner Up</span>
         </div>
@@ -54,15 +53,15 @@
     <div id="group-div" class="row custom-row">
         {% for group in groups %}
             <div class="col-md-1 group">
-                <table class="table">
+                <table class="table col-sm-12">
                     <tr class="group-header">
-                        <th colspan=2>Group {{ group|group_name }}</th>
+                        <th colspan="2"><span class="hidden-md">Group </span>{{ group|group_name }}</th>
                     </tr>
                     {% for country in group %}
                         <tr class="country {{ country|selected_class:bracket }}" data-country="{{ country.id }}">
                         <tr class="country {{ country|selected_class:bracket }} {% if country|selected_class:bracket == "warning" or country|selected_class:bracket == "success" %} bold{% elif country|selected_class:bracket == "active" %} text-muted{% endif %}" data-country="{{ country.id }}">
                             <td>{{ country.world_rank }}</td>
-                            <td><img src="{% static "img/blank.png" %}" class="flag flag-{{ country.name }}"/> {{ country.name }} <span class="fa fa-trophy pull-right fa-lg gold{% if country|selected_class:bracket != "success" %} hide{% endif %}"></span><span class="fa fa-trophy pull-right silver{% if country|selected_class:bracket != "warning" %} hide{% endif %}"></span></td>
+                            <td><img src="{% static "img/blank.png" %}" class="flag flag-{{ country.name }}"/> {{ country.name }} <span class="{% if country|selected_class:bracket != "success" %}hide{% endif %}"><br/><span class="fa fa-trophy pull-right fa-lg gold"></span></span><span class="{% if country|selected_class:bracket != "warning" %}hide{% endif %}"><br/><span class="fa fa-trophy pull-right silver"></span></span></td>
                         </tr>
                     {% endfor %}
                 </table>

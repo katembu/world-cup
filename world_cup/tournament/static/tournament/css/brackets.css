@@ -46,6 +46,11 @@ td, th {
 
 .country.active {
     cursor: auto;
+
+}
+
+.active td {
+    background-color: transparent !important;
 }
 
 .match {

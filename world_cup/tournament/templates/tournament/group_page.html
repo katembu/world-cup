@@ -66,6 +66,7 @@
                     <div class="modal-body">
                         {% csrf_token %}
                         {{ bracket_form.as_table }}
+                        <p>No bracket? <a href="{% url "tournament.views.brackets" %}">Make one!</a></p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

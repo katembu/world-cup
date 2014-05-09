@@ -15,79 +15,79 @@
 
     <body>
         <div class="navbar-wrapper">
-            <div class="container">
-                <div class="navbar navbar-inverse navbar-static-top">
-                    <div class="container">
-                        <div class="navbar-header">
-                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            </button>
-                            <a class="navbar-brand" href="{% url "user_management.views.index" %}">World Cup</a>
-                        </div>
-                        <div class="navbar-collapse collapse">
-                            <ul class="nav navbar-nav">
-                                <li {% block home-nav %}{% endblock %}><a href="{% url "user_management.views.index" %}">Home</a></li>
-                                <li {% block brackets-nav %}{% endblock %}><a href="{% url "tournament.views.brackets" %}">Brackets</a></li>
-                                <li {% block groups-nav %}{% endblock %}><a href="{% url "tournament.views.groups" %}">Groups</a></li>
-                                <li {% block about-nav %}{% endblock %}><a href="{% url "tournament.views.about" %}">About</a></li>
-                                <li {% block contact-nav %}{% endblock %}><a href="{% url "user_management.views.contact" %}">Contact</a></li>
-                                <li><a href="/blog/" target="_blank">Blog</a></li>
-                                <li {% block donate-nav %}{% endblock %}><a href="{% url "user_management.views.donate" %}">Tip Jar</a></li>
-                            </ul>
-                            <ul class="nav navbar-nav navbar-right">
-                                {% if user.is_authenticated %}
-                                    {% if user_messages %}
-                                        <li class="dropdown">
-                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                                <i class="fa fa-envelope-o" style="color: orange;"></i> <span class="badge">{{ user_messages|length }}</span>
-                                            </a>
-                                            {% if user_messages %}
-                                                <ul class="dropdown-menu">
-                                                    <li><a href="{% url "user_management.views.messages" %}">View All Messages</a></li>
-                                                    {% for message in user_messages %}
-                                                        <li>
-                                                            <a href="{% url "user_management.views.messages" %}?id={{ message.id }}">
-                                                                <strong>{{ message.subject }}</strong>
-                                                                {% if message.group %}
-                                                                    <br/><small class="text-muted">{{ message.group.name }}</small>
-                                                                {% endif %}
-                                                                <p>{{ message.message|cut:"150" }}</p>
-                                                                <!--
-                                                                <button class="btn btn-xs btn-primary reply" data-message="{{ message.id }}"><i class="fa fa-mail-reply"></i></button>
-                                                                {% if message.group %}
-                                                                    <button class="btn btn-xs btn-primary reply-all" data-message="{{ message.id }}"><i class="fa fa-mail-reply-all"></i></button>
-                                                                {% endif %}
-                                                                <button class="btn btn-xs btn-danger delete-message" data-message="{{ message.id }}"><i class="fa fa-trash-o"></i></button>
-                                                                -->
-                                                            </a>
-                                                        </li>
-                                                    {% endfor %}
-                                                </ul>
-                                            {% endif %}
-                                        </li>
-                                    {% else %}
-                                        <li><a href="{% url "user_management.views.messages" %}"><i class="fa fa-envelope-o"></i></a></li>
-                                    {% endif %}
+            <div class="navbar navbar-static-top">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="{% url "user_management.views.index" %}">World Cup</a>
+                    </div>
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <li {% block home-nav %}{% endblock %}><a href="{% url "user_management.views.index" %}">Home</a></li>
+                            <li {% block brackets-nav %}{% endblock %}><a href="{% url "tournament.views.brackets" %}">Brackets</a></li>
+                            <li {% block groups-nav %}{% endblock %}><a href="{% url "tournament.views.groups" %}">Groups</a></li>
+                            <li {% block about-nav %}{% endblock %}><a href="{% url "tournament.views.about" %}">About</a></li>
+                            <li {% block contact-nav %}{% endblock %}><a href="{% url "user_management.views.contact" %}">Contact</a></li>
+                            <li><a href="/blog/" target="_blank" class="hidden-sm">Blog</a></li>
+                            <li {% block donate-nav %}{% endblock %} class="hidden-sm"><a href="{% url "user_management.views.donate" %}">Tip Jar</a></li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            {% if user.is_authenticated %}
+                                {% if user_messages %}
                                     <li class="dropdown">
-                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Hey there, {% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %}</a>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="{% url "user_management.views.user_profile" %}">Edit Profile</a></li>
-                                            <li><a href="{% url "user_management.views.logout_user" %}">Logout</a></li>
-                                        </ul>
+                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                            <i class="fa fa-envelope-o" style="color: orange;"></i> <span class="badge">{{ user_messages|length }}</span>
+                                        </a>
+                                        {% if user_messages %}
+                                            <ul class="dropdown-menu">
+                                                <li><a href="{% url "user_management.views.messages" %}">View All Messages</a></li>
+                                                {% for message in user_messages %}
+                                                    <li>
+                                                        <a href="{% url "user_management.views.messages" %}?id={{ message.id }}">
+                                                            <strong>{{ message.subject }}</strong>
+                                                            {% if message.group %}
+                                                                <br/><small class="text-muted">{{ message.group.name }}</small>
+                                                            {% endif %}
+                                                            <p>{{ message.message|cut:"150" }}</p>
+                                                            <!--
+                                                            <button class="btn btn-xs btn-primary reply" data-message="{{ message.id }}"><i class="fa fa-mail-reply"></i></button>
+                                                            {% if message.group %}
+                                                                <button class="btn btn-xs btn-primary reply-all" data-message="{{ message.id }}"><i class="fa fa-mail-reply-all"></i></button>
+                                                            {% endif %}
+                                                            <button class="btn btn-xs btn-danger delete-message" data-message="{{ message.id }}"><i class="fa fa-trash-o"></i></button>
+                                                            -->
+                                                        </a>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endif %}
                                     </li>
                                 {% else %}
-                                    <li><a href="{% url "user_management.views.create_user" %}">Create Account</a></li>
-                                    <li><a href="{% url "user_management.views.login_user" %}">Login</a></li>
+                                    <li><a href="{% url "user_management.views.messages" %}"><i class="fa fa-envelope-o"></i></a></li>
                                 {% endif %}
-                            </ul>
-                        </div>
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Hey there, {% if user.first_name %}{{ user.first_name }}{% else %}{{ user.username }}{% endif %}</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="{% url "user_management.views.user_profile" %}">Edit Profile</a></li>
+                                        <li><a href="{% url "user_management.views.logout_user" %}">Logout</a></li>
+                                    </ul>
+                                </li>
+                            {% else %}
+                                <li><a href="{% url "user_management.views.create_user" %}">Create Account</a></li>
+                                <li><a href="{% url "user_management.views.login_user" %}">Login</a></li>
+                            {% endif %}
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="container-fluid">
         {% block content %}{% endblock %}
+        </div>
         <div id="footer" class="row">
             <div class="col-md-offset-3 col-md-6 text-center">
                 <small>© {% now "Y" %} Eric Saupe | <a href="https://github.com/ericsaupe/world-cup/blob/master/LICENSE">MIT License</a> | <a href="mailto:info@ericsaupe.com">info@ericsaupe.com</a> | <a href="https://github.com/ericsaupe/world-cup/">GitHub Project Page</a> | <a href="{% url "user_management.views.donate" %}"><i class="fa fa-money" style="color: green;"></i> Tip Jar</a></small>

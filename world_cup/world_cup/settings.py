@@ -94,6 +94,9 @@ STATICFILES_FINDERS = (
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '!cxo&jur*)2y3_f$3&7l$o)29cri!o=h3ny6g$pu))5b-)qgh#'
 
+TWITTER_CONSUMER_KEY = 'FIJh4IFZmBoGgjKIsuAhA'
+TWITTER_CONSUMER_SECRET = 'efDdD0WkbHueD9gBML1DgZpWjvhIb3sTQBtULprlE'
+
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
@@ -170,10 +173,10 @@ LOGGING = {
     }
 }
 
-EMAIL_HOST = '<<YOUR MAIL HOST>>'
-EMAIL_HOST_USER = '<<YOUR MAIL USER>>'
-EMAIL_HOST_PASSWORD = '<<YOUR MAIL PASSWORD>>'
-DEFAULT_FROM_EMAIL = '<<YOUR MAIL SENT FROM>>'
-SERVER_EMAIL = '<<YOUR SERVER EMAIL>>'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'eric@sau.pe'
+EMAIL_HOST_PASSWORD = 'eric1490340'
+DEFAULT_FROM_EMAIL = 'eric@sau.pe'
+SERVER_EMAIL = 'eric@sau.pe'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
