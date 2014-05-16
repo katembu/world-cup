@@ -108,5 +108,13 @@
     <script type="text/javascript" src="{% static "js/instafeed.min.js" %}"></script>
     <script src="{% static "js/typeahead.min.js" %}"></script>
     <script src="{% static "js/base.js" %}"></script>
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=823829254309476&version=v2.0";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
     {% block javascript %}{% endblock %}
 </html>

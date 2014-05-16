@@ -171,7 +171,7 @@ def groups(request, group_name=None):
                 group.brackets.add(bracket_form.cleaned_data['brackets'])
         # Check if user is in the group or has permission to be here
         user_in_group = group.brackets.filter(user=request.user)
-        user_has_permission = GroupPermissions.objects.filter(user=request.user, group=group, allowed=True)
+        user_has_permission = GroupPermissions.objects.filter(Q(user=request.user) | Q(email=request.user.email), group=group, allowed=True)
         # If they don't, and we require a password, redirect to group login view
         if group.password and not (user_in_group or user_has_permission):
             return redirect(urlquote('/tournament/login/%s/' % group.name))
@@ -185,7 +185,9 @@ def groups(request, group_name=None):
                                   context_instance=RequestContext(request))
     else:
         # Render user group list and group creation form
-        competitive_groups = CompetitiveGroups.objects.filter(brackets__user=request.user)
+        competitive_groups = CompetitiveGroups.objects.filter(Q(brackets__user=request.user) |
+                                                              Q(grouppermissions__email=request.user.email) |
+                                                              Q(grouppermissions__user=request.user)).distinct()
         public_groups = CompetitiveGroups.objects.filter(password='')
         # Save group form
         if request.method == 'POST':
@@ -221,9 +223,15 @@ def group_login(request, group_name):
         if form.is_valid():
             # Verify password is the same as the group
             if form.cleaned_data['password'] == group.password:
-                # Add user to group permissions
-                permission = GroupPermissions(user=request.user, group=group, allowed=True)
-                permission.save()
+                try:
+                    permission = GroupPermissions.objects.get(Q(user=request.user) | Q(email=request.user.email),
+                                                              group=group)
+                    permission.allowed = True
+                    permission.save()
+                except ObjectDoesNotExist:
+                    # Add user to group permissions
+                    permission = GroupPermissions(user=request.user, group=group, allowed=True)
+                    permission.save()
                 return redirect(urlquote('/tournament/groups/%s/' % group.name))
     return render_to_response('tournament/group_login.html', {'form': form, 'group': group, },
                               context_instance=RequestContext(request))
@@ -238,10 +246,14 @@ def send_invites(request, group_name):
         for address in to:
             if '@' in address:
                 email_addresses.append(address)
+                permission = GroupPermissions(email=address, group=group, allowed=False)
+                permission.save()
             else:
                 try:
                     user = User.objects.get(username=address)
                     email_addresses.append(user.email)
+                    permission = GroupPermissions(user=user, email=user.email, group=group, allowed=False)
+                    permission.save()
                 except ObjectDoesNotExist:
                     pass
         subject = '%s wants you in %s | %s' % (request.user, group.name, 'soccer.ericsaupe.com')
@@ -264,7 +276,15 @@ def leave_group(request):
     if 'group' in request.POST:
         try:
             group = CompetitiveGroups.objects.get(id=request.POST['group'])
+            try:
+                permissions = GroupPermissions.objects.filter(Q(user=request.user) | Q(email=request.user.email),
+                                                              group=group)
+                for permission in permissions:
+                    permission.delete()
+            except ObjectDoesNotExist:
+                pass
             bracket = Brackets.objects.get(user=request.user, competitivegroups=group)
+
             group.brackets.remove(bracket)
             if len(group.brackets.all()) == 0:
                 group.delete()

@@ -23,9 +23,12 @@
             <h1><span id="groupName">{{ group.name }}</span></h1>{% if group.password %}Private{% endif %}
         </div>
         <div class="row">
-            <div class="col-sm-1">
-                <a href="https://twitter.com/share" class="twitter-share-button" data-lang="en" data-url="{{ group|get_group_url }}" data-text="Join my #WorldCup Predictions group and see if you can predict the World Cup best!">Tweet</a>
+            <div class="col-sm-12">
+                <div class="fb-share-button pull-left" data-href="{{ group|get_group_url }}" data-type="button_count"></div>
+                <div class="pull-left">
+                    <a href="https://twitter.com/share" class="twitter-share-button" data-lang="en" data-url="{{ group|get_group_url }}" data-text="Join my #WorldCup Predictions group and see if you can predict the World Cup best!">Tweet</a>
                 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+                </div>
             </div>
         </div>
         {% if not user_in_group %}

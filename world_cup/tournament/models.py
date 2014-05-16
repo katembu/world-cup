@@ -99,7 +99,8 @@ class CompetitiveGroups(models.Model):
 
 
 class GroupPermissions(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
+    email = models.CharField(max_length=255, blank=True, null=True)
     group = models.ForeignKey(CompetitiveGroups)
     allowed = models.BooleanField(default=False)
 
