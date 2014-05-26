@@ -8,7 +8,7 @@ class Countries(models.Model):
     group = models.CharField(max_length=1)
     position = models.IntegerField()
     final_position = models.IntegerField(blank=True, null=True)
-    world_rank = models.IntegerField(default=99)
+    world_rank = models.IntegerField(blank=True, null=True, default=99)
 
     def __unicode__(self):
         return u'%s' % self.name
@@ -56,9 +56,12 @@ class Matches(models.Model):
     away_team = models.ForeignKey(Countries, related_name='away_team', null=True)
     away_score = models.IntegerField(null=True)
     winner = models.ForeignKey(Countries, related_name='winner', null=True)
-    round = models.IntegerField()
+    round = models.IntegerField(choices=[('16', '16'), ('8', '8'),
+                                ('4', '4'), ('1', '1')])
     match_number = models.IntegerField()
 
+    class Meta:
+        unique_together = ("home_team", "away_team")
 
 class MatchPredictions(models.Model):
     bracket = models.ForeignKey(Brackets)

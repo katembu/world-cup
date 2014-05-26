@@ -8,30 +8,13 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'CompetitiveGroups'
-        db.create_table(u'tournament_competitivegroups', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('creator', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'])),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=255)),
-        ))
-        db.send_create_signal(u'tournament', ['CompetitiveGroups'])
-
-        # Adding M2M table for field brackets on 'CompetitiveGroups'
-        m2m_table_name = db.shorten_name(u'tournament_competitivegroups_brackets')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('competitivegroups', models.ForeignKey(orm[u'tournament.competitivegroups'], null=False)),
-            ('brackets', models.ForeignKey(orm[u'tournament.brackets'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['competitivegroups_id', 'brackets_id'])
+        # Adding unique constraint on 'Matches', fields ['home_team', 'away_team']
+        db.create_unique(u'tournament_matches', ['home_team_id', 'away_team_id'])
 
 
     def backwards(self, orm):
-        # Deleting model 'CompetitiveGroups'
-        db.delete_table(u'tournament_competitivegroups')
-
-        # Removing M2M table for field brackets on 'CompetitiveGroups'
-        db.delete_table(db.shorten_name(u'tournament_competitivegroups_brackets'))
+        # Removing unique constraint on 'Matches', fields ['home_team', 'away_team']
+        db.delete_unique(u'tournament_matches', ['home_team_id', 'away_team_id'])
 
 
     models = {
@@ -48,22 +31,6 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '50'})
         },
-        u'auth.user': {
-            'Meta': {'object_name': 'User'},
-            'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
-            'first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
-            'groups': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Group']"}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'is_staff': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'is_superuser': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            'last_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
-            'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
-            'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Permission']"}),
-            'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'})
-        },
         u'contenttypes.contenttype': {
             'Meta': {'ordering': "('name',)", 'unique_together': "(('app_label', 'model'),)", 'object_name': 'ContentType', 'db_table': "'django_content_type'"},
             'app_label': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
@@ -75,14 +42,15 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'Brackets'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']"})
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['user_management.CustomUser']"})
         },
         u'tournament.competitivegroups': {
             'Meta': {'object_name': 'CompetitiveGroups'},
             'brackets': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['tournament.Brackets']", 'symmetrical': 'False'}),
-            'creator': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']"}),
+            'creator': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['user_management.CustomUser']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '255'})
+            'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '255'}),
+            'password': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'})
         },
         u'tournament.countries': {
             'Meta': {'object_name': 'Countries'},
@@ -90,7 +58,16 @@ class Migration(SchemaMigration):
             'group': ('django.db.models.fields.CharField', [], {'max_length': '1'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            'position': ('django.db.models.fields.IntegerField', [], {})
+            'position': ('django.db.models.fields.IntegerField', [], {}),
+            'world_rank': ('django.db.models.fields.IntegerField', [], {'default': '99', 'null': 'True', 'blank': 'True'})
+        },
+        u'tournament.grouppermissions': {
+            'Meta': {'object_name': 'GroupPermissions'},
+            'allowed': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'email': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'group': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['tournament.CompetitiveGroups']"}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['user_management.CustomUser']", 'null': 'True'})
         },
         u'tournament.grouppredictions': {
             'Meta': {'object_name': 'GroupPredictions'},
@@ -100,7 +77,7 @@ class Migration(SchemaMigration):
             'position': ('django.db.models.fields.IntegerField', [], {})
         },
         u'tournament.matches': {
-            'Meta': {'object_name': 'Matches'},
+            'Meta': {'unique_together': "(('home_team', 'away_team'),)", 'object_name': 'Matches'},
             'away_score': ('django.db.models.fields.IntegerField', [], {'null': 'True'}),
             'away_team': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'away_team'", 'null': 'True', 'to': u"orm['tournament.Countries']"}),
             'home_score': ('django.db.models.fields.IntegerField', [], {'null': 'True'}),
@@ -121,6 +98,28 @@ class Migration(SchemaMigration):
             'match_number': ('django.db.models.fields.IntegerField', [], {}),
             'round': ('django.db.models.fields.IntegerField', [], {}),
             'winner': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'winner_choice'", 'null': 'True', 'to': u"orm['tournament.Countries']"})
+        },
+        u'user_management.customuser': {
+            'Meta': {'object_name': 'CustomUser'},
+            'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
+            'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
+            'first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
+            'groups': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Group']"}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'image': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
+            'is_staff': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'is_superuser': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'language': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'}),
+            'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
+            'last_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
+            'message_notifications': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
+            'newsletter': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
+            'searchable': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
+            'show_full_name': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Permission']"}),
+            'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'})
         }
     }
 

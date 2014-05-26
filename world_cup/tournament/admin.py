@@ -14,11 +14,6 @@ class GroupPredictionsAdmin(admin.ModelAdmin):
 admin.site.register(GroupPredictions, GroupPredictionsAdmin)
 
 
-class MatchPredictionsAdmin(admin.ModelAdmin):
-    list_display = ('bracket', 'round', 'winner')
-admin.site.register(MatchPredictions, MatchPredictionsAdmin)
-
-
 class MatchesAdmin(admin.ModelAdmin):
     list_display = ('round', 'winner', 'match_number')
 admin.site.register(Matches, MatchesAdmin)
