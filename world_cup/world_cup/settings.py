@@ -180,3 +180,5 @@ DEFAULT_FROM_EMAIL = 'eric@sau.pe'
 SERVER_EMAIL = 'eric@sau.pe'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+WEBSITE_URL = 'http://example.example.com'

@@ -2,6 +2,7 @@ from django import template
 from tournament.models import Countries, GroupPredictions, MatchPredictions, Matches
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 from django.utils.http import urlquote
+from django.conf import settings
 
 register = template.Library()
 
@@ -69,10 +70,10 @@ def score(bracket):
 
 @register.filter
 def get_url(bracket):
-    return 'http://soccer.ericsaupe.com/tournament/brackets/?user=%s&bracket-name=%s' % (bracket.user.username,
+    return '%s/tournament/brackets/?user=%s&bracket-name=%s' % (settings.WEBSITE_URL, bracket.user.username,
                                                                                          urlquote(bracket.name))
 
 
 @register.filter
 def get_group_url(group):
-    return 'http://soccer.ericsaupe.com/tournament/groups/%s' % urlquote(group.name)
+    return '%s/tournament/groups/%s' % (settings.WEBSITE_URL, group.name)
