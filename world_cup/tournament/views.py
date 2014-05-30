@@ -141,6 +141,8 @@ def reset(request):
         group_predictions = GroupPredictions.objects.filter(bracket=bracket)
         for prediction in group_predictions:
             prediction.delete()
+        bracket.score = 0
+        bracket.save()
         return HttpResponse(json.dumps('Success'), mimetype='application/json')
 
 

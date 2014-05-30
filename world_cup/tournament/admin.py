@@ -1,8 +1,9 @@
 from django.contrib import admin
 from tournament.models import Countries, Brackets, GroupPredictions, MatchPredictions, Matches
 
-admin.site.register(Brackets)
-
+class BracketsAdmin(admin.ModelAdmin):
+    list_display = ('name', 'score')
+admin.site.register(Brackets, BracketsAdmin)
 
 class CountriesAdmin(admin.ModelAdmin):
     list_display = ('name', 'group', 'position')

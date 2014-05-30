@@ -21,6 +21,7 @@ class Countries(models.Model):
 class Brackets(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     name = models.CharField(max_length=255)
+    score = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):
         try:
@@ -51,17 +52,17 @@ class GroupPredictions(models.Model):
 
 
 class Matches(models.Model):
+    class Meta:
+        unique_together = (("home_team", "away_team"),)
+
     home_team = models.ForeignKey(Countries, related_name='home_team', null=True)
     home_score = models.IntegerField(null=True)
     away_team = models.ForeignKey(Countries, related_name='away_team', null=True)
     away_score = models.IntegerField(null=True)
     winner = models.ForeignKey(Countries, related_name='winner', null=True)
-    round = models.IntegerField(choices=[('16', '16'), ('8', '8'),
-                                ('4', '4'), ('1', '1')])
+    round = models.IntegerField(choices=[(16, '16'), (8, '8'),
+                                (4, '4'), (1, '1')])
     match_number = models.IntegerField()
-
-    class Meta:
-        unique_together = ("home_team", "away_team")
 
 class MatchPredictions(models.Model):
     bracket = models.ForeignKey(Brackets)
