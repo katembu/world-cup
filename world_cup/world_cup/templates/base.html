@@ -31,9 +31,7 @@
                             <li {% block brackets-nav %}{% endblock %}><a href="{% url "tournament.views.brackets" %}">Brackets</a></li>
                             <li {% block groups-nav %}{% endblock %}><a href="{% url "tournament.views.groups" %}">Groups</a></li>
                             <li {% block about-nav %}{% endblock %}><a href="{% url "tournament.views.about" %}">About</a></li>
-                            <li {% block contact-nav %}{% endblock %}><a href="{% url "user_management.views.contact" %}">Contact</a></li>
                             <li><a href="/blog/" target="_blank" class="hidden-sm">Blog</a></li>
-                            <li {% block donate-nav %}{% endblock %} class="hidden-sm"><a href="{% url "user_management.views.donate" %}">Tip Jar</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             {% if user.is_authenticated %}
@@ -90,18 +88,22 @@
         </div>
         <div id="footer" class="row">
             <div class="col-md-offset-3 col-md-6 text-center">
-                <small>© {% now "Y" %} Eric Saupe | <a href="https://github.com/ericsaupe/world-cup/blob/master/LICENSE">MIT License</a> | <a href="mailto:info@ericsaupe.com">info@ericsaupe.com</a> | <a href="https://github.com/ericsaupe/world-cup/">GitHub Project Page</a> | <a href="{% url "user_management.views.donate" %}"><i class="fa fa-money" style="color: green;"></i> Tip Jar</a></small>
+                <small>© {% now "Y" %} Eric Saupe |
+                     <a href="https://github.com/ericsaupe/world-cup/blob/master/LICENSE">MIT License</a> |
+                     <a href="mailto:info@ericsaupe.com">info@ericsaupe.com</a> |
+                     <a href="https://github.com/ericsaupe/world-cup/">GitHub Project Page</a>
+                </small>
             </div>
         </div>
-        
+
         <!-- Message Modal -->
         <div class="modal fade" id="messageModal" tabindex="-1" role="dialog">
-            
+
         </div><!-- /.modal -->
-        
-        
+
+
     </body>
-    
+
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
     <script src="http://twitter.github.com/hogan.js/builds/2.0.0/hogan-2.0.0.js"></script>
